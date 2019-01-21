@@ -1,11 +1,13 @@
 var search = document.getElementById("searchBar");
 
-function searchVis(){
+document.getElementById("searchsign").addEventListener("click", function(e) {
     search.style.display = "block";
-    search.setAttribute("autofocus", "autofocus");
-}
+    search.focus();
+});
 
-function closeSearch(){
-    search.style.display = "none";
-    search.removeAtrribute("autofocus");
-}
+search.addEventListener("blur", function() {
+    // check if timeout is already set. make double clicks not make searchbar go wild
+    setTimeout(function() {
+        search.style.display = "none";
+    }, 200);
+});

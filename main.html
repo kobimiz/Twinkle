@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,22 +9,24 @@
     <link rel="stylesheet" href="styles/general.css">
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
-    
+
     <title>Homepage</title>
 </head>
+
 <body>
     <header>
         <div id="logo">Twinkle</div>
         <nav id="navi">
-                <ul>
-                    <li><a href="#"><i class="far fa-user"></i></a></li>
-                    <li><a href="#" id="star"><i class="fas fa-star"></i></a></li>
-                    <li><a href="#" onclick="searchVis()" id="searchsign"><i class="fas fa-search" id="logosearch"></i></a></li>
-                    <input name="searchbar" type="search" placeholder="popularities..." id="searchBar" maxlength="25" onfocusout="closeSearch()" />
-                </ul>
+            <ul>
+                <li><a href="#" class="far fa-user"></a></li>
+                <li><a href="#" id="star" class="fas fa-star"></a></li>
+                <li><a href="#" id="searchsign" class="fas fa-search"></a></li>
+                <input name="searchbar" type="search" placeholder="Popularities..." id="searchBar" maxlength="25"/>
+            </ul>
         </nav>
     </header>
 
- <script type="text/javascript" src="main.js" ></script>
+    <script type="text/javascript" src="scripts/main.js"></script>
 </body>
+
 </html>
