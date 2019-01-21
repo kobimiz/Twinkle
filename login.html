@@ -11,17 +11,22 @@
 
     <title>Twinkle sign in or sign up!</title>
 </head>
-<body>
+<body onLoad="document.login.username.focus()";>
+    <div class="contain">
+
     <div id="logo">Twinkle</div>
+    
+    </div>
+  <span id="midLine"></span>
     <section id="signup">
         <h1 id="intro"><em>Login</em></h1>
-        <form method="post">
-            <label for="username">Username</label><br>
-            <input name="username" id="username" type="text" placeholder="Username" required><br>
-            <label for="password">Password</label><br>
-            <input name="password" id="password" type="password" placeholder="Password" required><br>
-            <input name="login" type="submit" value="Login" id="login" ><br>
-        </form>
+            <form method="post" name="login">
+                <label for="username">Username or Email</label><br>
+                <input name="username" id="username" type="text" placeholder="Username" required><br>
+                <label for="password">Password</label><br>
+                <input name="password" id="password" type="password" placeholder="Password" required><br>
+                <input name="login" type="submit" value="Login" id="login" ><br>
+            </form>
         <a href="#">Forgot password?</a>
 
     </section>
