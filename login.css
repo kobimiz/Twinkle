@@ -2,28 +2,27 @@ body{
     padding:0;
     margin:0;
     overflow: hidden;
-    background: linear-gradient(#03037c,#cc983b);
+    background: linear-gradient(#03037c,#cc983b) no-repeat;
 }
 
 #logo{
     font-family: 'Courier New', Courier, monospace;
     font-weight: 900;
     font-size: 4.2vw;
-    position: relative;
+    position: absolute;
     top: 4vh;
     left: 3vw;
     color:black;
 
 }
 #signup{
-    position: absolute;
+    position: relative;
     top: 50vh;
     left: 50vw;
     transform: translate(-50%, -50%);
     background-color: rgb(253, 250, 250);
     height: 75vh;
     width: 40vw;
-    border-radius: 3%;
     display: block;
     /* text-align: center; */
     align-items: center;
