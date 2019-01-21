@@ -2,6 +2,7 @@ body{
     padding:0;
     margin:0;
     overflow: hidden;
+    background: linear-gradient(#03037c,#cc983b);
 }
 
 #logo{
