@@ -1,0 +1,54 @@
+body{
+    padding:0;
+    margin:0;
+    overflow: hidden;
+}
+
+#logo{
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 900;
+    font-size: 4.2vw;
+    position: relative;
+    top: 4vh;
+    left: 3vw;
+    color:black;
+
+}
+#signup{
+    position: absolute;
+    top: 50vh;
+    left: 50vw;
+    transform: translate(-50%, -50%);
+    background-color: rgb(253, 250, 250);
+    height: 75vh;
+    width: 40vw;
+    border-radius: 3%;
+    display: block;
+    /* text-align: center; */
+    align-items: center;
+}
+#signup>#intro{
+    text-align: left;
+    margin-left: 50px;
+    font-size: 40px;
+    color: #cc983b;
+}
+#signup>form{
+    height:100%;
+    width: 60%;
+    margin: auto;
+}
+#signup>form>input{
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin:auto;
+}
+#signup>form>#login{
+    width:106%;
+}
+#signup>form>label{
+    color: #03037c;
+    font-weight: bold;
+    font-size: 25px;
+}
