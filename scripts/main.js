@@ -1,13 +1,20 @@
-var search = document.getElementById("searchBar");
+var search = document.getElementById("searchBar"),
+    searchbarDisplayed = false;
 
-document.getElementById("searchsign").addEventListener("click", function(e) {
-    search.style.display = "block";
-    search.focus();
+document.getElementById("searchsign").addEventListener("click", function() {
+    if(!searchbarDisplayed) {
+        search.style.display = "block";
+        search.focus();
+        search.select();
+        searchbarDisplayed = true;
+    }
 });
 
 search.addEventListener("blur", function() {
-    // check if timeout is already set. make double clicks not make searchbar go wild
-    setTimeout(function() {
-        search.style.display = "none";
-    }, 200);
+    if(searchbarDisplayed) {
+        setTimeout(function() {
+            search.style.display = "none";
+            searchbarDisplayed = false;
+        }, 200);
+    }
 });

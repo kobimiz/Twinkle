@@ -26,7 +26,6 @@ header{
 #navi{
     position: relative;
     top: 10px;
-    left: 200px;
 }
 #navi>ul{
     display: flex;
