@@ -19,11 +19,11 @@
         <h1 id="signintro">Sign up</h1>
         <form method="POST" name="register">
             <label for="email">Email</label><br>
-            <input name="email" type="email" id="email" placeholder="Email.." autocomplete="off" required><br>
+            <input name="email" type="email" id="email" placeholder="Email.." autocomplete="off" required maxlength="40"><br>
             <label for="choosename">Username</label><br>
-            <input name="choosename" id="choosename" type="text" placeholder="Choose username" required autocomplete="off" maxlength="30"><br>
+            <input name="choosename" id="choosename" type="text" placeholder="Choose username" required autocomplete="off" maxlength="25"><br>
             <label for="choosepass">Password</label><br>
-            <input name="choosepass" id="choosepass" type="password" placeholder="Password" required onkeyup="WshowPass()"><br>
+            <input name="choosepass" id="choosepass" type="password" placeholder="Password" required onkeyup="WshowPass()" maxlength="30"><br>
             <img src="iconList/eye-solid.svg" id="Wshowpass" onclick="Wchangepass()">
             <input type="submit" name="register" value="Sign up" id="register">
         </form>

@@ -10,14 +10,16 @@ function WshowPass() {
 
 function Wchangepass() {
     if (Wshowpass.src.search(/slash/g) == -1) {
-        Wshowpass.src = "/eye-slash-solid.svg";
+        Wshowpass.src = "iconList/eye-slash-solid.svg";
         Wpass.type = "text";
     } else {
-        Wshowpass.src = "/eye-solid.svg";
+        Wshowpass.src = "iconList/eye-solid.svg";
         Wpass.type = "password";
     }
     Wpass.addEventListener("blur", function () {
         Wpass.type = "password";
-        Wshowpass.src = "/eye-solid.svg";
+        Wshowpass.src = "iconList/eye-solid.svg";
     });
 }
+
+document.body.addEventListener("load", function() { document.register.email.focus(); });
