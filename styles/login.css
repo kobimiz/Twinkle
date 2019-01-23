@@ -4,6 +4,100 @@ body{
     overflow: hidden;
     background: linear-gradient(to top left,white,rgb(216, 216, 216),white);
 }
+<<<<<<< HEAD
+=======
+.contain{
+    float:left;
+    height: 100vh;
+    width:49vw;
+    display:block;
+    align-items: center;
+    box-sizing: border-box;
+}
+.contain>#signintro{
+    text-align: left;
+    margin-left: 50px;
+    font-size: 40px;
+    color: black;
+    font-weight: 50;
+}
+.contain>form{
+    height: 100%;
+    width:60%;
+    margin-top:120px;
+    margin:auto;
+}
+.contain>form>input{
+    display:block;
+    width: 100%;
+    padding:10px;
+    margin-top: 30px;
+    border: 1px solid rgb(184, 184, 184);
+    outline:none;
+    font-size: 20px;
+    background-color: rgb(248, 248, 248);
+
+}
+.contain>form>input:not([type="submit"]){
+    padding: 10px 4px 10px 50px;
+}
+.contain>form>input:focus{
+    border:1px solid rgb(131, 131, 131);
+    background-color: white;
+}
+#email{
+    background-image: url(/iconList/envelope-regular.svg);
+    background-position: 10px 8px;
+    background-repeat: no-repeat;
+    background-size: 25px;
+}
+#choosename{
+    background-image: url(/iconList/user-regular.svg);
+    background-position: 10px 8px;
+    background-repeat: no-repeat;
+    background-size: 25px;
+}
+#choosepass{
+    background-image: url(/iconList/lock-solid.svg);
+    background-position: 10px 8px;
+    background-repeat: no-repeat;
+    background-size: 25px;
+}
+#Wshowpass{
+    width: 24px;
+    height:24px;
+    position: absolute;
+    left: 36%;
+    top: 64.5%;
+    cursor: pointer;
+    display: none;
+}
+.contain>form>#register{
+    width:100%;
+}
+.contain>form>label{
+    color: #03037c;
+    font-weight: bold;
+    font-size: 25px;
+    font-family: 'Courier New', Courier, monospace;
+}
+.contain>form>input[type="submit"]:hover{
+    background-color: rgb(219, 219, 219);
+    cursor: pointer;
+}
+
+/* <-------Till here is Sign up form--------------> */
+
+#logo{
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 900;
+    font-size: 65px;
+    position: relative;
+    top: 3%;
+    left: 5vw;
+    color:#cc983b;
+}
+>>>>>>> 85ab1db1b0ab20c6cec779030a3ea7d1d750bfdd
 
 #loginsec{
     float: right;
@@ -46,13 +140,13 @@ body{
     background-color: white;
 }
 #username{
-    background-image: url(/styles/user-regular.svg);
+    background-image: url(/iconList/user-regular.svg);
     background-position: 10px 8px;
     background-repeat: no-repeat;
     background-size: 25px;
 }
 #loginsec>form>#password{
-    background-image: url(/styles/lock-solid.svg);
+    background-image: url(/iconList/lock-solid.svg);
     background-position: 10px 8px;
     background-repeat: no-repeat;
     background-size: 25px;
