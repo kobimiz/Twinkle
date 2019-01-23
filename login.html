@@ -11,31 +11,14 @@
 
     <title>Twinkle sign in or sign up!</title>
 </head>
-<<<<<<< HEAD
-<body onLoad="document.login.username.focus()";>
-
-  <span id="midLine"></span>
-=======
 
 <body onload="document.login.username.focus()">
-    <div class="contain">
+
         <div id="logo">Twinkle</div>
-        <h1 id="signintro">Sign up</h1>
-        <form method="POST" name="register">
-            <label for="email">Email</label><br>
-            <input name="email" type="email" id="email" placeholder="Email.." autocomplete="off" required><br>
-            <label for="choosename">Username</label><br>
-            <input name="choosename" id="choosename" type="text" placeholder="Choose username" required autocomplete="off" maxlength="30"><br>
-            <label for="choosepass">Password</label><br>
-            <input name="choosepass" id="choosepass" type="password" placeholder="Password" required onkeyup="WshowPass()"><br>
-            <img src="iconList/eye-solid.svg" id="Wshowpass" onclick="Wchangepass()">
-            <input type="submit" name="register" value="Sign up" id="register">
-        </form>
-    </div>
+
 
     <span id="midLine"></span>
 
->>>>>>> 85ab1db1b0ab20c6cec779030a3ea7d1d750bfdd
     <section id="loginsec">
         <h1 id="intro"><em>Login</em></h1>
         <form method="post" name="login">
@@ -74,9 +57,6 @@
                 showpass.src = "iconList/eye-solid.svg";
             });
         }
-<<<<<<< HEAD
-/*-----*/
-=======
 
         function WshowPass() {
             Wshowpass.style.display = "block";
@@ -98,7 +78,6 @@
                 Wshowpass.src = "iconList/eye-solid.svg";
             });
         }
->>>>>>> 85ab1db1b0ab20c6cec779030a3ea7d1d750bfdd
     </script>
 
 </body>

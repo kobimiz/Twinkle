@@ -22,7 +22,7 @@
                 <input name="choosename" id="choosename" type="text" placeholder="Choose username" required autocomplete="off"><br>
                   <label for="choosepass">Password</label><br>
                 <input name="choosepass" id="choosepass" type="password" placeholder="Password" required onkeyup="WshowPass()" ><br>
-                <img src="/eye-solid.svg" id="Wshowpass"  onclick="Wchangepass()" >
+                <img src="/iconList/eye-solid.svg" id="Wshowpass"  onclick="Wchangepass()" >
                 <input type="submit" name="register" value="Sign up" id="register" >
               </form>
         </div>
@@ -40,15 +40,15 @@
 
         function Wchangepass(){
           if(Wshowpass.src.search(/slash/g) == -1) {
-            Wshowpass.src="/eye-slash-solid.svg";
+            Wshowpass.src="/iconList/eye-slash-solid.svg";
             Wpass.type="text";
           }else{
-            Wshowpass.src="/eye-solid.svg";
+            Wshowpass.src="/iconList/eye-solid.svg";
             Wpass.type="password";
           }
           Wpass.addEventListener("blur",function(){ 
               Wpass.type="password";
-              Wshowpass.src="/eye-solid.svg";  
+              Wshowpass.src="/iconList/eye-solid.svg";  
               });
             //   pass.focus();
         }
