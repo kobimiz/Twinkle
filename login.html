@@ -6,28 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <link rel="stylesheet" href="styles/login.css" type="text/css">
-    <link rel="stylesheet" href="styles/general.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
 
     <title>Twinkle sign in or sign up!</title>
 </head>
 <body onLoad="document.login.username.focus()";>
-    <div class="contain">
 
-    <div id="logo">Twinkle</div>
-        <h1 id="signintro" >Sign up</h1>
-          <form method="POST" name="register">
-
-               <label for="email">Email</label><br>
-            <input name="email" type="email" id="email" placeholder="Email.." autocomplete="off"  required><br>
-              <label for="choosename">Username</label><br>
-            <input name="choosename" id="choosename" type="text" placeholder="Choose username" required autocomplete="off" maxlength="30"><br>
-              <label for="choosepass">Password</label><br>
-            <input name="choosepass" id="choosepass" type="password" placeholder="Password" required onkeyup="WshowPass()" ><br>
-            <img src="/eye-solid.svg" id="Wshowpass"  onclick="Wchangepass()" >
-            <input type="submit" name="register" value="Sign up" id="register" >
-          </form>
-    </div>
   <span id="midLine"></span>
     <section id="loginsec">
         <h1 id="intro"><em>Login</em></h1>
@@ -46,8 +30,7 @@
     <script>
         var showpass = document.getElementById("showpass");
         var pass = document.getElementById("password");
-        var Wshowpass = document.getElementById("Wshowpass");
-        var Wpass = document.getElementById("choosepass");
+    
 
         function showPass(){
             showpass.style.display="block";
@@ -72,27 +55,6 @@
             //   pass.focus();
         }
 /*-----*/
-        function WshowPass(){
-            Wshowpass.style.display="block";
-            if(Wpass.value == ""){
-                Wshowpass.style.display="none";
-            }
-        }
-
-        function Wchangepass(){
-          if(Wshowpass.src.search(/slash/g) == -1) {
-            Wshowpass.src="/eye-slash-solid.svg";
-            Wpass.type="text";
-          }else{
-            Wshowpass.src="/eye-solid.svg";
-            Wpass.type="password";
-          }
-          Wpass.addEventListener("blur",function(){ 
-              Wpass.type="password";
-              Wshowpass.src="/eye-solid.svg";  
-              });
-            //   pass.focus();
-        }
     </script>
 
 </body>
