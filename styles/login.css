@@ -44,19 +44,19 @@ body{
     background-color: white;
 }
 #email{
-    background-image: url(/styles/envelope-regular.svg);
+    background-image: url(/iconList/envelope-regular.svg);
     background-position: 10px 8px;
     background-repeat: no-repeat;
     background-size: 25px;
 }
 #choosename{
-    background-image: url(/styles/user-regular.svg);
+    background-image: url(/iconList/user-regular.svg);
     background-position: 10px 8px;
     background-repeat: no-repeat;
     background-size: 25px;
 }
 #choosepass{
-    background-image: url(/styles/lock-solid.svg);
+    background-image: url(/iconList/lock-solid.svg);
     background-position: 10px 8px;
     background-repeat: no-repeat;
     background-size: 25px;
@@ -137,13 +137,13 @@ body{
     background-color: white;
 }
 #username{
-    background-image: url(/styles/user-regular.svg);
+    background-image: url(/iconList/user-regular.svg);
     background-position: 10px 8px;
     background-repeat: no-repeat;
     background-size: 25px;
 }
 #loginsec>form>#password{
-    background-image: url(/styles/lock-solid.svg);
+    background-image: url(/iconList/lock-solid.svg);
     background-position: 10px 8px;
     background-repeat: no-repeat;
     background-size: 25px;

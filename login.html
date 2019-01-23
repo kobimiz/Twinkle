@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,36 +12,36 @@
 
     <title>Twinkle sign in or sign up!</title>
 </head>
-<body onLoad="document.login.username.focus()";>
+
+<body onload="document.login.username.focus()">
     <div class="contain">
-
-    <div id="logo">Twinkle</div>
-        <h1 id="signintro" >Sign up</h1>
-          <form method="POST" name="register">
-
-               <label for="email">Email</label><br>
-            <input name="email" type="email" id="email" placeholder="Email.." autocomplete="off"  required><br>
-              <label for="choosename">Username</label><br>
+        <div id="logo">Twinkle</div>
+        <h1 id="signintro">Sign up</h1>
+        <form method="POST" name="register">
+            <label for="email">Email</label><br>
+            <input name="email" type="email" id="email" placeholder="Email.." autocomplete="off" required><br>
+            <label for="choosename">Username</label><br>
             <input name="choosename" id="choosename" type="text" placeholder="Choose username" required autocomplete="off" maxlength="30"><br>
-              <label for="choosepass">Password</label><br>
-            <input name="choosepass" id="choosepass" type="password" placeholder="Password" required onkeyup="WshowPass()" ><br>
-            <img src="/eye-solid.svg" id="Wshowpass"  onclick="Wchangepass()" >
-            <input type="submit" name="register" value="Sign up" id="register" >
-          </form>
+            <label for="choosepass">Password</label><br>
+            <input name="choosepass" id="choosepass" type="password" placeholder="Password" required onkeyup="WshowPass()"><br>
+            <img src="iconList/eye-solid.svg" id="Wshowpass" onclick="Wchangepass()">
+            <input type="submit" name="register" value="Sign up" id="register">
+        </form>
     </div>
-  <span id="midLine"></span>
+
+    <span id="midLine"></span>
+
     <section id="loginsec">
         <h1 id="intro"><em>Login</em></h1>
-            <form method="post" name="login">
-                <label for="username">Username or Email</label><br>
-                <input name="username" id="username" type="text" placeholder="Username" required autocomplete="off" maxlength="30"><br>
-                <label for="password">Password</label><br>
-                <input name="password" id="password" type="password" placeholder="Password" required onkeyup="showPass()" ><br>
-                <img src="/eye-solid.svg" id="showpass"  onclick="changepass()" >
-                <input name="login" type="submit" value="Login" id="login" ><br>
-            </form>
+        <form method="post" name="login">
+            <label for="username">Username or Email</label><br>
+            <input name="username" id="username" type="text" placeholder="Username" required autocomplete="off" maxlength="30"><br>
+            <label for="password">Password</label><br>
+            <input name="password" id="password" type="password" placeholder="Password" required onkeyup="showPass()"><br>
+            <img src="iconList/eye-solid.svg" id="showpass" onclick="changepass()">
+            <input name="login" type="submit" value="Login" id="login"><br>
+        </form>
         <a href="#">Forgot password?</a>
-
     </section>
 
     <script>
@@ -49,51 +50,49 @@
         var Wshowpass = document.getElementById("Wshowpass");
         var Wpass = document.getElementById("choosepass");
 
-        function showPass(){
-            showpass.style.display="block";
-            if(pass.value == ""){
-                showpass.style.display="none";
+        function showPass() {
+            showpass.style.display = "block";
+            if (pass.value == "") {
+                showpass.style.display = "none";
             }
         }
 
-        function changepass(){
-            console.log(1);
-          if(showpass.src.search(/slash/g) == -1) {
-            showpass.src="/eye-slash-solid.svg";
-            pass.type="text";
-          }else{
-            showpass.src="/eye-solid.svg";
-            pass.type="password";
-          }
-          pass.addEventListener("blur",function(){ 
-              pass.type="password";
-              showpass.src="/eye-solid.svg";  
-              });
-            //   pass.focus();
+        function changepass() {
+            if (showpass.src.search(/slash/g) == -1) {
+                showpass.src = "iconList/eye-slash-solid.svg";
+                pass.type = "text";
+            } else {
+                showpass.src = "iconList/eye-solid.svg";
+                pass.type = "password";
+            }
+            pass.addEventListener("blur", function () {
+                pass.type = "password";
+                showpass.src = "iconList/eye-solid.svg";
+            });
         }
-/*-----*/
-        function WshowPass(){
-            Wshowpass.style.display="block";
-            if(Wpass.value == ""){
-                Wshowpass.style.display="none";
+
+        function WshowPass() {
+            Wshowpass.style.display = "block";
+            if (Wpass.value == "") {
+                Wshowpass.style.display = "none";
             }
         }
 
-        function Wchangepass(){
-          if(Wshowpass.src.search(/slash/g) == -1) {
-            Wshowpass.src="/eye-slash-solid.svg";
-            Wpass.type="text";
-          }else{
-            Wshowpass.src="/eye-solid.svg";
-            Wpass.type="password";
-          }
-          Wpass.addEventListener("blur",function(){ 
-              Wpass.type="password";
-              Wshowpass.src="/eye-solid.svg";  
-              });
-            //   pass.focus();
+        function Wchangepass() {
+            if (Wshowpass.src.search(/slash/g) == -1) {
+                Wshowpass.src = "iconList/eye-slash-solid.svg";
+                Wpass.type = "text";
+            } else {
+                Wshowpass.src = "iconList/eye-solid.svg";
+                Wpass.type = "password";
+            }
+            Wpass.addEventListener("blur", function () {
+                Wpass.type = "password";
+                Wshowpass.src = "iconList/eye-solid.svg";
+            });
         }
     </script>
 
 </body>
+
 </html>
