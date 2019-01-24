@@ -41,13 +41,13 @@ body{
     display: block;
     width: 100%;
     padding: 10px;
-    margin-top: 30px;
+    margin-top: 5px;
     outline: none;
     background-color: rgb(248, 248, 248);
     font-size: 20px;
     border: none;
 }
-#loginsec>form>input:not([type="submit"]){
+#loginsec>form>input:not([type="submit"]):not([type="checkbox"]){
     padding: 10px 4px 10px 50px;
     box-sizing: border-box;
     border-bottom: 2px solid #0d6cca;
@@ -62,6 +62,64 @@ body{
     border-bottom:2px solid #0a68c5;
     background-color: white;
 }
+/* remember me styling */
+.checkc{
+    display:block;
+    position: relative;
+    font-size: 20px;
+    font-weight: 300;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+}
+.checkc>span{
+    padding:10px;
+}
+.checkc:hover input ~ #checkin{
+    background-color: rgb(209, 209, 209);
+}
+.checkc input:checked ~ #checkin{
+    background-color: #03037c;
+}
+#checkin:after{
+    content:"";
+    position: absolute;
+    display: none;
+}
+.checkc #checkin:after{
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+.checkc input:checked ~ #checkin:after{
+    display: block;
+}
+
+.checkc>input[type="checkbox"]{
+    position: relative;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+.checkc>#checkin{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+}
+
+/* ---------------------------------------*/
 #username{
     background-image: url(/iconList/user-regular.svg);
     background-position: 10px 8px;
@@ -97,13 +155,25 @@ body{
     background-color: #6284e03d;
     cursor: pointer;
 }
-#midLine{
-    position: absolute;
-    top: 50vh;
-    left: 50vw;
-    transform: translate(-50%, -50%);
-    height: 80vh;
-    width: 3px;
-    background-color: grey;
-    border-radius: 50%;
+#resetpass{
+    float: right;
+    font-size: 18px;
 }
+
+#signbottun>a{
+    background-color: #03037c;
+    font-size: 20px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 530;
+    text-align: center;
+    border-radius: 20px;
+    width: 8vw;
+    padding: 10px;
+}
+#signbottun>a:hover{
+    background-color: #03037cc7;
+}
+
+
+
