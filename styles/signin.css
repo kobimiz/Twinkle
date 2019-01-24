@@ -135,9 +135,9 @@ body{
 #showpass{
     width: 24px;
     height:24px;
-    position: absolute;
-    right: 11vw;
-    top: 61.5vh;
+    position: relative;
+    left: 88%;
+    bottom: 12%;
     cursor: pointer;
     display: none;
 }
