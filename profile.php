@@ -6,9 +6,7 @@
     if(isset($_SESSION['username']) && isset($_SESSION['password'])) {
         $username = htmlspecialchars($_SESSION['username']);
         $password = htmlspecialchars($_SESSION['password']);
-        if(login($username, $password)) {
-            echo "Welcome $username";
-        } else
+        if(!login($username, $password))
             header("Location: signin.php");
     }
     else
@@ -24,13 +22,17 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <link rel="stylesheet" href="styles/general.css">
+    <link rel="stylesheet" href="styles/header.css">
     <link rel="stylesheet" href="styles/profile.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
 
     <title>Profile</title>
 </head>
 
 <body>
-    
+    <?php
+        include_once("templates/header.php");
+    ?>
 </body>
 
 </html>
