@@ -35,35 +35,30 @@
     <title>Twinkle sign in or sign up!</title>
 </head>
 
-<body onload="document.login.username.focus()">
-    <div class="contain">
+<body>
         <div id="logo">Twinkle</div>
-        <h1 id="signintro">Sign up</h1>
-        <form method="POST" name="register">
-            <label for="email">Email</label><br>
-            <input name="email" type="email" id="email" placeholder="Email.." autocomplete="off" required maxlength="40"><br>
-            <label for="choosename">Username</label><br>
-            <input name="username" id="choosename" type="text" placeholder="Choose username" required autocomplete="off" maxlength="25"><br>
-            <label for="choosepass">Password</label><br>
-            <input name="password" id="choosepass" type="password" placeholder="Password" required onkeyup="WshowPass()" maxlength="30"><br>
-            <img src="iconList/eye-solid.svg" id="Wshowpass" onclick="Wchangepass()">
-            <input type="submit" name="register" value="Sign up" id="register">
-        </form>
-    </div>
-
-    <span id="midLine"></span>
 
     <section id="loginsec">
-        <h1 id="intro"><em>Login</em></h1>
+        <h1 id="intro">Login</h1>
         <form method="post" name="login">
             <label for="username">Username or Email</label><br>
             <input name="username" id="username" type="text" placeholder="Username" required autocomplete="off" maxlength="30"><br>
             <label for="password">Password</label><br>
             <input name="password" id="password" type="password" placeholder="Password" required onkeyup="showPass()"><br>
             <img src="iconList/eye-solid.svg" id="showpass" onclick="changepass()">
+            <label class="checkc">
+                <input type="checkbox" id="remember"> <span>Remember me</span>
+                <span id="checkin"></span>
+                </label>
             <input name="login" type="submit" value="Login" id="login"><br>
+            <div id="resetpass">
+                <a href="#">Forgot password?</a>
+            </div>
+            <div id="signbottun">
+                <a href="#">Sign up</a>
+            </div>
         </form>
-        <a href="#">Forgot password?</a>
+
     </section>
     <script src="scripts/signin.js"></script>
 </body>

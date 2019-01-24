@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign Up - Twinkle Social Network</title>
+    <link rel="stylesheet" href="styles/Signup.css" type="text/css" >
+</head>
+<body onLoad="document.register.email.focus()";>
+<div class="topnav">
+  <div id="logo">Twinkle</div>
+</div>
+
+    <div class="contain">
+            <h1 id="signintro" >Sign up</h1>
+              <form method="POST" name="register">
+    
+                   <label for="email">Email</label><br>
+                <input name="email" type="email" id="email" placeholder="Email.." autocomplete="off"  required><br>
+                  <label for="choosename">Username</label><br>
+                <input name="choosename" id="choosename" type="text" placeholder="Choose username" required autocomplete="off"><br>
+                  <label for="choosepass">Password</label><br>
+                <input name="choosepass" id="choosepass" type="password" placeholder="Password" required onkeyup="WshowPass()" ><br>
+                <img src="/iconList/eye-solid.svg" id="Wshowpass"  onclick="Wchangepass()" >
+                <input type="submit" name="register" value="Sign up" id="register" >
+              </form>
+        </div>
+
+        <script>
+        var Wshowpass = document.getElementById("Wshowpass");
+        var Wpass = document.getElementById("choosepass");
+
+                function WshowPass(){
+            Wshowpass.style.display="block";
+            if(Wpass.value == ""){
+                Wshowpass.style.display="none";
+            }
+        }
+
+        function Wchangepass(){
+          if(Wshowpass.src.search(/slash/g) == -1) {
+            Wshowpass.src="/iconList/eye-slash-solid.svg";
+            Wpass.type="text";
+          }else{
+            Wshowpass.src="/iconList/eye-solid.svg";
+            Wpass.type="password";
+          }
+          Wpass.addEventListener("blur",function(){ 
+              Wpass.type="password";
+              Wshowpass.src="/iconList/eye-solid.svg";  
+              });
+            //   pass.focus();
+        }
+        </script>
+</body>
+</html>

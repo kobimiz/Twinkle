@@ -2,89 +2,8 @@ body{
     padding:0;
     margin:0;
     overflow: hidden;
-    background: linear-gradient(to top left,white,rgb(216, 216, 216),white);
+    background: #f5f5f8;
 }
-.contain{
-    float:left;
-    height: 100vh;
-    width:49vw;
-    display:block;
-    align-items: center;
-    box-sizing: border-box;
-}
-.contain>#signintro{
-    text-align: left;
-    margin-left: 50px;
-    font-size: 40px;
-    color: black;
-    font-weight: 50;
-}
-.contain>form{
-    height: 100%;
-    width:60%;
-    margin-top:120px;
-    margin:auto;
-}
-.contain>form>input{
-    display:block;
-    width: 100%;
-    padding:10px;
-    margin-top: 30px;
-    border: 1px solid rgb(184, 184, 184);
-    outline:none;
-    font-size: 20px;
-    background-color: rgb(248, 248, 248);
-
-}
-.contain>form>input:not([type="submit"]){
-    padding: 10px 4px 10px 50px;
-}
-.contain>form>input:focus{
-    border:1px solid rgb(131, 131, 131);
-    background-color: white;
-}
-#email{
-    background-image: url(/iconList/envelope-regular.svg);
-    background-position: 10px 8px;
-    background-repeat: no-repeat;
-    background-size: 25px;
-}
-#choosename{
-    background-image: url(/iconList/user-regular.svg);
-    background-position: 10px 8px;
-    background-repeat: no-repeat;
-    background-size: 25px;
-}
-#choosepass{
-    background-image: url(/iconList/lock-solid.svg);
-    background-position: 10px 8px;
-    background-repeat: no-repeat;
-    background-size: 25px;
-}
-#Wshowpass{
-    width: 24px;
-    height:24px;
-    position: absolute;
-    left: 36%;
-    top: 64.5%;
-    cursor: pointer;
-    display: none;
-}
-.contain>form>#register{
-    width:100%;
-}
-.contain>form>label{
-    color: #03037c;
-    font-weight: bold;
-    font-size: 25px;
-    font-family: 'Courier New', Courier, monospace;
-}
-.contain>form>input[type="submit"]:hover{
-    background-color: rgb(219, 219, 219);
-    cursor: pointer;
-}
-
-/* <-------Till here is Sign up form--------------> */
 
 #logo{
     font-family: 'Courier New', Courier, monospace;
@@ -92,50 +11,115 @@ body{
     font-size: 65px;
     position: relative;
     top: 3%;
-    left: 5vw;
-    color:#cc983b;
+    left: 70%;
+    color:#03037c;
 }
 
 #loginsec{
-    float: right;
-    height: 100vh;
-    width: 49vw;
+    margin: auto;
+    height: 27em;
+    width: 40em;
     display: block;
-    /* text-align: center; */
     align-items: center;
     box-sizing: border-box;
+    background-color: white;
+    border-radius: 5px;
 }
 #loginsec>#intro{
     text-align: left;
     margin-left: 50px;
     font-size: 40px;
     color: black;
-    font-weight: 50;
+    font-weight: 600;
 }
 #loginsec>form{
     height:100%;
     width: 60%;
     margin: auto;
-    margin-top: 120px;
 }
 #loginsec>form>input{
     display: block;
     width: 100%;
     padding: 10px;
-    margin-top: 30px;
-    border:1px solid rgb(184, 184, 184);
+    margin-top: 5px;
     outline: none;
     background-color: rgb(248, 248, 248);
     font-size: 20px;
+    border: none;
 }
-#loginsec>form>input:not([type="submit"]){
+#loginsec>form>input:not([type="submit"]):not([type="checkbox"]){
     padding: 10px 4px 10px 50px;
+    box-sizing: border-box;
+    border-bottom: 2px solid #0d6cca;
     
 }
+#loginsec>form>input[type="submit"]{
+    background-color: transparent;
+    font-weight: 600;
+    border: 1px solid rgb(31, 31, 31);
+}
 #loginsec>form>input:focus{
-    border:1px solid rgb(131, 131, 131);
+    border-bottom:2px solid #0a68c5;
     background-color: white;
 }
+/* remember me styling */
+.checkc{
+    display:block;
+    position: relative;
+    font-size: 20px;
+    font-weight: 300;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+}
+.checkc>span{
+    padding:10px;
+}
+.checkc:hover input ~ #checkin{
+    background-color: rgb(209, 209, 209);
+}
+.checkc input:checked ~ #checkin{
+    background-color: #03037c;
+}
+#checkin:after{
+    content:"";
+    position: absolute;
+    display: none;
+}
+.checkc #checkin:after{
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+.checkc input:checked ~ #checkin:after{
+    display: block;
+}
+
+.checkc>input[type="checkbox"]{
+    position: relative;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+.checkc>#checkin{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+}
+
+/* ---------------------------------------*/
 #username{
     background-image: url(/iconList/user-regular.svg);
     background-position: 10px 8px;
@@ -153,7 +137,7 @@ body{
     height:24px;
     position: absolute;
     right: 11vw;
-    top: 52vh;
+    top: 61.5vh;
     cursor: pointer;
     display: none;
 }
@@ -162,22 +146,34 @@ body{
     width:100%;
 }
 #loginsec>form>label{
-    color: #03037c;
-    font-weight: bold;
+    color: #000;
+    font-weight: 600;
     font-size: 25px;
     font-family: 'Courier New', Courier, monospace;
 }
 #loginsec>form>input[type="submit"]:hover{
-    background-color: rgb(219, 219, 219);
+    background-color: #6284e03d;
     cursor: pointer;
 }
-#midLine{
-    position: absolute;
-    top: 50vh;
-    left: 50vw;
-    transform: translate(-50%, -50%);
-    height: 80vh;
-    width: 3px;
-    background-color: grey;
-    border-radius: 50%;
+#resetpass{
+    float: right;
+    font-size: 18px;
 }
+
+#signbottun>a{
+    background-color: #03037c;
+    font-size: 20px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 530;
+    text-align: center;
+    border-radius: 20px;
+    width: 8vw;
+    padding: 10px;
+}
+#signbottun>a:hover{
+    background-color: #03037cc7;
+}
+
+
+
