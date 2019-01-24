@@ -1,3 +1,25 @@
+<?php
+    session_start();
+    require_once("templates/connection.php");
+    require_once("templates/functions.php");
+
+    $username = $password = $loginErr = "";
+	if($_SERVER["REQUEST_METHOD"] == "POST") {
+		if(isset($_POST['username'])) { // Checking the request, this might need to be removed....
+			$username = htmlspecialchars($_POST['username']);
+			$password = htmlspecialchars($_POST['password']);
+			if(login($username, $password)) {
+				$_SESSION['username'] = $username;
+                $_SESSION['password'] = $password;
+                header("Location: profile.php");
+			} else
+				$loginErr = "Invalid username and password combination";
+			
+			$data = array("username"=>$username, "password"=>$password, "status"=>$loginErr);
+			exit(json_encode($data));
+		}
+	}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,9 +43,9 @@
             <label for="email">Email</label><br>
             <input name="email" type="email" id="email" placeholder="Email.." autocomplete="off" required maxlength="40"><br>
             <label for="choosename">Username</label><br>
-            <input name="choosename" id="choosename" type="text" placeholder="Choose username" required autocomplete="off" maxlength="25"><br>
+            <input name="username" id="choosename" type="text" placeholder="Choose username" required autocomplete="off" maxlength="25"><br>
             <label for="choosepass">Password</label><br>
-            <input name="choosepass" id="choosepass" type="password" placeholder="Password" required onkeyup="WshowPass()" maxlength="30"><br>
+            <input name="password" id="choosepass" type="password" placeholder="Password" required onkeyup="WshowPass()" maxlength="30"><br>
             <img src="iconList/eye-solid.svg" id="Wshowpass" onclick="Wchangepass()">
             <input type="submit" name="register" value="Sign up" id="register">
         </form>
