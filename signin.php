@@ -1,3 +1,25 @@
+<?php
+    session_start();
+    require_once("templates/connection.php");
+    require_once("templates/functions.php");
+
+    $username = $password = $loginErr = "";
+	if($_SERVER["REQUEST_METHOD"] == "POST") {
+		if(isset($_POST['username'])) { // Checking the request, this might need to be removed....
+			$username = htmlspecialchars($_POST['username']);
+			$password = htmlspecialchars($_POST['password']);
+			if(login($username, $password)) {
+				$_SESSION['username'] = $username;
+                $_SESSION['password'] = $password;
+                header("Location: profile.php");
+			} else
+				$loginErr = "Invalid username and password combination";
+			
+			$data = array("username"=>$username, "password"=>$password, "status"=>$loginErr);
+			exit(json_encode($data));
+		}
+	}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,7 +36,6 @@
 </head>
 
 <body>
-
         <div id="logo">Twinkle</div>
 
     <section id="loginsec">

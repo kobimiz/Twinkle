@@ -1,13 +1,12 @@
-var showpass = document.getElementById("showpass");
-var pass = document.getElementById("password");
-var Wshowpass = document.getElementById("Wshowpass");
-var Wpass = document.getElementById("choosepass");
+var showpass = document.getElementById("showpass"),
+    pass = document.getElementById("password"),
+    Wshowpass = document.getElementById("Wshowpass"),
+    Wpass = document.getElementById("choosepass");
 
 function showPass() {
     showpass.style.display = "block";
-    if (pass.value == "") {
+    if (pass.value == "")
         showpass.style.display = "none";
-    }
 }
 
 function changepass() {
@@ -26,9 +25,8 @@ function changepass() {
 
 function WshowPass() {
     Wshowpass.style.display = "block";
-    if (Wpass.value == "") {
+    if (Wpass.value == "")
         Wshowpass.style.display = "none";
-    }
 }
 
 function Wchangepass() {

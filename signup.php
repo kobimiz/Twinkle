@@ -70,23 +70,23 @@
 				}
 			}
 			if($usernameErr == "" && $passwordErr == "" && $emailErr == "" && $_SERVER["REQUEST_METHOD"] == "POST") {
-				$query = "INSERT INTO `users`(`username`, `password`, `email`) VALUES ('$username', '".password_hash($password, PASSWORD_DEFAULT)."'$email')";
-				$sql = mysqli_query($connection, $query);
+				$query = "INSERT INTO `users`(`username`, `password`, `email`) VALUES ('$username', '".password_hash($password, PASSWORD_DEFAULT)."', '$email')";
+				//$sql = mysqli_query($connection, $query);
 				echo "<div id='messege'>
 						<b>Registered successfully!</b><br/>
+						<span class='details'>Email: $email</span><br/>
 						<span class='details'>Username: $username</span><br/>
 						<span class='details'>Password: $password</span><br/>
-						<span class='details'>Email: $email</span><br/>
 						</div>";
 			} else {
 				echo '<form method="POST" name="register" action="signup.php">
 						<label for="email">Email</label><br>
 						<input name="email" type="email" id="email" placeholder="Email.." autocomplete="off" required maxlength="40"><br>
 						<label for="choosename">Username</label><br>
-						<input name="choosename" id="choosename" type="text" placeholder="Choose username" required autocomplete="off"
+						<input name="username" id="choosename" type="text" placeholder="Choose username" required autocomplete="off"
 							maxlength="25"><br>
 						<label for="choosepass">Password</label><br>
-						<input name="choosepass" id="choosepass" type="password" placeholder="Password" required onkeyup="WshowPass()"
+						<input name="password" id="choosepass" type="password" placeholder="Password" required onkeyup="WshowPass()"
 							maxlength="30"><br>
 						<img src="iconList/eye-solid.svg" id="Wshowpass" onclick="Wchangepass()">
 						<input type="submit" name="register" value="Sign up" id="register">
