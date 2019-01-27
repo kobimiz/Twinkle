@@ -39,7 +39,7 @@
   <a href="#">Services</a>
   <a href="#">Clients</a>
   <a href="#"><img src="/iconList/cog-solid.svg"></a>
-  <a href="#"><img src="/iconList/sign-out-alt-solid.svg"></a>
+  <a href="#" id="logout"><img src="/iconList/sign-out-alt-solid.svg"></a>
 </div>
 
 <script>
