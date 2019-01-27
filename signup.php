@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <link rel="stylesheet" href="styles/signup.css" type="text/css">
+    <link rel="stylesheet" href="styles/Signup.css" type="text/css">
 
     <title>Sign Up - Twinkle Social Network</title>
 </head>
@@ -71,7 +71,7 @@
 			}
 			if($usernameErr == "" && $passwordErr == "" && $emailErr == "" && $_SERVER["REQUEST_METHOD"] == "POST") {
 				$query = "INSERT INTO `users`(`username`, `password`, `email`) VALUES ('$username', '".password_hash($password, PASSWORD_DEFAULT)."', '$email')";
-				//$sql = mysqli_query($connection, $query);
+				$sql = mysqli_query($connection, $query);
 				echo "<div id='messege'>
 						<b>Registered successfully!</b><br/>
 						<span class='details'>Email: $email</span><br/>
@@ -81,20 +81,36 @@
 			} else {
 				echo '<form method="POST" name="register" action="signup.php">
 						<label for="email">Email</label><br>
-						<input name="email" type="email" id="email" placeholder="Email.." autocomplete="off" required maxlength="40"><br>
+						<input name="email" type="email" id="email" placeholder="Email.." autocomplete="off" required maxlength="50"><br>
 						<label for="choosename">Username</label><br>
 						<input name="username" id="choosename" type="text" placeholder="Choose username" required autocomplete="off"
-							maxlength="25"><br>
+							maxlength="50" onkeyup="change()"><br>
+							<div id="count"> <span id="letternum"></span><span>/50</span></div>
 						<label for="choosepass">Password</label><br>
 						<input name="password" id="choosepass" type="password" placeholder="Password" required onkeyup="WshowPass()"
-							maxlength="30"><br>
+							maxlength="50">
 						<img src="iconList/eye-solid.svg" id="Wshowpass" onclick="Wchangepass()">
 						<input type="submit" name="register" value="Sign up" id="register">
 						</form>';
 			}
 		?>
     </div>
-
+<script>
+	var input = document.getElementById("choosename");
+      var targ = document.getElementById("letternum");
+      var container = document.getElementById("count");
+    
+    function change(){
+     targ.innerHTML = input.value.length;
+     
+     if(input.value.length == 0){
+         container.style.display = "none";
+     }else{
+         container.style.display ="inline-block"
+	 }
+	 console.log(1);
+    };
+</script>
     <script src="scripts/signup.js"></script>
 </body>
 
