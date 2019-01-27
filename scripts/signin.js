@@ -44,3 +44,16 @@ function Wchangepass() {
 }
 
 document.body.addEventListener("load", document.login.username.focus());
+var input = document.getElementById("username");
+      var targ = document.getElementById("letternum");
+      var container = document.getElementById("count");
+    
+    function change(){
+     targ.innerHTML = input.value.length;
+     
+     if(input.value.length == 0){
+         container.style.display = "none";
+     }else{
+         container.style.display ="inline-block"
+	 }
+    };

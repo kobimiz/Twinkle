@@ -29,7 +29,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <link rel="stylesheet" href="styles/signin.css" type="text/css">
-    <link rel="stylesheet" href="styles/general.css">
+    <link rel="stylesheet" href="styles/general.css" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
 
     <title>Twinkle sign in or sign up!</title>
@@ -42,7 +42,8 @@
         <h1 id="intro">Login</h1>
         <form method="post" name="login">
             <label for="username">Username or Email</label><br>
-            <input name="username" id="username" type="text" placeholder="Username" required autocomplete="off" maxlength="30"><br>
+            <input name="username" id="username" type="text" placeholder="Username" required autocomplete="off" maxlength="50" onkeydown="change()"><br>
+            <div id="count"> <span id="letternum"></span><span>/50</span></div>
             <label for="password">Password</label><br>
             <input name="password" id="password" type="password" placeholder="Password" required onkeyup="showPass()"><br>
             <img src="iconList/eye-solid.svg" id="showpass" onclick="changepass()">

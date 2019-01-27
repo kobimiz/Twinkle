@@ -33,6 +33,7 @@
     <?php
         include_once("templates/header.php");
     ?>
+    <span id="sidenav" style="cursor:pointer" onclick="openNav()">&#9776;</span>
 </body>
 
 </html>
