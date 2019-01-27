@@ -94,9 +94,9 @@ body{
 #Wshowpass{
     width: 24px;
     height:24px;
-    position: relative;
-    left: 88%;
-    bottom: 10%;
+    position: absolute;
+    left: 60%;
+    bottom: 42%;
     cursor: pointer;
     display: none;
 }
@@ -110,5 +110,16 @@ body{
 	text-align: center;
 	line-height: 1.5;
 }
-b { font-size: 20px;}
-.details { margin-left: 7%;}
+b { 
+font-size: 20px;
+}
+.details { 
+margin-left: 7%;
+}
+
+#count{
+    position: absolute;
+    top: 47%;
+    left: 60%;
+    display:none;
+}

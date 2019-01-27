@@ -1,6 +1,7 @@
 var Wshowpass = document.getElementById("Wshowpass");
 var Wpass = document.getElementById("choosepass");
 
+
 function WshowPass() {
     Wshowpass.style.display = "block";
     if (Wpass.value == "") {
@@ -23,3 +24,4 @@ function Wchangepass() {
 }
 
 document.body.addEventListener("load", function() { document.register.email.focus(); });
+
