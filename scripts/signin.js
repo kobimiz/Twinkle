@@ -42,5 +42,3 @@ function Wchangepass() {
         Wshowpass.src = "iconList/eye-solid.svg";
     });
 }
-
-document.body.addEventListener("load", document.login.username.focus());

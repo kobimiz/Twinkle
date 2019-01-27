@@ -71,12 +71,13 @@
 			}
 			if($usernameErr == "" && $passwordErr == "" && $emailErr == "" && $_SERVER["REQUEST_METHOD"] == "POST") {
 				$query = "INSERT INTO `users`(`username`, `password`, `email`) VALUES ('$username', '".password_hash($password, PASSWORD_DEFAULT)."', '$email')";
-				//$sql = mysqli_query($connection, $query);
+				$sql = mysqli_query($connection, $query);
 				echo "<div id='messege'>
 						<b>Registered successfully!</b><br/>
 						<span class='details'>Email: $email</span><br/>
 						<span class='details'>Username: $username</span><br/>
 						<span class='details'>Password: $password</span><br/>
+						<a href='signin.php'>Sign in</a>
 						</div>";
 			} else {
 				echo '<form method="POST" name="register" action="signup.php">
