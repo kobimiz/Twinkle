@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <link rel="stylesheet" href="styles/Signup.css" type="text/css">
+    <link rel="stylesheet" href="styles/signup.css" type="text/css">
 
     <title>Sign Up - Twinkle Social Network</title>
 </head>
@@ -29,14 +29,14 @@
 				return $input;
 			}
 			if($_SERVER["REQUEST_METHOD"] == "POST") {
-				if(empty($_POST['username'])) 
+				if(empty($_POST['username']))
 					$usernameErr = "Please fill in a username";
 				else {
 					$username = htmlspecialchars($_POST['username']);
 					if(!preg_match("/^[a-zA-Z0-9]*$/",$username))
 						$usernameErr = "Only letters and numbers allowed";
-					elseif(strlen($username) < 4 || strlen($username) >= 15)
-						$usernameErr = "Username must be between 4-15 characters";
+					elseif(strlen($username) < 4 || strlen($username) >= 25)
+						$usernameErr = "Username must be between 4-25 characters";
 					else {
 						$usernameTaken = "SELECT * FROM `users` WHERE `username` = '$username'";
 						$usernameTaken2 = mysqli_query($connection, $usernameTaken);
@@ -50,8 +50,8 @@
 					$password = htmlspecialchars($_POST['password']);
 					if(!preg_match("/^[a-zA-Z0-9]*$/",$password))
 						$passwordErr = "Only letters and numbers allowed";
-					elseif(strlen($password) < 4 || strlen($password) >= 15)
-						$passwordErr = "Password must be between 4-15 characters";
+					elseif(strlen($password) < 4 || strlen($password) >= 25)
+						$passwordErr = "Password must be between 4-25 characters";
 				}
 				if(empty($_POST['email']))
 					$emailErr = "Please fill in an email adress";
@@ -59,8 +59,8 @@
 					$email = testInput($_POST['email']);
 					if(!filter_var($email, FILTER_VALIDATE_EMAIL))
 						$emailErr = "Please enter a valid email adress";
-					elseif(strlen($email) >= 30)
-						$passwordErr = "Email mustn't be over 30 characters";
+					elseif(strlen($email) >= 40)
+						$passwordErr = "Email mustn't be over 40 characters";
 					else {
 						$emailTaken = "SELECT * FROM `users` WHERE `email` = '$email'";
 						$emailTaken2 = mysqli_query($connection, $emailTaken);
@@ -80,38 +80,23 @@
 						<a href='signin.php'>Sign in</a>
 						</div>";
 			} else {
-				echo '<form method="POST" name="register" action="signup.php">
-						<label for="email">Email</label><br>
-						<input name="email" type="email" id="email" placeholder="Email.." autocomplete="off" required maxlength="50"><br>
-						<label for="choosename">Username</label><br>
-						<input name="username" id="choosename" type="text" placeholder="Choose username" required autocomplete="off"
-							maxlength="50" onkeyup="change()"><br>
-							<div id="count"> <span id="letternum"></span><span>/50</span></div>
-						<label for="choosepass">Password</label><br>
-						<input name="password" id="choosepass" type="password" placeholder="Password" required onkeyup="WshowPass()"
-							maxlength="50">
-						<img src="iconList/eye-solid.svg" id="Wshowpass" onclick="Wchangepass()">
-						<input type="submit" name="register" value="Sign up" id="register">
-						</form>';
+				echo "<form method='POST' name='register' action='signup.php'>
+					<span class='error'>$emailErr</span><br/><br/>
+					<label for='email'>Email</label><br>
+					<input name='email' type='email' id='email' placeholder='Email..' autocomplete='off' required maxlength='40'><br>
+					<span class='error'>$usernameErr</span><br/>
+					<label for='choosename'>Username</label><br>
+					<input name='username' id='choosename' type='text' placeholder='Choose username' required autocomplete='off' maxlength='25' onkeyup='change()'><br>
+					<div id='count'> <span id='letternum'></span><span>/50</span></div>
+					<span class='error'>$passwordErr</span><br/>
+					<label for='choosepass'>Password</label><br>
+					<input name='password' id='choosepass' type='password' placeholder='Password' required onkeyup='WshowPass()' maxlength='25'>
+					<img src='iconList/eye-solid.svg' id='Wshowpass' onclick='Wchangepass()'>
+					<input type='submit' name='register' value='Sign up' id='register'>
+					</form>";
 			}
 		?>
     </div>
-<script>
-	var input = document.getElementById("choosename");
-      var targ = document.getElementById("letternum");
-      var container = document.getElementById("count");
-    
-    function change(){
-     targ.innerHTML = input.value.length;
-     
-     if(input.value.length == 0){
-         container.style.display = "none";
-     }else{
-         container.style.display ="inline-block"
-	 }
-	 console.log(1);
-    };
-</script>
     <script src="scripts/signup.js"></script>
 </body>
 

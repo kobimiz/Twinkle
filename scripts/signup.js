@@ -1,12 +1,13 @@
-var Wshowpass = document.getElementById("Wshowpass");
-var Wpass = document.getElementById("choosepass");
-
+var Wshowpass = document.getElementById("Wshowpass"),
+    Wpass = document.getElementById("choosepass"),
+    input = document.getElementById("choosename"),
+    targ = document.getElementById("letternum"),
+    container = document.getElementById("count");
 
 function WshowPass() {
     Wshowpass.style.display = "block";
-    if (Wpass.value == "") {
+    if (Wpass.value == "")
         Wshowpass.style.display = "none";
-    }
 }
 
 function Wchangepass() {
@@ -17,11 +18,22 @@ function Wchangepass() {
         Wshowpass.src = "iconList/eye-solid.svg";
         Wpass.type = "password";
     }
-    Wpass.addEventListener("blur", function () {
-        Wpass.type = "password";
-        Wshowpass.src = "iconList/eye-solid.svg";
-    });
 }
 
-document.body.addEventListener("load", function() { document.register.email.focus(); });
+function change() {
+    targ.innerHTML = input.value.length;
 
+    if (input.value.length == 0)
+        container.style.display = "none";
+    else
+        container.style.display = "inline-block"
+}
+
+Wpass.addEventListener("blur", function () {
+    Wpass.type = "password";
+    Wshowpass.src = "iconList/eye-solid.svg";
+});
+
+document.body.addEventListener("load", function () {
+    document.register.email.focus();
+});

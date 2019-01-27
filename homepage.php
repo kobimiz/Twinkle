@@ -26,13 +26,16 @@
     <link rel="stylesheet" href="styles/homepage.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
 
-    <?php echo "<title> $username's Profile</title>"; ?>
+    <title>Homepage Twinkle</title>
 </head>
 
 <body>
-    <?php
-        include_once("templates/header.php");
-    ?>
+    <?php include_once("templates/header.php"); ?>
+    <main>
+        <div id="uploadPost">
+            <h3>Share your thoughts.</h3>
+        </div>
+    </main>
 </body>
 
 </html>
