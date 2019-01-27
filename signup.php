@@ -77,6 +77,7 @@
 						<span class='details'>Email: $email</span><br/>
 						<span class='details'>Username: $username</span><br/>
 						<span class='details'>Password: $password</span><br/>
+						<a href='signin.php'>Sign in</a>
 						</div>";
 			} else {
 				echo '<form method="POST" name="register" action="signup.php">

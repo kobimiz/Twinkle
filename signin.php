@@ -32,18 +32,17 @@
     <link rel="stylesheet" href="styles/general.css" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
 
-    <title>Twinkle sign in or sign up!</title>
+    <title>Sign in to Twinkle</title>
 </head>
 
 <body>
-        <div id="logo">Twinkle</div>
+    <div id="logo">Twinkle</div>
 
     <section id="loginsec">
-        <h1 id="intro">Login</h1>
+        <h1 id="intro">Sign in</h1>
         <form method="post" name="login">
-            <label for="username">Username or Email</label><br>
-            <input name="username" id="username" type="text" placeholder="Username" required autocomplete="off" maxlength="50" onkeydown="change()"><br>
-            <div id="count"> <span id="letternum"></span><span>/50</span></div>
+            <label for="username">Username</label><br>
+            <input name="username" id="username" type="text" placeholder="Username" required autocomplete="off" maxlength="30"><br>
             <label for="password">Password</label><br>
             <input name="password" id="password" type="password" placeholder="Password" required onkeyup="showPass()"><br>
             <img src="iconList/eye-solid.svg" id="showpass" onclick="changepass()">

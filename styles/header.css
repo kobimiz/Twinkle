@@ -20,11 +20,13 @@ header{
 #navi{
     position: relative;
     top: 10px;
+    display:inline-block;
 }
 #navi>ul{
     display: flex;
     margin: 0;
     padding: 0;
+
 }
 #navi>ul>li{
     list-style-type: none;
@@ -46,4 +48,12 @@ header{
     border-bottom: 2px solid white;
     border-radius: 2px;
     width: 300px;
+}
+#sidenavbutton{
+    font-size: 30px;
+    font-weight: 550;
+    color: #fff;
+    cursor:pointer;
+    float: right;
+    margin: 5px 10px;
 }
