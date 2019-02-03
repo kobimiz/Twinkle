@@ -122,3 +122,6 @@ margin-left: 7%;
     left: 60%;
     display:none;
 }
+.error {
+    color: red;
+}

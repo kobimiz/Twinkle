@@ -16,6 +16,7 @@ header{
     line-height: 50px;
     color: rgb(248, 245, 245);
     float: right;
+    text-decoration: none;
 }
 #navi{
     position: relative;

@@ -8,5 +8,5 @@
         </ul>
     </nav>
     <span id="sidenavbutton" onclick="openNav()">&#9776;</span>
-    <div id="logo">Twinkle</div>
+    <a href="homepage.php" id="logo">Twinkle</a>
 </header>

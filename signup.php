@@ -81,15 +81,15 @@
 						</div>";
 			} else {
 				echo "<form method='POST' name='register' action='signup.php'>
-					<span class='error'>$emailErr</span><br/><br/>
 					<label for='email'>Email</label><br>
+					<span class='error'>$emailErr</span><br/><br/>
 					<input name='email' type='email' id='email' placeholder='Email..' autocomplete='off' required maxlength='40'><br>
-					<span class='error'>$usernameErr</span><br/>
 					<label for='choosename'>Username</label><br>
+					<span class='error'>$usernameErr</span><br/>
 					<input name='username' id='choosename' type='text' placeholder='Choose username' required autocomplete='off' maxlength='25' onkeyup='change()'><br>
 					<div id='count'> <span id='letternum'></span><span>/50</span></div>
-					<span class='error'>$passwordErr</span><br/>
 					<label for='choosepass'>Password</label><br>
+					<span class='error'>$passwordErr</span><br/>
 					<input name='password' id='choosepass' type='password' placeholder='Password' required onkeyup='WshowPass()' maxlength='25'>
 					<img src='iconList/eye-solid.svg' id='Wshowpass' onclick='Wchangepass()'>
 					<input type='submit' name='register' value='Sign up' id='register'>
