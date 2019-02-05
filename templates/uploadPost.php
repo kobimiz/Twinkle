@@ -34,7 +34,7 @@
                 } else {
                     echo "success";
                         $query = "INSERT INTO `posts`(`userID`, `date`, `content`, `fileUploaded`, `totalStars`) VALUES ('".
-                        details($_SESSION['username'], $_SESSION['password'])->id.
+                        details($_SESSION['username'], $_SESSION['password'])["id"].
                         "', '".date("Y-m-d H:i:s").
                         "', '".$_POST['content'].
                         "', '".$_FILES["file"]["name"].

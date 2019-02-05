@@ -31,10 +31,23 @@
 
 <body>
     <?php include_once("templates/header.php"); ?>
+
+<div id="sidenavcover">
+        <div id="mySidenav" class="sidenavcont">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&#10095;</a>
+                <a href="#">About</a>
+                <a href="#">Services</a>
+                <a href="#">Clients</a>
+                <a href="#"><img src="/iconList/cog-solid.svg"></a>
+                <a href="#" id="logout"><img src="/iconList/sign-out-alt-solid.svg"></a>
+
+        </div>
+</div>
+
     <main>
         <div id="uploadPost">
             <h3>Share your thoughts.</h3>
-            <textarea name="content" cols="100" rows="10"></textarea>
+            <textarea name="content" cols="100" rows="10" placeholder="Write your thoughts..."></textarea>
             <img src="" alt="Preview of the uploaded file" id="filePreview">
             <!-- add preview for a video, consider making it an image of the first frame -->
             <br>
@@ -80,6 +93,24 @@
         </div>
     </main>
     <script src="scripts/homepage.js"></script>
+    <script>
+var sidenavcover = document.getElementById("sidenavcover");
+ window.onclick = function(event) {
+  if (event.target == sidenavcover) {
+        sidenavcover.style.display = "none";
+  }
+}
+
+function openNav() {
+  document.getElementById("mySidenav").style.width = "100px";
+  document.getElementById("sidenavcover").style.display = "block";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+  document.getElementById("sidenavcover").style.display = "none";
+}
+</script>
 </body>
 
 </html>
