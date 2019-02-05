@@ -48,6 +48,36 @@
                 <div id="bar">0%</div>
             </div>
         </div>
+        <div id="posts">
+            <?php
+                $query = "SELECT `userID`, `date`, `content`, `fileUploaded`, `totalStars` FROM `posts` ORDER BY `date` DESC";
+                $posts = mysqli_query($connection, $query);
+                // consider changing posts table's userid to username for it is unique as well
+                // consider distinguishing between images and videos when stored
+                foreach($posts as $post) {
+                    $username = mysqli_fetch_assoc(mysqli_query($connection, "SELECT `username` FROM `users` WHERE `id`='".$post['userID']."'"))['username'];
+                    echo "<div class='post'>
+                    <span class='postOwner'>Posted by *
+                    <a href=profile.php?user=$username>".$username."</a>".
+                    " @ ".$post['date'].
+                    "</span>
+                    <div class='content'>";
+                    if(isImage($post['fileUploaded']))
+                        echo "<image src='uploads/".$post['fileUploaded']."' alt='posted image'>";
+                    else
+                        echo "<video src='uploads/".$post['fileUploaded']."' alt='posted video'>";
+                    echo "<br/>".$post['content']."</div>
+                    <br/>
+                    <div class='options'>
+                    </div>
+                    </div>";
+                }
+                
+                function isImage($fileName) {
+                    return array_search(pathinfo($fileName, PATHINFO_EXTENSION), array("jpeg", "jpg", "png"));
+                }
+            ?>
+        </div>
     </main>
     <script src="scripts/homepage.js"></script>
 </body>

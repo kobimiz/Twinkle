@@ -48,3 +48,15 @@ label[for="fileUpload"]:hover {
     line-height: 30px;
     color: white;
 }
+
+#posts {
+    margin-top: 10px;
+}
+
+.post {
+    margin: 10px;
+}
+
+.content img {
+    height: 250px;
+}

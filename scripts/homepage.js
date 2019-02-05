@@ -69,5 +69,8 @@ document.getElementById("post").addEventListener("click", function() {
         formData.append("content", document.getElementsByTagName("textarea")[0].value);
         xmlhttp.open("POST", "templates/uploadPost.php", true);
         xmlhttp.send(formData);
+    } else {
+        errorMessage.style.display = "inline";
+        errorMessage.innerHTML = "No image/video? Shall we share as a note instead?";
     }
 });
