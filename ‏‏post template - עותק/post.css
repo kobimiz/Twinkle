@@ -1,0 +1,243 @@
+body{
+    margin:0;
+    padding:0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.maincon{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background-color:#fff;
+    height: 100vh;
+}
+.postcon{
+    height:480px;
+    max-width: 700px;
+    width:100%;
+    background-color:#3399ff;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    box-sizing: border-box;
+    border: 2px solid rgb(219, 219, 219);
+    border-radius: 20px;
+    overflow: hidden;
+}
+.video{
+    width:100%;
+}
+.Vcon{
+    width:100%;
+    max-width: 700px;
+    position: relative;
+    overflow:hidden;
+}
+/* play and pause animations --------------------------------------------*/
+.playanime{
+    background-color: #fff;
+    width:100px;
+    height:100px;
+    border-radius: 50%;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    background-image: url("play-solid.svg");
+    background-repeat: no-repeat;
+    background-position: 25px;
+    background-size: 60px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+.playanimeadd{
+    -webkit-animation-name: playanime;
+    -webkit-animation-duration: 1s;
+    animation-name: playanime;
+    animation-duration: 1s;
+}
+@-webkit-keyframes playanime{
+    0%{opacity: 0; visibility: hidden;}
+    50%{opacity: .7; visibility: visible;}
+    100%{opacity: 0; visibility: hidden;}
+}
+@keyframes playanime{
+    0%{opacity: 0; visibility: hidden;}
+    50%{opacity: .7; visibility: visible;}
+    100%{opacity: 0; visibility: hidden;}
+}
+
+.pauseanime{
+    background-color: white;
+    width:100px;
+    height:100px;
+    border-radius: 50%;
+    opacity: 0;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    background-image: url("pause-solid.svg");
+    background-repeat: no-repeat;
+    background-position: 20px;
+    background-size: 60px;
+    visibility: hidden;
+    pointer-events: none;
+}
+.pauseanimeadd{
+    -webkit-animation-name: pauseanime;
+    -webkit-animation-duration: 1s;
+    animation-name: pauseanime;
+    animation-duration: 1s;
+}
+@-webkit-keyframes pauseanime{
+    0%{opacity: 0; visibility: hidden;}
+    50%{opacity: .7; visibility: visible;}
+    100%{opacity: 0; visibility: hidden;}
+}
+@keyframes pauseanime{
+    0%{opacity: 0; visibility: hidden;}
+    50%{opacity: .7; visibility: visible;}
+    100%{opacity: 0; visibility: hidden;}
+}
+/*bottom bar from here ======================================*/
+.bottombar{
+    width: 100%;
+    display:flex;
+    position: absolute;
+    bottom:-40px;
+    line-height:40px;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.589);
+    z-index: 5;
+    transition: 0.4s;
+}
+/* .Vcon:hover .bottombar{
+    bottom: 4px;
+} */
+
+#play-pause{
+    background:none;
+    border:0;
+    outline:0;
+    cursor: pointer;
+    border-radius: 50%;
+    height:34px;
+    width:34px;
+    justify-content: center;
+    align-content: center;
+    transition: 0.3s;
+}
+#play-pause:hover{
+    background-color: rgba(255, 255, 255, 0.555);
+}
+#play-pause:before{
+    content: url('play-solid.svg');
+    width:20px;
+    height:20px;
+    color:black;
+    font-size: 20px;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+}
+#play-pause.play:before{
+    content: url("play-solid.svg");
+}
+#play-pause.pause:before{
+    content: url("pause-solid.svg");
+}
+#left{
+    position: absolute;
+    left:20px;
+    font-size: 22px;
+    cursor: pointer;
+    height: 34px;
+    width:30px;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+    border-radius: 50%;
+    user-select: none;
+    transition: 0.3s;
+}
+#right{
+    position: absolute;
+    right: 20px;
+    font-size: 22px;
+    cursor: pointer;
+    height: 34px;
+    width:30px;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+    border-radius: 50%;
+    user-select: none;
+    transition: 0.3s;
+}
+#left:hover,#right:hover{
+    background-color: rgba(255, 255, 255, 0.555);
+}
+
+/*---------------------------------------------------------------- */
+
+.topbar{
+    width: 100%;
+    height:40px;
+    display:flex;
+    position: absolute;
+    top:-40px;
+    line-height:40px;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.589);
+    z-index: 5;
+    transition: .4s;
+}
+/* .Vcon:hover .topbar{
+    top:0;
+} */
+#juicecon{
+    width: 100%;
+    display: flex;
+    position: absolute;
+    top: 0;
+    line-height: 40px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+#linediv{
+    position: relative;
+    top:20px;
+    
+}
+.juicebar{
+    width:0px;
+    height:3px;
+    background-color: red;
+    position: absolute;
+    left:0;
+    top:0;
+}
+.juicemark{
+    width:500px;
+    height:3px;
+    background-color: black;
+    left:0;
+    top:0;
+}
+.videojump{
+    width:500px;
+    height:35px;
+    left:0;
+    top:-20px;
+    position: relative;
+    cursor: pointer;
+}
+#TimeCount{
+    padding-right: 10px;
+}
+#curtime,#durtime{
+    font-size: 14px;
+}
