@@ -134,6 +134,8 @@ body{
     background-color: rgba(255, 255, 255, 0.555);
 }
 #play-pause:before{
+    padding-top: 2px;
+    padding-left: 3px;
     content: url('play-solid.svg');
     width:20px;
     height:20px;

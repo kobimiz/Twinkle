@@ -44,7 +44,7 @@ document.getElementById("post").addEventListener("click", function() {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if(this.readyState === 4 && this.status === 200) {
-                console.log(this.responseText);
+                // consider the case where a document is returned from this.responseText
                 if(this.responseText === "success")
                     errorMessage.style.display = "none";
                 else if(this.responseText === "error") {
