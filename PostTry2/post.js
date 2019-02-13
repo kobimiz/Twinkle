@@ -192,6 +192,16 @@ function getChildNum(element) {
     return -1;
 }
 
+/*stars animation --------------------- */
+
+function getChildNum(element) {
+    var siblings = element.parentElement.children;
+    for(var i = 0; i < siblings.length; i++)
+        if(siblings[i] === element)
+            return i;
+    return -1;
+}
+
 
 function rate(e) {
     if (e.target.matches("img")) {
@@ -202,13 +212,13 @@ function rate(e) {
         if(siblings[childNum].src.indexOf("Fulledstar.png") !== -1 && (!siblings[childNum + 1] || siblings[childNum + 1].src.indexOf("Firststar.png") !== -1)) { // pressed again on same star - cancel
             formData.append("stars", 0);
             for(var i = 0; i < 5; i++) 
-                siblings[i].src = "/PostTry/Firststar.png";
+                siblings[i].src = "/Firststar.png";
         } else {
             var i = 0;
             for(; i <= childNum; i++)
-                siblings[i].src = "/PostTry/Fulledstar.png";
+                siblings[i].src = "/Fulledstar.png";
             for(; i < 5; i++)
-                siblings[i].src = "/PostTry/Firststar.png";
+                siblings[i].src = "/Firststar.png";
             formData.append("stars", i + 1);
         }
         // xmlhttp.open("POST", "templates/uploadPost.php", true);
