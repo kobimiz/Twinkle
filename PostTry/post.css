@@ -1,0 +1,370 @@
+body{
+    margin:0;
+    padding:0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.maincon{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background-color:#fff;
+    height: 100vh;
+}
+.postcon{
+    max-height:480px;
+    height: 100%;
+    max-width: 700px;
+    width:100%;
+    background-color:#ffffff;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    border: 2px solid #03037c;
+    border-radius: 20px;
+    overflow: hidden;
+    display:grid;
+    grid-template-rows: 8.33% 83.33% 8.33%;
+    grid-template-columns: 100%;
+}
+.video{
+    width:100%;
+}
+.Vcon{
+    width:100%;
+    max-width: 700px;
+    position: relative;
+    overflow:hidden;
+}
+/* play and pause animations --------------------------------------------*/
+.playanime{
+    background-color: #fff;
+    width:80px;
+    height:80px;
+    border-radius: 50%;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    background-image: url("play-solid.svg");
+    background-repeat: no-repeat;
+    background-position: 25px;
+    background-size: 40px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+.playanimeadd{
+    -webkit-animation-name: playanime;
+    -webkit-animation-duration: 1s;
+    animation-name: playanime;
+    animation-duration: 1s;
+}
+@-webkit-keyframes playanime{
+    0%{opacity: 0; visibility: hidden;}
+    50%{opacity: .7; visibility: visible;}
+    100%{opacity: 0; visibility: hidden;}
+}
+@keyframes playanime{
+    0%{opacity: 0; visibility: hidden;}
+    50%{opacity: .7; visibility: visible;}
+    100%{opacity: 0; visibility: hidden;}
+}
+
+.pauseanime{
+    background-color: white;
+    width:80px;
+    height:80px;
+    border-radius: 50%;
+    opacity: 0;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    background-image: url("pause-solid.svg");
+    background-repeat: no-repeat;
+    background-position: 20px;
+    background-size: 40px;
+    visibility: hidden;
+    pointer-events: none;
+}
+.pauseanimeadd{
+    -webkit-animation-name: pauseanime;
+    -webkit-animation-duration: 1s;
+    animation-name: pauseanime;
+    animation-duration: 1s;
+}
+@-webkit-keyframes pauseanime{
+    0%{opacity: 0; visibility: hidden;}
+    50%{opacity: .7; visibility: visible;}
+    100%{opacity: 0; visibility: hidden;}
+}
+@keyframes pauseanime{
+    0%{opacity: 0; visibility: hidden;}
+    50%{opacity: .7; visibility: visible;}
+    100%{opacity: 0; visibility: hidden;}
+}
+/*bottom bar from here ======================================*/
+.bottombar{
+    width: 100%;
+    display:flex;
+    position: absolute;
+    bottom:-40px;
+    line-height:40px;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.589);
+    z-index: 5;
+    transition: 0.4s;
+}
+/* .Vcon:hover .bottombar{
+    bottom: 4px;
+} */
+
+#play-pause{
+    background:none;
+    border:0;
+    outline:0;
+    cursor: pointer;
+    border-radius: 50%;
+    height:34px;
+    width:34px;
+    justify-content: center;
+    align-content: center;
+    transition: 0.3s;
+}
+#play-pause:hover{
+    background-color: rgba(255, 255, 255, 0.555);
+}
+#play-pause:before{
+    padding-top: 2px;
+    content: url('play-solid.svg');
+    width:20px;
+    height:20px;
+    color:black;
+    font-size: 20px;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+}
+#play-pause.play:before{
+    content: url("play-solid.svg");
+    padding-left:2px;
+}
+#play-pause.pause:before{
+    content: url("pause-solid.svg");
+}
+#left{
+    position: absolute;
+    left:20px;
+    font-size: 22px;
+    cursor: pointer;
+    height: 34px;
+    width:30px;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+    border-radius: 50%;
+    user-select: none;
+    transition: 0.3s;
+}
+#right{
+    position: absolute;
+    right: 20px;
+    font-size: 22px;
+    cursor: pointer;
+    height: 34px;
+    width:30px;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+    border-radius: 50%;
+    user-select: none;
+    transition: 0.3s;
+}
+#left:hover,#right:hover{
+    background-color: rgba(255, 255, 255, 0.555);
+}
+
+/*---------------------------------------------------------------- */
+
+.topbar{
+    width: 100%;
+    height:40px;
+    display:flex;
+    position: absolute;
+    top:-40px;
+    line-height:40px;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.589);
+    z-index: 5;
+    transition: .4s;
+}
+/* .Vcon:hover .topbar{
+    top:0;
+} */
+#juicecon{
+    width: 100%;
+    display: flex;
+    position: absolute;
+    top: 0;
+    line-height: 40px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+#linediv{
+    position: relative;
+    top:20px;
+    
+}
+.juicebar{
+    width:0px;
+    height:3px;
+    background-color: red;
+    position: absolute;
+    left:0;
+    top:0;
+}
+.juicemark{
+    width:500px;
+    height:3px;
+    background-color: black;
+    left:0;
+    top:0;
+}
+.videojump{
+    width:500px;
+    height:35px;
+    left:0;
+    top:-20px;
+    position: relative;
+    cursor: pointer;
+}
+#TimeCount{
+    padding-right: 10px;
+}
+#curtime,#durtime{
+    font-size: 14px;
+}
+
+
+/* the divs for the data of ups and downs */
+
+.topdata{
+    position: relative;
+    top:0;
+    left:0;
+    width:100%;
+    height:40px;
+    z-index: 7;
+    line-height: 40px;
+}
+.topdata>.avgstar{
+    color:#f2b01e;
+    font-size:28px;
+    padding:5px 10px 5px 30px;
+}
+.topdata>.avgstardata{
+    font-size:25px;
+    font-weight: 540;
+    padding:2px;
+}
+.topdata>.topoptions{
+    float:right;
+    font-size:28px;
+    margin-right:20px;
+    padding:0 10px 0 10px;
+    border-radius: 50%;
+    height:40px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.topdata>.topoptions:hover{
+    background-color:rgb(236, 236, 236,0.5);
+}
+.topdata>.topoptions>.optionscon{
+    position: absolute;
+    right:1%;
+    background-color: #fff;
+    display:none;
+}
+.topdata>.topoptions>.optionscon>ul{
+    list-style-type: none;
+    padding:0;
+    margin:0;
+}
+.topdata>.topoptions>.optionscon>ul>li{
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.topdata>.topoptions>.optionscon>ul>li>a{
+    text-decoration: none;
+    color:#000;
+    display: block;
+}
+.topdata>.topoptions>.optionscon>ul>li:hover{
+    background-color:rgba(233, 233, 233, 0.5);
+}
+/* bottom data*/
+.bottomdata{
+    position: absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:40px;
+    z-index: 7;
+    line-height: 40px;
+    justify-content: center;
+}
+/*all five stars*/
+.starrate{
+    width:300px;
+    margin:0;
+    float:left;
+    margin-left: 10px;
+}
+
+.firststar{
+    width:32px;
+    height:30px;
+    cursor: pointer;
+    margin-bottom: 3px;
+}
+.secondstar{
+    width:34px;
+    height:32px;
+    cursor: pointer;
+    margin-bottom: 2px;
+}
+.thirdstar{
+    width:36px;
+    height:34px;
+    cursor: pointer;
+    margin-bottom: 1px;
+}
+.fourthstar{
+    width:38px;
+    height:36px;
+    cursor: pointer;
+}
+.fifthstar{
+    width:40px;
+    height:38px;
+    cursor: pointer;
+}
+.actions{
+    float:right;
+    margin:0 20px;
+}
+.comment{
+    width:50px;
+    height:40px;
+    cursor: pointer;
+}
+.noteAbout{
+    width:40px;
+    height:40px;
+    cursor: pointer;
+}
