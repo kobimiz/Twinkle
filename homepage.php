@@ -78,7 +78,7 @@
                     if(isImage($post['fileUploaded']))
                         echo "<image src='uploads/".$post['fileUploaded']."' alt='posted image'>";
                     else
-                        echo "<video src='uploads/".$post['fileUploaded']."' alt='posted video'>";
+                        echo "<video src='uploads/".$post['fileUploaded']."' alt='posted video' controls></video>";
                     echo "<br/>".$post['content']."</div>
                     <br/>
                     <div class='options'>

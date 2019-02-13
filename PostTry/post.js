@@ -184,122 +184,36 @@ optionsarrow.addEventListener("click",function(){
     }
 });
 
+function getChildNum(element) {
+    var siblings = element.parentElement.children;
+    for(var i = 0; i < siblings.length; i++)
+        if(siblings[i] === element)
+            return i;
+    return -1;
+}
 
-/*stars animation --------------------- */
 
-var firststar = document.querySelector(".firststar"); 
-var secondstar = document.querySelector(".secondstar");   
-var thirdstar = document.querySelector(".thirdstar");   
-var fourthstar = document.querySelector(".fourthstar");   
-var fifthstar = document.querySelector(".fifthstar");      
-var starcheck = false;
-
-firststar.addEventListener("click", function(){
-    if(!starcheck){
-    firststar.setAttribute("src", "/Fulledstar.png");
-    starcheck = true;
-    }else if(secondstar.getAttribute("src") == "/Fulledstar.png" || thirdstar.getAttribute("src") == "/Fulledstar.png" || fourthstar.getAttribute("src") == "/Fulledstar.png" || fifthstar.getAttribute("src") == "/Fulledstar.png"){
-        secondstar.setAttribute("src", "/Firststar.png");
-        thirdstar.setAttribute("src", "/Firststar.png");
-        fourthstar.setAttribute("src", "/Firststar.png");
-        fifthstar.setAttribute("src", "/Firststar.png");
-
-        firststar.setAttribute("src", "/Fulledstar.png");
-        starcheck = true;
-
-    }else{
-        firststar.setAttribute("src", "/Firststar.png");
-        starcheck = false;
+function rate(e) {
+    if (e.target.matches("img")) {
+        var childNum = getChildNum(e.target),
+            siblings = e.target.parentElement.children,
+            xmlhttp = new XMLHttpRequest(),
+            formData = new FormData();
+        if(siblings[childNum].src.indexOf("Fulledstar.png") !== -1 && (!siblings[childNum + 1] || siblings[childNum + 1].src.indexOf("Firststar.png") !== -1)) { // pressed again on same star - cancel
+            formData.append("stars", 0);
+            for(var i = 0; i < 5; i++) 
+                siblings[i].src = "/PostTry/Firststar.png";
+        } else {
+            var i = 0;
+            for(; i <= childNum; i++)
+                siblings[i].src = "/PostTry/Fulledstar.png";
+            for(; i < 5; i++)
+                siblings[i].src = "/PostTry/Firststar.png";
+            formData.append("stars", i + 1);
+        }
+        // xmlhttp.open("POST", "templates/uploadPost.php", true);
+        // xmlhttp.send(formData);
     }
-});
+}
 
-secondstar.addEventListener("click", function(){
-    if(!starcheck){
-    firststar.setAttribute("src", "/Fulledstar.png");
-    secondstar.setAttribute("src", "/Fulledstar.png");
-    starcheck = true;
-    }else if( thirdstar.getAttribute("src") == "/Fulledstar.png" || fourthstar.getAttribute("src") == "/Fulledstar.png" || fifthstar.getAttribute("src") == "/Fulledstar.png"){
-        thirdstar.setAttribute("src", "/Firststar.png");
-        fourthstar.setAttribute("src", "/Firststar.png");
-        fifthstar.setAttribute("src", "/Firststar.png");
-
-        firststar.setAttribute("src", "/Fulledstar.png");
-        secondstar.setAttribute("src", "/Fulledstar.png");
-        starcheck = true;
-
-    }else{
-        firststar.setAttribute("src", "/Firststar.png");
-        secondstar.setAttribute("src", "/Firststar.png");
-        starcheck = false;
-    }
-});
-
-thirdstar.addEventListener("click", function(){
-    if(!starcheck){
-    firststar.setAttribute("src", "/Fulledstar.png");
-    secondstar.setAttribute("src", "/Fulledstar.png");
-    thirdstar.setAttribute("src", "/Fulledstar.png");
-    starcheck = true;
-    }else if(  fourthstar.getAttribute("src") == "/Fulledstar.png" || fifthstar.getAttribute("src") == "/Fulledstar.png"){
-        fourthstar.setAttribute("src", "/Firststar.png");
-        fifthstar.setAttribute("src", "/Firststar.png");
-
-        firststar.setAttribute("src", "/Fulledstar.png");
-        secondstar.setAttribute("src", "/Fulledstar.png");
-        thirdstar.setAttribute("src", "/Fulledstar.png");
-        starcheck = true;
-
-    }else{
-        firststar.setAttribute("src", "/Fulledstar.png");
-        secondstar.setAttribute("src", "/Fulledstar.png");
-        thirdstar.setAttribute("src", "/Fulledstar.png");
-
-        fourthstar.setAttribute("src", "/Firststar.png");
-        fifthstar.setAttribute("src", "/Firststar.png");
-
-        starcheck = false;
-    }
-});
-
-fourthstar.addEventListener("click", function(){
-    if(!starcheck){
-    firststar.setAttribute("src", "/Fulledstar.png");
-    secondstar.setAttribute("src", "/Fulledstar.png");
-    thirdstar.setAttribute("src", "/Fulledstar.png");
-    fourthstar.setAttribute("src", "/Fulledstar.png");
-    starcheck = true;
-    }else if( fifthstar.getAttribute("src") == "/Fulledstar.png"){
-        fifthstar.setAttribute("src", "/Firststar.png");
-
-        firststar.setAttribute("src", "/Fulledstar.png");
-        secondstar.setAttribute("src", "/Fulledstar.png");
-        thirdstar.setAttribute("src", "/Fulledstar.png");
-        fourthstar.setAttribute("src", "/Fulledstar.png");
-        starcheck = true;
-
-    }else{
-        firststar.setAttribute("src", "/Fulledstar.png");
-        secondstar.setAttribute("src", "/Fulledstar.png");
-        thirdstar.setAttribute("src", "/Fulledstar.png");
-        fourthstar.setAttribute("src", "/Fulledstar.png");
-        starcheck = false;
-    }
-});
-
-fifthstar.addEventListener("click", function(){
-    if(!starcheck){
-    firststar.setAttribute("src", "/Fulledstar.png");
-    secondstar.setAttribute("src", "/Fulledstar.png");
-    thirdstar.setAttribute("src", "/Fulledstar.png");
-    fourthstar.setAttribute("src", "/Fulledstar.png");
-    fifthstar.setAttribute("src", "/Fulledstar.png");
-    starcheck = true;
-    }else{
-        firststar.setAttribute("src", "/Fulledstar.png");
-        secondstar.setAttribute("src", "/Fulledstar.png");
-        thirdstar.setAttribute("src", "/Fulledstar.png");
-        fourthstar.setAttribute("src", "/Fulledstar.png");
-        fifthstar.setAttribute("src", "/Fulledstar.png");
-        starcheck = false;
-    }
-});
+document.getElementsByClassName("starrate")[0].addEventListener("click", rate);

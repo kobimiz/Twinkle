@@ -5,6 +5,7 @@
     // consider checking file name with preg_match("`^[-0-9A-Z_\.]+$`i",$filename)
     // consider checking file isn't empty
     // consider changing userid to username posts, since it is easier to get
+    // preg_match("/\s\([\d]+(?=\)\.)/", $_FILES["file"]["name"], $res); <--- random thing i want to keep for a while
     session_start();
     require_once("connection.php");
     require_once("functions.php");
@@ -12,72 +13,37 @@
         $target_dir = __DIR__."\\..\\uploads\\";
         $target_file = $target_dir.basename($_FILES["file"]["name"]);
         $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-        if($_FILES["file"]["size"] > 20000000) // file size greater than 20mb
+        $_FILES["file"]["name"] = randomizeName().".".$fileType; // <------------- consider removing the data about the real name of the file being uploaded in homepage.php
+        $target_file = $target_dir.basename($_FILES["file"]["name"]); // file name has changed!
+        $arr = array("jpeg", "jpg", "png", "gif", "avi", "amv", "mp4");
+
+        if(array_search($fileType, $arr) === false)
+            echo "invalid type";
+        else if($_FILES["file"]["size"] > 20000000) // file size greater than 20mb
             echo "too big";
+        else if(!move_uploaded_file($_FILES["file"]["tmp_name"], $target_file))
+            echo "error";
         else {
-            $arr = array("jpeg", "jpg", "png", "gif", "avi", "amv", "mp4");
-            if(array_search($fileType, $arr) === false)
-                echo "invalid type";
-            else {
-                if(!file_exists($target_file)) {
-                    if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
-                        echo "success";
-                        postDbUpdate();
-                    }
-                    else
-                        echo "error";
-                } else {
-                    //https://stackoverflow.com/questions/21076428/php-file-exist-with-regex
-                    $dir = new DirectoryIterator("\..\uploads");
-                    $pattern = '/^' . preg_quote($css_prefix) . '.+\\.css$' . '/';
-                    var_dump($pattern);
-                    // foreach ($dir as $fileInfo) {
-                    //     if (preg_match($pattern, $fileInfo->getBaseName())) {
-                    //         // match!
-                    //     }
-                    // }
-                    // IMPORTANT: CHANGE ADDED (NUM) TO BEFORE FILE EXTENTION AND PUSH TO YEHUDA
-                    // $res = array();
-                    // preg_match("/\s\([\d]+(?=\)\.)/", $_FILES["file"]["name"], $res);
-                    // if(empty($res)) { // the pattern (number) was not found, add (2) to name
-                    //     $_FILES["file"]["name"] = substr(0, strpos($_FILES["file"]["name"], "."));
-                    //     $target_file = $target_dir.basename($_FILES["file"]["name"]); // $_FILES["file"]["name"] has changed
-                    //     if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
-                    //         echo "success";
-                    //         // postDbUpdate();
-                    //     }
-                    //     else
-                    //         echo "error";
-                    // }
-                    // else { // the patten (number) was found, increase number by 1
-                    //     $number = substr($res[0], 0, 2);
-                    //     echo $number;
-                    // }
-
-
-                    // $endIndex = preg_match("/\s\([\d]+\)\./", $_FILES["file"]["name"]);
-                    // if($endIndex === 0) // has no "(num)" at the end (no way that endindex would be the first index)
-                    //     $_FILES["file"]["name"] = $_FILES["file"]["name"]."(2)";
-                    // else {
-                    //     $startIndex = preg_match("/(?!\.)\(\d/", $_FILES["file"]["name"]) + 1;
-                    //     $fileNumber = substr($_FILES["file"]["name"], $startIndex, $endIndex);
-                    //     $_FILES["file"]["name"] = $_FILES["file"]["name"]."(".((int)$fileNumber + 1).")";
-                    // }
-                    // $target_file = $target_dir.basename($_FILES["file"]["name"]); // $_FILES["file"]["name"] has changed
-                    // if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
-                    //     echo "success";
-                    //     postDbUpdate();
-                    // }
-                    // else
-                    //     echo "error";
-                }
-            }
+            postDbUpdate();
+            echo "success";
         }
     } else if(isset($_SESSION["username"]))
         header('Location: /../homepage.php');
     else
         header('Location: /../signin.php');
 
+    function randomizeName() { // 10 lowercase letters/digits characters long
+        $name = "";
+        for ($i=0; $i < 10; $i++) {
+            if(rand(0,1) === 0)
+                $name .= chr(rand(97,122));
+            else
+                $name .= rand(0,9);
+        }
+        if(!file_exists(__DIR__."\\..\\uploads\\".$name))
+            return $name;
+        return randomizeName();
+    }
     function postDbUpdate() {
         global $connection;
         $query = "INSERT INTO `posts`(`userID`, `date`, `content`, `fileUploaded`, `totalStars`) VALUES ('".
