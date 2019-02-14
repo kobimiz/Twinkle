@@ -24,25 +24,17 @@
     <link rel="stylesheet" href="styles/general.css">
     <link rel="stylesheet" href="styles/header.css">
     <link rel="stylesheet" href="styles/homepage.css">
+    <link rel="stylesheet" href="styles/sidenav.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
 
     <title>Homepage Twinkle</title>
 </head>
 
 <body>
-    <?php include_once("templates/header.php"); ?>
-
-<div id="sidenavcover">
-        <div id="mySidenav" class="sidenavcont">
-                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&#10095;</a>
-                <a href="#">About</a>
-                <a href="#">Services</a>
-                <a href="#">Clients</a>
-                <a href="#"><img src="/iconList/cog-solid.svg"></a>
-                <a href="#" id="logout"><img src="/iconList/sign-out-alt-solid.svg"></a>
-
-        </div>
-</div>
+    <?php
+        include_once("templates/header.php");
+        include_once("templates/sidenav.php");
+    ?>
 
     <main>
         <div id="uploadPost">
@@ -93,24 +85,7 @@
         </div>
     </main>
     <script src="scripts/homepage.js"></script>
-    <script>
-var sidenavcover = document.getElementById("sidenavcover");
- window.onclick = function(event) {
-  if (event.target == sidenavcover) {
-        sidenavcover.style.display = "none";
-  }
-}
-
-function openNav() {
-  document.getElementById("mySidenav").style.width = "100px";
-  document.getElementById("sidenavcover").style.display = "block";
-}
-
-function closeNav() {
-  document.getElementById("mySidenav").style.width = "0";
-  document.getElementById("sidenavcover").style.display = "none";
-}
-</script>
+    <script src="scripts/sidenav.js"></script>
 </body>
 
 </html>

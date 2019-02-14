@@ -1,0 +1,58 @@
+/* the popping nav from right*/
+#sidenavcover{
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+  }
+  .sidenavcont {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      right: 0;
+      background-color: #fff;
+      overflow-x: hidden;
+      transition: 0.5s;
+      padding-top: 60px;
+      animation-name: sidecontent;
+      animation-duration: 0.4s;
+      -webkit-animation-name: sidecontent;
+      -webkit-animation-duration: 0.4s;
+    }
+  
+    @keyframes sidecontent{
+      from {width:0; opacity: 0}
+       to {width:100px; opacity: 1}
+    }
+    
+    .sidenavcont>a {
+      padding: 8px 8px 8px 32px;
+      text-decoration: none;
+      font-size: 18px;
+      color: #818181;
+      display: block;
+    }
+    .sidenavcont>a>img{
+        width: 37px;
+        height: 37px;
+    }
+    
+    .sidenavcont>a:hover {
+      color: #f1f1f1;
+    }
+    
+    .sidenavcont>.closebtn {
+      position: absolute;
+      top: 0;
+      right: 25px;
+      font-size: 36px;
+      margin-left: 50px;
+    }
