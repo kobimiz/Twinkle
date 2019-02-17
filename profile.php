@@ -8,6 +8,8 @@
         $password = htmlspecialchars($_SESSION['password']);
         if(!login($username, $password))
             header("Location: signin.php");
+        if(!isset($_GET["user"]))
+            header("Location: profile.php?user=".$username);
     }
     else
         header("Location: signin.php");
@@ -27,15 +29,28 @@
     <link rel="stylesheet" href="styles/sidenav.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
 
-    <?php echo "<title> $username's Profile</title>"; ?>
+    <?php echo "<title>".$_GET["user"]."'s Profile</title>"; ?>
 </head>
 
 <body>
     <?php
         include_once("templates/header.php");
         include_once("templates/sidenav.php");
+        include_once("templates/functions.php");
     ?>
-
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <?php
+        $sql = "SELECT * FROM `users` WHERE `username` = '$username'";
+        $res = mysqli_query($connection, $sql);
+        $players  = mysqli_fetch_assoc($res);
+        var_dump($players);
+    ?>
     <script src="scripts/sidenav.js"></script>
 </body>
 

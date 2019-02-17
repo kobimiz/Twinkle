@@ -8,7 +8,7 @@
         global $connection;
 		$login = mysqli_query($connection, $sql);
 		if(mysqli_num_rows($login) == 1)
-			while($row = mysqli_fetch_array($login))
+			while($row = mysqli_fetch_assoc($login))
 				if(password_verify($password, $row['password']) )
 					return true;
 		return false;
@@ -18,7 +18,8 @@
             global $connection;
 			$sql = "SELECT * FROM `users` WHERE `username` = '$username'";
 			$res = mysqli_query($connection, $sql);
-			$players  = mysqli_fetch_array($res);
+			$players  = mysqli_fetch_assoc($res);
+			var_dump($players);
 			return $players;
 		} else
 			return null;

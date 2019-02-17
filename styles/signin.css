@@ -10,19 +10,36 @@ body{
     font-size: 65px;
     position: relative;
     top: 3%;
-    left: 70%;
     color:#03037c;
+    text-align:right;
 }
-
+/* Note: organize different devices' media queries */
 #loginsec{
     margin: auto;
     height: 27em;
-    width: 40em;
     display: block;
     align-items: center;
-    box-sizing: border-box;
     background-color: white;
     border-radius: 5px;
+}
+#passwordContainer {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #0d6cca;
+}
+#passwordContainer #password {
+    border:none;
+}
+@media only screen and (min-width: 768px) {
+    #logo {
+        right: 20%;
+    }
+    #loginsec {
+        width: 40em;
+    }
+    #loginsec>form{
+        width: 60%;
+    }
 }
 #loginsec>#intro{
     text-align: left;
@@ -33,10 +50,10 @@ body{
 }
 #loginsec>form{
     height:100%;
-    width: 60%;
+    width: 80%;
     margin: auto;
 }
-#loginsec>form>input{
+#loginsec>form input:not([type="checkbox"]){
     display: block;
     width: 100%;
     padding: 10px;
@@ -46,9 +63,8 @@ body{
     font-size: 20px;
     border: none;
 }
-#loginsec>form>input:not([type="submit"]):not([type="checkbox"]){
+#loginsec>form input:not([type="submit"]):not([type="checkbox"]){
     padding: 10px 4px 10px 50px;
-    box-sizing: border-box;
     border-bottom: 2px solid #0d6cca;
     
 }
@@ -125,7 +141,7 @@ body{
     background-repeat: no-repeat;
     background-size: 25px;
 }
-#loginsec>form>#password{
+#password{
     background-image: url(/iconList/lock-solid.svg);
     background-position: 10px 8px;
     background-repeat: no-repeat;
@@ -134,7 +150,6 @@ body{
 #showpass{
     width: 24px;
     height:24px;
-    position: absolute;
     left: 60%;
     bottom: 51%;
     cursor: pointer;
@@ -179,5 +194,3 @@ body{
     left: 60%;
     display:none;
 }
-
-
