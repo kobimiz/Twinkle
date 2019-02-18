@@ -11,13 +11,13 @@ body{
     position: relative;
     top: 3%;
     left: 70%;
-    color:#03037c;
+    color:#001942;
 }
 
 #loginsec{
     margin: auto;
-    height: 27em;
-    width: 40em;
+    height: 100%;
+    width: 45%;
     display: block;
     align-items: center;
     box-sizing: border-box;
@@ -26,14 +26,14 @@ body{
 }
 #loginsec>#intro{
     text-align: left;
-    margin-left: 50px;
+    margin-left: 10%;
     font-size: 40px;
     color: black;
     font-weight: 600;
 }
 #loginsec>form{
     height:100%;
-    width: 60%;
+    width: 50%;
     margin: auto;
 }
 #loginsec>form>input{
@@ -50,8 +50,7 @@ body{
     padding: 10px 4px 10px 50px;
     box-sizing: border-box;
     border-bottom: 2px solid #0d6cca;
-    
-}
+
 #loginsec>form>input[type="submit"]{
     background-color: transparent;
     font-weight: 600;
@@ -125,22 +124,6 @@ body{
     background-repeat: no-repeat;
     background-size: 25px;
 }
-#loginsec>form>#password{
-    background-image: url(/iconList/lock-solid.svg);
-    background-position: 10px 8px;
-    background-repeat: no-repeat;
-    background-size: 25px;
-}
-#showpass{
-    width: 24px;
-    height:24px;
-    position: absolute;
-    left: 60%;
-    bottom: 51%;
-    cursor: pointer;
-    display: none;
-}
-
 #loginsec>form>#login{
     width:100%;
 }
@@ -160,7 +143,7 @@ body{
 }
 
 #signbottun>a{
-    background-color: #03037c;
+    background-color: #001942;
     font-size: 20px;
     text-decoration: none;
     color: #fff;
@@ -171,7 +154,7 @@ body{
     padding: 10px;
 }
 #signbottun>a:hover{
-    background-color: #03037cc7;
+    background-color: #001942bd;
 }
 #count{
     position: absolute;

@@ -2,6 +2,7 @@ body{
     padding:0;
     margin:0;
     transition: background-color .5s;
+    background: grey;
 }  
 #main {
   transition: margin-left .5s;

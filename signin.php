@@ -42,8 +42,10 @@
         <label for='username'>Username</label><br>
         <input name='username' id='username' type='text' placeholder='Username' required autocomplete='off' maxlength='30'><br>
         <label for='password'>Password</label><br>
-        <input name='password' id='password' type='password' placeholder='Password' required onkeyup='showPass()'><br>
-        <img src='iconList/eye-solid.svg' id='showpass' onclick='changepass()'>
+        <section class="passcon">
+        <input name='password' id='password' type='password' placeholder='Password' required nkeyup='showPass()'><!--
+        --><span class="passwordeye"><img src='iconList/eye-solid.svg' id='showpass' nclick='changepass()'></span>
+        </section><br>
         <label class='checkc'>
             <input type='checkbox' id='remember'> <span>Remember me</span>
             <span id='checkin'></span>
