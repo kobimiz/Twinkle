@@ -3,13 +3,7 @@ body{
     padding:0;
     font-family: Arial, Helvetica, sans-serif;
 }
-.maincon{
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    background-color:#fff;
-    height: 100vh;
-}
+
 .postcon{
     height: 100%;
     max-width: 700px;
@@ -20,7 +14,7 @@ body{
     align-items: center;
     box-sizing: border-box;
     border: 2px solid #03037c;
-    border-radius: 20px;
+    border-radius: 20px 20px 0 0;
     overflow: hidden;
 }
 .contentcon{
@@ -104,6 +98,7 @@ body{
     50%{opacity: .7; visibility: visible;}
     100%{opacity: 0; visibility: hidden;}
 }
+
 /*bottom bar from here ======================================*/
 .bottombar{
     width: 100%;
@@ -117,11 +112,7 @@ body{
     z-index: 5;
     transition: 0.4s;
 }
-/* .Vcon:hover .bottombar{
-    bottom: 4px;
-} */
-
-#play-pause{
+.play-pause{
     background:none;
     border:0;
     outline:0;
@@ -133,10 +124,10 @@ body{
     align-content: center;
     transition: 0.3s;
 }
-#play-pause:hover{
+.play-pause:hover{
     background-color: rgba(255, 255, 255, 0.555);
 }
-#play-pause:before{
+.play-pause:before{
     padding-top: 2px;
     content: url('play-solid.svg');
     width:20px;
@@ -146,14 +137,14 @@ body{
     display: inline-block;
     -webkit-font-smoothing: antialiased;
 }
-#play-pause.play:before{
+.play-pause.play:before{
     content: url("play-solid.svg");
     padding-left:2px;
 }
-#play-pause.pause:before{
+.play-pause.pause:before{
     content: url("pause-solid.svg");
 }
-#left{
+.left{
     position: absolute;
     left:20px;
     font-size: 22px;
@@ -167,7 +158,7 @@ body{
     user-select: none;
     transition: 0.3s;
 }
-#right{
+.right{
     position: absolute;
     right: 20px;
     font-size: 22px;
@@ -181,8 +172,34 @@ body{
     user-select: none;
     transition: 0.3s;
 }
-#left:hover,#right:hover{
+.left:hover,.right:hover{
     background-color: rgba(255, 255, 255, 0.555);
+}
+.extracon{
+    position: absolute;
+    left: 12%;
+    width: 12%;
+    height: 100%;
+}
+
+.screenicon{
+    float:left;
+    width:24px;
+    height:24px;
+    border-radius: 15%;
+    border: 2px solid black;
+    cursor: pointer;
+    margin: 3%;
+}
+
+.volume{
+    float:right;
+    cursor: pointer;
+    margin: 2%;
+}
+.volumeicon{
+    width:28px;
+    height:28px;
 }
 
 /*---------------------------------------------------------------- */
@@ -203,7 +220,7 @@ body{
 /* .Vcon:hover .topbar{
     top:0;
 } */
-#juicecon{
+.juicecon{
     width: 100%;
     display: flex;
     position: absolute;
@@ -212,38 +229,38 @@ body{
     flex-wrap: wrap;
     justify-content: center;
 }
-#linediv{
+.linediv{
     position: relative;
     top:20px;
-    
+    width:80%;
 }
 .juicebar{
     width:0px;
     height:3px;
-    background-color: red;
+    background-color: #fd3f65;
     position: absolute;
     left:0;
     top:0;
 }
 .juicemark{
-    width:500px;
+    width:100%;
     height:3px;
     background-color: black;
     left:0;
     top:0;
 }
 .videojump{
-    width:500px;
+    width:100%;
     height:35px;
     left:0;
     top:-20px;
     position: relative;
     cursor: pointer;
 }
-#TimeCount{
+.TimeCount{
     padding-right: 10px;
 }
-#curtime,#durtime{
+.curtime,.durtime{
     font-size: 14px;
 }
 
@@ -271,20 +288,26 @@ body{
 .topdata>.topoptions{
     float:right;
     font-size:28px;
-    margin-right:20px;
-    padding:0 10px 0 10px;
-    border-radius: 50%;
-    height:40px;
+}
+.optionicon{
+    float:right;
+    margin: 0 30px 0 0;
+    padding: 0 10px;
+    font-size: 24px;
     cursor: pointer;
-    transition: 0.2s;
+    border-radius: 50%;
+    transition: .2s;
 }
-.topdata>.topoptions:hover{
-    background-color:rgb(236, 236, 236,0.5);
+
+.optionicon:hover{
+    background-color:rgb(238, 238, 238);
 }
+
 .topdata>.topoptions>.optionscon{
     background-color: #fff;
     display:none;
-    margin:5px 5px 0 0;
+    margin:35px -20px 0 0;
+    border: 1px solid rgb(233, 233, 233);
 }
 .topdata>.topoptions>.optionscon>ul{
     list-style-type: none;
@@ -294,7 +317,7 @@ body{
 .topdata>.topoptions>.optionscon>ul>li{
     font-size: 16px;
     cursor: pointer;
-    padding: 0 5px;
+    padding: 0 22px 0 5px;
 }
 
 .topdata>.topoptions>.optionscon>ul>li>a{
@@ -312,7 +335,6 @@ body{
 /*all five stars*/
 .starrate{
     display: inline-block;
-    width:300px;
     margin:0;
     float:left;
     margin-left: 10px;
@@ -370,6 +392,8 @@ body{
 }
 .contentData{
     padding:5px;
+    border-top:1.5px solid rgb(199, 199, 199);
+    box-sizing: border-box;
 }
 .postowner{
     float:left;
@@ -391,23 +415,34 @@ body{
 .datenum{
     font-size: 24px;
 }
-.comments{
+.descript{
     justify-content: center;
     align-items: center;
-    padding-left:5%;
+    padding:2% 5%;
+    border-bottom:1.5px solid rgb(199, 199, 199);
+    box-sizing: border-box;
 }
 
+.acts{
+    display: flex;
+}
 
-/* .acts{
-    float:right;
-}
-.comment{
-    width:50px;
-    height:40px;
+.act1,.act2,.act3{
+    width:33.33%;
+    padding:10px 10px;
     cursor: pointer;
+    justify-content: center;
+    text-align: center;
+
 }
-.noteAbout{
-    width:40px;
-    height:40px;
-    cursor: pointer;
-} */
+.act1:hover,.act2:hover,.act3:hover{
+    background-color: rgb(243, 243, 243);
+}
+.act1>a,.act2>a,.act3>a{
+    text-decoration: none;
+    color:black;
+}
+.act1>a>span,.act2>a>span,.act3>a>span{
+    vertical-align: super;
+    padding:2%;
+}
