@@ -1,7 +1,7 @@
 body{
     padding:0;
     overflow: hidden;
-    background: #f5f5f8;
+    background-color: #f5f5f8;
 }
 
 #logo{
@@ -120,7 +120,7 @@ body{
 
 /* ---------------------------------------*/
 #username{
-    background-image: url(/iconList/user-regular.svg);
+    background-image: url(/iconList/User.png);
     background-position: 10px 8px;
     background-repeat: no-repeat;
     background-size: 25px;
