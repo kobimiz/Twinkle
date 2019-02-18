@@ -75,3 +75,21 @@ document.getElementById("post").addEventListener("click", function() {
         errorMessage.innerHTML = "No image/video? Shall we share as a note instead?";
     }
 });
+
+const linkcoords = this.getBoundingClientRect();
+const links = document.querySelectorAll(".link");
+const bord = document.querySelector(".bord");
+// bord.classList.add("bord");
+// document.body.append(bord);
+bord.style.width = `${links[0].width}px`;
+function bordlink(){
+    console.log(linkcoords);
+    bord.style.left =  `${linkcoords.left}px`;
+    bord.style.width =  `${linkcoords.width}px`;
+    // bord.style.height =`${linkcoords.height}px`;
+    // bord.style.transform =`translate(${linkcoords.left}px, ${linkcoords.top}px)`;
+}
+
+links.forEach(a => a.addEventListener("click", bordlink));
+
+// bord.style.width =  `${linkcoords.width}px`;

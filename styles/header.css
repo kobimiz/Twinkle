@@ -2,26 +2,30 @@ header{
     position: fixed;
     top: 0;
     left: 0;
-    background-color:#174470; /*#cc973be1*/
+    background-color:#001942; /*#cc973be1*/
     width: 100vw;
     box-sizing: border-box;
     padding: 10px 40px;
-    height: 70px;
+    vertical-align: middle;
+    height: 90px;
     box-shadow: 5px 2px 5px rgba(27, 27, 27, 0.712);
+    transition: 0.3s;
 }
 #logo{
     font-size: 40px;
     font-weight: bold;
     height: 50px;
-    line-height: 50px;
+    line-height: 70px;
     color: rgb(248, 245, 245);
     float: right;
     text-decoration: none;
+    transition: 0.3s;
 }
 #navi{
     position: relative;
-    top: 10px;
+    top: 15px;
     display:inline-block;
+    transition: 0.3s;
 }
 #navi>ul{
     display: flex;
@@ -37,24 +41,40 @@ header{
     color: white;
     font-size:30px;
     display: block;
-    padding: 0 30px;
+    padding: 0 25px;
 }
-#star:hover{
-    color:rgb(226, 154, 46);
+.usericon{
+    width:35px;
+    height:38px;
+}
+.notifi{
+    width:35px;
+    height:35px;
+}
+.note{
+    width:35px;
+    height:40px;
 }
 #searchBar{
     outline: none;
-    padding: 0 10px;
+    padding: 0 5px;
     border: none;
     border-bottom: 2px solid white;
     border-radius: 2px;
     width: 300px;
+    height:40px;
+    font-size: 20px;
+    background-image: url('/iconList/Search.png');
+    background-position: 10px 10px; 
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    padding-left: 40px
 }
 #sidenavbutton{
     font-size: 30px;
     font-weight: 550;
     color: #fff;
     cursor:pointer;
-    float: right;
-    margin: 5px 10px;
+    float: left;
+    padding: 0 30px;
 }

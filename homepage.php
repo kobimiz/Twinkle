@@ -14,7 +14,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <link rel="stylesheet" href="styles/general.css">
-    <link rel="stylesheet" href="styles/header.css">
     <link rel="stylesheet" href="styles/homepage.css">
     <link rel="stylesheet" href="styles/sidenav.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
@@ -23,8 +22,33 @@
 </head>
 
 <body>
+<header>
+    <nav id="navi">
+        <ul>
+        <span id="sidenavbutton" onclick="openNav()">&#9776;</span>
+            <li><a href="#"><img alt="user" src="/iconList/userwhite.png" class="usericon"></a></li>
+            <li><a href="#"><img alt="notifications" src="/iconList/FilledStar.png" class="notifi"></a></li>
+            <li><a href="#"><img alt="note" src="/iconList/notewhite.png" class="note"></a></li>
+            <input name="searchbar" type="search" placeholder="Popularities..." id="searchBar"/>
+        </ul>
+        <span><a href="homepage.php" id="logo">Twinkle</a></span>
+    </nav>
+    <div id="filtering">
+        <ul>
+            <li><a href="#" class="link">HOME</a></li>
+            <li><a href="#" class="link">HUMOR</a></li>
+            <li><a href="#" class="link">ART</a></li>
+            <li><a href="#" class="link">SPORT</a></li>
+            <li><a href="#" class="link">TECH</a></li>
+            <li><a href="#" class="link">FOOD</a></li>
+            <li><a href="#" class="link">NATURE</a></li>
+            <li><a href="#" class="plus link">+</a></li>
+        </ul>
+        <span class="bord"></span>
+    </div>
+</header>
+
     <?php
-        include_once("templates/header.php");
         include_once("templates/sidenav.php");
     ?>
 
