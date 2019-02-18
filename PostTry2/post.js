@@ -1,27 +1,30 @@
 var video = document.querySelector(".video");
-var btn = document.getElementById("play-pause");
-var leftBtn = document.getElementById("left");
-var rightBtn = document.getElementById("right");
+var btn = document.querySelector(".play-pause");
+var leftBtn = document.querySelector(".left");
+var rightBtn = document.querySelector(".right");
 var juiceBar = document.querySelector(".juicebar");
 var juiceMark = document.querySelector(".juicemark");
 var videojump = document.querySelector('.videojump');
-var linediv = document.getElementById("linediv");
-var durTIme = document.getElementById("durtime");
-var curTIme = document.getElementById("curtime");
+var linediv = document.querySelector(".linediv");
+var durTIme = document.querySelector(".durtime");
+var curTIme = document.querySelector(".curtime");
 var playanime = document.querySelector(".playanime");
 var pauseanime = document.querySelector(".pauseanime");
 var topbar = document.querySelector(".topbar");
 var bottombar = document.querySelector(".bottombar");
 var optionsarrow = document.querySelector(".optionicon");
 var optionscon = document.querySelector(".optionscon");
+var screensize = document.querySelector(".screenicon");
 var clickcheck_ = false;
 
 function FPP() {
     if (video.paused) {
-        btn.className = "pause";
+        btn.classList.add("pause");
+        btn.classList.remove("play");
         video.play();
     } else {
-        btn.className = "play";
+        btn.classList.add("play");
+        btn.classList.remove("pause");
         video.pause();
     }
 }
@@ -31,16 +34,18 @@ btn.onclick = function () {
 }
 video.onclick = function () {
     if (video.paused) {
-        btn.className = "pause";
+        btn.classList.add("pause");
+        btn.classList.remove("play");
         video.play();
     } else {
-        btn.className = "play";
+        btn.classList.add("play");
+        btn.classList.remove("pause");
         video.pause();
     }
 }
 video.ontimeupdate = function () {
     if (video.ended) {
-        btn.className = "play";
+        btn.classList.add("play");
     }
 }
 
@@ -104,7 +109,8 @@ videojump.addEventListener("mousedown", function (e) {
     startX = e.pageX - videojump.offsetLeft;
     scrolLeft = videojump.scrollLeft;
     if (video.play) {
-        btn.className = "play";
+        btn.classList.add("play");
+        btn.classList.remove("pause");
         video.pause();
     }
 });
@@ -116,10 +122,12 @@ videojump.addEventListener("mouseleave", function () {
 videojump.addEventListener("mouseup", function () {
     isDown = false;
     if (video.paused) {
-        btn.className = "pause";
+        btn.classList.add("pause");
+        btn.classList.remove("play");
         video.play();
     } else {
-        btn.className = "play";
+        btn.classList.add("play");
+        btn.classList.remove("pause");
         video.pause();
     }
 });
@@ -184,13 +192,6 @@ optionsarrow.addEventListener("click",function(){
     }
 });
 
-function getChildNum(element) {
-    var siblings = element.parentElement.children;
-    for(var i = 0; i < siblings.length; i++)
-        if(siblings[i] === element)
-            return i;
-    return -1;
-}
 
 /*stars animation --------------------- */
 
@@ -209,16 +210,16 @@ function rate(e) {
             siblings = e.target.parentElement.children,
             xmlhttp = new XMLHttpRequest(),
             formData = new FormData();
-        if(siblings[childNum].src.indexOf("Fulledstar.png") !== -1 && (!siblings[childNum + 1] || siblings[childNum + 1].src.indexOf("Firststar.png") !== -1)) { // pressed again on same star - cancel
+        if(siblings[childNum].src.indexOf("/FilledStar.png") !== -1 && (!siblings[childNum + 1] || siblings[childNum + 1].src.indexOf("/Star.png") !== -1)) { // pressed again on same star - cancel
             formData.append("stars", 0);
             for(var i = 0; i < 5; i++) 
-                siblings[i].src = "/Firststar.png";
+                siblings[i].src = "/Star.png";
         } else {
             var i = 0;
             for(; i <= childNum; i++)
-                siblings[i].src = "/Fulledstar.png";
+                siblings[i].src = "/FilledStar.png";
             for(; i < 5; i++)
-                siblings[i].src = "/Firststar.png";
+                siblings[i].src = "/Star.png";
             formData.append("stars", i + 1);
         }
         // xmlhttp.open("POST", "templates/uploadPost.php", true);
@@ -227,3 +228,18 @@ function rate(e) {
 }
 
 document.getElementsByClassName("starrate")[0].addEventListener("click", rate);
+
+//change the size of the screen
+
+screensize.addEventListener("click", openFullscreen);
+function openFullscreen() {
+  if (screensize.requestFullscreen) {
+    video.requestFullscreen();
+  } else if (screensize.mozRequestFullScreen) { /* Firefox */
+    video.mozRequestFullScreen();
+  } else if (screensize.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+    video.webkitRequestFullscreen();
+  } else if (screensize.msRequestFullscreen) { /* IE/Edge */
+    video.msRequestFullscreen();
+  }
+}
