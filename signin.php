@@ -1,8 +1,20 @@
 <?php
     session_start();
-    require_once("templates/connection.php");
-    require_once("templates/functions.php");
-
+    require_once("classes/queries.php");
+    DB::connect();
+    $loginErr = "";
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
+        if(isset($_POST['login'])) { // Checking the request, this might need to be removed....
+            $username = $_POST['username'];
+            $password = $_POST['password'];
+            if(DB::userExists($_POST['username'], $_POST['password'])) {
+                $_SESSION['username'] = $_POST['username'];
+                $_SESSION['password'] = $_POST['password'];
+                header("Location: homepage.php");
+            } else
+                $loginErr = "Invalid username and password combination";
+        }
+    }
     // consider using the isloggedin function to redirect to homepage if logged in
 ?>
 <!DOCTYPE html>
@@ -25,21 +37,6 @@
 
     <section id="loginsec">
         <h1 id="intro">Sign in</h1>
-        <?php
-            $username = $password = $loginErr = "";
-            if($_SERVER["REQUEST_METHOD"] == "POST") {
-                if(isset($_POST['login'])) { // Checking the request, this might need to be removed....
-                    $username = $_POST['username'];
-                    $password = $_POST['password'];
-                    if(login($username, $password)) {
-                        $_SESSION['username'] = $username;
-                        $_SESSION['password'] = $password;
-                        header("Location: homepage.php");
-                    } else
-                        $loginErr = "Invalid username and password combination";
-                }
-            }
-        ?>
         <form method='post' name='login'>
             <label for='username'>Username</label><br>
             <input name='username' id='username' type='text' placeholder='Username' required autocomplete='off' maxlength='30'><br>

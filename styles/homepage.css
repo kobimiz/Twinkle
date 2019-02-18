@@ -54,14 +54,24 @@ label[for="fileUpload"]:hover {
 }
 
 .post {
+    padding: 15px;
     margin: 10px;
+    background: #dddddd;
+    width: 50%;
 }
 
-.content img {
+.media, .leftPostSide {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.media img, .media video {
     height: 250px;
 }
 
-#main {
-    transition: margin-left .5s;
-    padding: 16px;
+.star {
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    vertical-align: bottom;
 }

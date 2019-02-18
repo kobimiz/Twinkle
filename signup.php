@@ -1,4 +1,8 @@
-<?php session_start();require_once("templates/connection.php"); ?>
+<?php
+	session_start();
+	require_once("classes/queries.php");
+	DB::connect();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,12 +41,8 @@
 						$usernameErr = "Only letters and numbers allowed";
 					elseif(strlen($username) < 4 || strlen($username) >= 25)
 						$usernameErr = "Username must be between 4-25 characters";
-					else {
-						$usernameTaken = "SELECT * FROM `users` WHERE `username` = '$username'";
-						$usernameTaken2 = mysqli_query($connection, $usernameTaken);
-						if(mysqli_num_rows($usernameTaken2) == 1)
+					elseif(DB::query("SELECT * FROM `users` WHERE `username` = '$username'")->num_rows == 1)
 							$usernameErr = "Username already taken";
-					}
 				}
 				if(empty($_POST['password']))
 					$passwordErr = "Please fill in a password";
@@ -61,17 +61,12 @@
 						$emailErr = "Please enter a valid email adress";
 					elseif(strlen($email) >= 40)
 						$passwordErr = "Email mustn't be over 40 characters";
-					else {
-						$emailTaken = "SELECT * FROM `users` WHERE `email` = '$email'";
-						$emailTaken2 = mysqli_query($connection, $emailTaken);
-						if(mysqli_num_rows($emailTaken2) == 1)
+					elseif(DB::query("SELECT * FROM `users` WHERE `email` = '$email'")->num_rows == 1)
 							$emailErr = "Email is already in use";
-					}
 				}
 			}
 			if($usernameErr == "" && $passwordErr == "" && $emailErr == "" && $_SERVER["REQUEST_METHOD"] == "POST") {
-				$query = "INSERT INTO `users`(`username`, `password`, `email`) VALUES ('$username', '".password_hash($password, PASSWORD_DEFAULT)."', '$email')";
-				$sql = mysqli_query($connection, $query);
+				DB::query("INSERT INTO `users`(`username`, `password`, `email`, `creationDate`) VALUES ('$username', '".password_hash($password, PASSWORD_DEFAULT)."', '$email', '".date("Y-m-d")."')");
 				echo "<div id='messege'>
 						<b>Registered successfully!</b><br/>
 						<span class='details'>Email: $email</span><br/>
@@ -88,7 +83,7 @@
 					<span class='error'>$usernameErr</span><br/>
 					<div class='inputContainer'>
 					<input name='username' id='choosename' type='text' placeholder='Choose username' required autocomplete='off' maxlength='25' onkeyup='change()'><br>
-					<div id='count'> <span id='letternum'></span><span>/50</span></div></div>
+					<div id='count'> <span id='letternum'></span><span>/25</span></div></div>
 					<label for='choosepass'>Password</label><br>
 					<span class='error'>$passwordErr</span><br/>
 					<div class='inputContainer'>

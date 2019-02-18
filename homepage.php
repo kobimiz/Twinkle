@@ -1,9 +1,14 @@
 <?php
     session_start();
-    require_once("templates/connection.php");
-    require_once("templates/functions.php");
+    require_once("classes/queries.php");
+    DB::connect();
 
-    isLoggedin();
+    if(isset($_SESSION['username']) && isset($_SESSION['password'])) {
+        if(!DB::userExists($_SESSION['username'], $_SESSION['password']))
+            header("Location: signin.php");
+    }
+    else
+        header("Location: signin.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,25 +52,32 @@
         </div>
         <div id="posts">
             <?php
-                $query = "SELECT `userID`, `date`, `content`, `fileUploaded`, `totalStars` FROM `posts` ORDER BY `date` DESC";
-                $posts = mysqli_query($connection, $query);
+                $posts = DB::query("SELECT `userID`, `date`, `content`, `fileUploaded`, `totalStars` FROM `posts` ORDER BY `date` DESC");
                 // consider changing posts table's userid to username for it is unique as well
                 // consider distinguishing between images and videos when stored
                 foreach($posts as $post) {
-                    $username = mysqli_fetch_assoc(mysqli_query($connection, "SELECT `username` FROM `users` WHERE `id`='".$post['userID']."'"))['username'];
+                    $username = DB::query("SELECT `username` FROM `users` WHERE `id`='".$post['userID']."'")->fetch_assoc()['username'];
                     echo "<div class='post'>
-                    <span class='postOwner'>Posted by *
-                    <a href=profile.php?user=$username>".$username."</a>".
-                    " @ ".$post['date'].
-                    "</span>
-                    <div class='content'>";
+                    <div class='leftPostSide'>
+                        <span class='postOwner'>
+                            Posted by *<a href=profile.php?user=$username>".$username."</a>"." @ ".$post['date'].
+                        "</span><br>
+                        <p class='content'>".htmlspecialchars($post['content'])."</p>
+                    </div>
+                    <div class='media'>";
                     if(isImage($post['fileUploaded']))
                         echo "<image src='uploads/".$post['fileUploaded']."' alt='posted image'>";
                     else
                         echo "<video src='uploads/".$post['fileUploaded']."' alt='posted video' controls></video>";
-                    echo "<br/>".htmlspecialchars($post['content'])."</div>
+                    echo "</div>
                     <br/>
-                    <div class='options'>
+                    <div class='footer'>
+                        Total stars: ".$post['totalStars']." |
+                        <img alt='star' src='/iconList/RateStar.svg' class='star'>
+                        <img alt='star' src='/iconList/RateStar.svg' class='star'>
+                        <img alt='star' src='/iconList/RateStar.svg' class='star'>
+                        <img alt='star' src='/iconList/RateStar.svg' class='star'>
+                        <img alt='star' src='/iconList/RateStar.svg' class='star'>
                     </div>
                     </div>";
                 }
@@ -78,6 +90,39 @@
     </main>
     <script src="scripts/homepage.js"></script>
     <script src="scripts/sidenav.js"></script>
+    <script>
+        function getChildNum(element) {
+    var siblings = element.parentElement.children;
+    for(var i = 0; i < siblings.length; i++)
+        if(siblings[i] === element)
+            return i;
+    return -1;
+}
+
+
+function rate(e) {
+    if (e.target.matches("img")) {
+        var childNum = getChildNum(e.target),
+            siblings = e.target.parentElement.children,
+            xmlhttp = new XMLHttpRequest(),
+            formData = new FormData();
+        if(siblings[childNum].src.indexOf("Fulledstar.png") !== -1 && (!siblings[childNum + 1] || siblings[childNum + 1].src.indexOf("Firststar.png") !== -1)) { // pressed again on same star - cancel
+            formData.append("stars", 0);
+            for(var i = 0; i < 5; i++) 
+                siblings[i].src = "/Firststar.png";
+        } else {
+            var i = 0;
+            for(; i <= childNum; i++)
+                siblings[i].src = "/Fulledstar.png";
+            for(; i < 5; i++)
+                siblings[i].src = "/Firststar.png";
+            formData.append("stars", i + 1);
+        }
+        // xmlhttp.open("POST", "templates/uploadPost.php", true);
+        // xmlhttp.send(formData);
+    }
+}
+    </script>
 </body>
 
 </html>

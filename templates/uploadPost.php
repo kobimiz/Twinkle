@@ -7,10 +7,11 @@
     // consider changing userid to username posts, since it is easier to get
     // preg_match("/\s\([\d]+(?=\)\.)/", $_FILES["file"]["name"], $res); <--- random thing i want to keep for a while
     session_start();
-    require_once("connection.php");
-    require_once("functions.php");
+    require_once(__DIR__."/../classes/queries.php");
+    DB::connect();
+
     if(isset($_FILES["file"])) {
-        $target_dir = __DIR__."\\..\\uploads\\";
+        $target_dir = __DIR__."/../uploads/";
         $target_file = $target_dir.basename($_FILES["file"]["name"]);
         $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
         $_FILES["file"]["name"] = randomizeName().".".$fileType; // <------------- consider removing the data about the real name of the file being uploaded in homepage.php
@@ -24,7 +25,12 @@
         else if(!move_uploaded_file($_FILES["file"]["tmp_name"], $target_file))
             echo "error";
         else {
-            postDbUpdate();
+            DB::query("INSERT INTO `posts`(`userID`, `date`, `content`, `fileUploaded`, `totalStars`) VALUES ('".
+                DB::query("SELECT * FROM `users` WHERE `username`='".$_SESSION['username']."'")->fetch_assoc()["id"].
+                "', '".date("Y-m-d H:i:s").
+                "', '".addslashes($_POST['content']).
+                "', '".$_FILES["file"]["name"].
+                "', '0')");
             echo "success";
         }
     } else if(isset($_SESSION["username"]))
@@ -40,18 +46,8 @@
             else
                 $name .= rand(0,9);
         }
-        if(!file_exists(__DIR__."\\..\\uploads\\".$name))
+        if(!file_exists(__DIR__."/../uploads/".$name))
             return $name;
         return randomizeName();
-    }
-    function postDbUpdate() {
-        global $connection;
-        $query = "INSERT INTO `posts`(`userID`, `date`, `content`, `fileUploaded`, `totalStars`) VALUES ('".
-        details($_SESSION['username'])["id"].
-        "', '".date("Y-m-d H:i:s").
-        "', '".$_POST['content'].
-        "', '".$_FILES["file"]["name"].
-        "', '0')";
-        $sql = mysqli_query($connection, $query);
     }
 ?>
