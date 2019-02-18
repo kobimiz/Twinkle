@@ -2,6 +2,8 @@
     session_start();
     require_once("templates/connection.php");
     require_once("templates/functions.php");
+
+    // consider using the isloggedin function to redirect to homepage if logged in
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,9 +28,9 @@
         <?php
             $username = $password = $loginErr = "";
             if($_SERVER["REQUEST_METHOD"] == "POST") {
-                if(isset($_POST['username'])) { // Checking the request, this might need to be removed....
-                    $username = htmlspecialchars($_POST['username']);
-                    $password = htmlspecialchars($_POST['password']);
+                if(isset($_POST['login'])) { // Checking the request, this might need to be removed....
+                    $username = $_POST['username'];
+                    $password = $_POST['password'];
                     if(login($username, $password)) {
                         $_SESSION['username'] = $username;
                         $_SESSION['password'] = $password;
@@ -39,26 +41,26 @@
             }
         ?>
         <form method='post' name='login'>
-        <label for='username'>Username</label><br>
-        <input name='username' id='username' type='text' placeholder='Username' required autocomplete='off' maxlength='30'><br>
-        <label for='password'>Password</label><br>
-        <div id="passwordContainer">
-            <input name='password' id='password' type='password' placeholder='Password' required onkeyup='showPass()'><br>
-            <img src='iconList/eye-solid.svg' id='showpass' onclick='changepass()'>
-        </div>
-        <label class='checkc'>
-            <input type='checkbox' id='remember'> <span>Remember me</span>
-            <span id='checkin'></span>
-        </label>
-        <input name='login' type='submit' value='Login' id='login'><br>
-        <div id='resetpass'>
-            <a href='#'>Forgot password?</a>
-        </div>
-        <div id='signbottun'>
-            <a href='signup.php'>Sign up</a>
-        </div>
-        <br/>
-        <?php echo "<span class='error'>$loginErr</span><br/>"; ?>
+            <label for='username'>Username</label><br>
+            <input name='username' id='username' type='text' placeholder='Username' required autocomplete='off' maxlength='30'><br>
+            <label for='password'>Password</label><br>
+            <div id="passwordContainer">
+                <input name='password' id='password' type='password' placeholder='Password' required onkeyup='showPass()'><br>
+                <img src='iconList/eye-solid.svg' id='showpass' onclick='changepass()'>
+            </div>
+            <label class='checkc'>
+                <input type='checkbox' id='remember'> <span>Remember me</span>
+                <span id='checkin'></span>
+            </label>
+            <input name='login' type='submit' value='Login' id='login'><br>
+            <div id='resetpass'>
+                <a href='#'>Forgot password?</a>
+            </div>
+            <div id='signbottun'>
+                <a href='signup.php'>Sign up</a>
+            </div>
+            <br />
+            <?php echo "<span class='error'>$loginErr</span><br/>"; ?>
         </form>
     </section>
     <script src="scripts/signin.js"></script>

@@ -3,15 +3,7 @@
     require_once("templates/connection.php");
     require_once("templates/functions.php");
 
-    if(isset($_SESSION['username']) && isset($_SESSION['password'])) {
-        $username = htmlspecialchars($_SESSION['username']);
-        $password = htmlspecialchars($_SESSION['password']);
-        if(!login($username, $password))
-            header("Location: signin.php");
-    }
-    else
-        header("Location: signin.php");
-
+    isLoggedin();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -71,7 +63,7 @@
                         echo "<image src='uploads/".$post['fileUploaded']."' alt='posted image'>";
                     else
                         echo "<video src='uploads/".$post['fileUploaded']."' alt='posted video' controls></video>";
-                    echo "<br/>".$post['content']."</div>
+                    echo "<br/>".htmlspecialchars($post['content'])."</div>
                     <br/>
                     <div class='options'>
                     </div>
