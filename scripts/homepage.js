@@ -76,20 +76,25 @@ document.getElementById("post").addEventListener("click", function() {
     }
 });
 
-const linkcoords = this.getBoundingClientRect();
 const links = document.querySelectorAll(".link");
 const bord = document.querySelector(".bord");
-// bord.classList.add("bord");
+bord.classList.add("bord");
 // document.body.append(bord);
-bord.style.width = `${links[0].width}px`;
+
+
 function bordlink(){
-    console.log(linkcoords);
-    bord.style.left =  `${linkcoords.left}px`;
+    const linkcoords = this.getBoundingClientRect();
+    bord.style.left =  `${linkcoords.left - window.scrollX}px`;
+    bord.style.top =  `${linkcoords.top - window.scrollY + document.offsetTop}px`;
     bord.style.width =  `${linkcoords.width}px`;
-    // bord.style.height =`${linkcoords.height}px`;
-    // bord.style.transform =`translate(${linkcoords.left}px, ${linkcoords.top}px)`;
+    bord.style.height =`${linkcoords.height}px`;
 }
 
 links.forEach(a => a.addEventListener("click", bordlink));
-
-// bord.style.width =  `${linkcoords.width}px`;
+window.addEventListener("load",function(){
+    const firstlink = links[0].getBoundingClientRect();
+    bord.style.left = `${firstlink.left}px`;
+    bord.style.top = `${firstlink.top}px`;
+    bord.style.width = `${firstlink.width}px`;
+    bord.style.height = `${firstlink.height}px`;
+});

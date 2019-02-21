@@ -198,8 +198,8 @@ body{
     margin: 2%;
 }
 .volumeicon{
-    width:28px;
-    height:28px;
+    width:30px;
+    height:35px;
 }
 
 /*---------------------------------------------------------------- */
@@ -445,4 +445,62 @@ body{
 .act1>a>span,.act2>a>span,.act3>a>span{
     vertical-align: super;
     padding:2%;
+}
+
+.commentsarea{
+    width:100%;
+    margin-bottom: 10px;
+}
+
+.userD{
+    width:100%;
+    padding: 0 5px;
+}
+.selfimg{
+    width:40px;
+    height:40px;
+    border-radius: 25%;
+}
+.userN{
+    font-size: 20px;
+    vertical-align: super;
+    text-decoration: none;
+    color:black;
+}
+.commentcont{
+    font-size: 18px;
+    padding: 5px 10px;
+    text-align: left;
+}
+.commdate{
+    float:right;
+    font-size: 18px;
+    padding:10px 10px;
+    color:rgb(161, 161, 161);
+}
+.comreply, .comnote{
+    color:rgb(145, 145, 145);
+    cursor: pointer;
+    padding: 0 10px;
+}
+.comreply:hover, .comnote:hover{
+    color:#001942;
+}
+input[name="typecom"]{
+    outline:none;
+    border:none;
+    border-bottom:1px solid black;
+    border-top:1px solid black;
+    border-left:1px solid black;
+    padding:10px 15px;
+    margin: 9px 0 9px 14px;
+    width:80%;
+}
+.submit{
+    outline: none;
+    border-bottom:1px solid black;
+    border-top:1px solid black;
+    border-right:1px solid black;
+    font-size:32px;
+    vertical-align: middle;
 }

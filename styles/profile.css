@@ -2,3 +2,7 @@ main {
     margin-top: 80px;
     margin-left: 15%;
 }
+#creationDate {
+    color: gray;
+    font-size: initial;
+}
