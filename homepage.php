@@ -39,7 +39,7 @@
         <span><a href="homepage.php" id="logo">Twinkle</a></span>
     </nav>
     <div id="filtering">
-        <ul>
+        <ul class="filterlist">
             <li><a href="#" class="link">HOME</a></li>
             <li><a href="#" class="link">HUMOR</a></li>
             <li><a href="#" class="link">ART</a></li>
@@ -47,7 +47,7 @@
             <li><a href="#" class="link">TECH</a></li>
             <li><a href="#" class="link">FOOD</a></li>
             <li><a href="#" class="link">NATURE</a></li>
-            <li><a href="#" class="plus link">+</a></li>
+            <li id="adding"><a href="#" class="plus link">+</a></li>
         </ul>
         <span class="bord"></span>
     </div>

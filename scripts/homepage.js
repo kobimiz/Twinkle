@@ -1,9 +1,12 @@
 var filePreview = document.getElementById("filePreview"),
     errorMessage = document.getElementById("errorMessage"),
     fileInput = document.getElementById("fileUpload"),
-    progress = document.getElementById("progress");
+    progress = document.getElementById("progress"),
+    filterlist = document.querySelector('.filterlist'),
+    addplus = document.getElementById('adding'),
     bar = document.getElementById("bar");
 var acceptetFileTypes = ["jpeg", "jpg", "png", "gif", "avi", "amv", "mp4"]; // consider adding more supported file types
+
 
 var reader = new FileReader();
 reader.onload = function (e) { // only on successful loading
@@ -97,4 +100,12 @@ window.addEventListener("load",function(){
     bord.style.top = `${firstlink.top}px`;
     bord.style.width = `${firstlink.width}px`;
     bord.style.height = `${firstlink.height}px`;
+});
+
+addplus.addEventListener("click",function(){
+    var newItem = document.createElement("li");
+    newItem.classList.add('list');
+    var textnode = document.createTextNode("Water");
+    newItem.appendChild(textnode);
+    filterlist.insertBefore(newItem, filterlist.childNodes[`${filterlist.length - 2}`]);
 });
