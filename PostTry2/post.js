@@ -15,7 +15,12 @@ var bottombar = document.querySelector(".bottombar");
 var optionsarrow = document.querySelector(".optionicon");
 var optionscon = document.querySelector(".optionscon");
 var screensize = document.querySelector(".screenicon");
+var volume = document.querySelector(".volumeicon");
+var volumecheck = false;
 var clickcheck_ = false;
+var comform = document.querySelector('.comform');
+var checkcom = false;
+var act = document.querySelector('.act1');
 
 function FPP() {
     if (video.paused) {
@@ -162,6 +167,23 @@ function displaytime() {
 
 }
 
+volume.addEventListener("click",function(){
+    if(!volumecheck){
+        volume.src = "Volumeon.png";
+        volume.style.width = "25px";
+        volume.style.height = "25px";
+        video.muted = true;
+        volumecheck = true;
+
+    }else{
+        volume.src = "Volumeoff.png";
+        volume.style.width = "30px";
+        volume.style.height = "35px";
+        video.muted = false;
+        volumecheck = false;
+    }
+});
+
 /*<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 //<<<<<<<>>>>>>>>
 video.addEventListener("click", function () {
@@ -182,14 +204,24 @@ function RemoveClass_() {
 /*<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 
 // show and hide of the options nav bar
-optionsarrow.addEventListener("click",function(){
+optionsarrow.addEventListener("click",function(e){
     if(!clickcheck_){
         optionscon.style.display = "block";
         clickcheck_ = true;
+        e.stopPropagation();
     }else{
         optionscon.style.display = "none";
         clickcheck_ = false;
     }
+});
+document.body.addEventListener('click',function(){
+    if(clickcheck_ == true){
+        optionscon.style.display = "none";
+        clickcheck_ = false;
+    }
+});
+optionscon.addEventListener("click",function(e){
+    e.stopPropagation();
 });
 
 
@@ -210,16 +242,16 @@ function rate(e) {
             siblings = e.target.parentElement.children,
             xmlhttp = new XMLHttpRequest(),
             formData = new FormData();
-        if(siblings[childNum].src.indexOf("/FilledStar.png") !== -1 && (!siblings[childNum + 1] || siblings[childNum + 1].src.indexOf("/Star.png") !== -1)) { // pressed again on same star - cancel
+        if(siblings[childNum].src.indexOf("FilledStar.png") !== -1 && (!siblings[childNum + 1] || siblings[childNum + 1].src.indexOf("Star.png") !== -1)) { // pressed again on same star - cancel
             formData.append("stars", 0);
             for(var i = 0; i < 5; i++) 
-                siblings[i].src = "/Star.png";
+                siblings[i].src = "Star.png";
         } else {
             var i = 0;
             for(; i <= childNum; i++)
-                siblings[i].src = "/FilledStar.png";
+                siblings[i].src = "FilledStar.png";
             for(; i < 5; i++)
-                siblings[i].src = "/Star.png";
+                siblings[i].src = "Star.png";
             formData.append("stars", i + 1);
         }
         // xmlhttp.open("POST", "templates/uploadPost.php", true);
@@ -229,7 +261,7 @@ function rate(e) {
 
 document.getElementsByClassName("starrate")[0].addEventListener("click", rate);
 
-//change the size of the screen
+//change the size of the video screen
 
 screensize.addEventListener("click", openFullscreen);
 function openFullscreen() {
@@ -243,3 +275,23 @@ function openFullscreen() {
     video.msRequestFullscreen();
   }
 }
+//comment click anim
+act.addEventListener("click",function(e){
+    if(!checkcom){
+        comform.style.display = "block";
+        checkcom = true;
+        e.stopPropagation();
+    }else{
+        comform.style.display = "none";
+        checkcom = false;
+    }
+});
+document.body.addEventListener('click',function(){
+    if(checkcom == true){
+        comform.style.display = "none";
+        checkcom = false;
+    }
+});
+comform.addEventListener("click",function(e){
+    e.stopPropagation();
+});

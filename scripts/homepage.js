@@ -2,8 +2,11 @@ var filePreview = document.getElementById("filePreview"),
     errorMessage = document.getElementById("errorMessage"),
     fileInput = document.getElementById("fileUpload"),
     progress = document.getElementById("progress"),
+    filterlist = document.querySelector('.filterlist'),
+    addplus = document.getElementById('adding'),
     bar = document.getElementById("bar");
 var acceptetFileTypes = ["jpeg", "jpg", "png", "gif", "avi", "amv", "mp4"]; // consider adding more supported file types
+
 
 var reader = new FileReader();
 reader.onload = function (e) { // only on successful loading
@@ -114,5 +117,36 @@ function rate(e) {
         xmlhttp.send(formData);
     }
 }
+
 for(var i = 0; i < starsContainer.length; i++)
     starsContainer[i].addEventListener("click", rate);
+const links = document.querySelectorAll(".link");
+const bord = document.querySelector(".bord");
+bord.classList.add("bord");
+// document.body.append(bord);
+
+
+function bordlink(){
+    const linkcoords = this.getBoundingClientRect();
+    bord.style.left =  `${linkcoords.left - window.scrollX}px`;
+    bord.style.top =  `${linkcoords.top - window.scrollY + document.offsetTop}px`;
+    bord.style.width =  `${linkcoords.width}px`;
+    bord.style.height =`${linkcoords.height}px`;
+}
+
+links.forEach(a => a.addEventListener("click", bordlink));
+window.addEventListener("load",function(){
+    const firstlink = links[0].getBoundingClientRect();
+    bord.style.left = `${firstlink.left}px`;
+    bord.style.top = `${firstlink.top}px`;
+    bord.style.width = `${firstlink.width}px`;
+    bord.style.height = `${firstlink.height}px`;
+});
+
+addplus.addEventListener("click",function(){
+    var newItem = document.createElement("li");
+    newItem.classList.add('list');
+    var textnode = document.createTextNode("Water");
+    newItem.appendChild(textnode);
+    filterlist.insertBefore(newItem, filterlist.childNodes[`${filterlist.length - 2}`]);
+});
