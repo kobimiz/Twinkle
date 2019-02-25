@@ -15,7 +15,6 @@
                 $loginErr = "Invalid username and password combination";
         }
     }
-    // consider using the isloggedin function to redirect to homepage if logged in
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -122,7 +122,6 @@ videojump.addEventListener("mouseup", function () {
 });
 
 videojump.addEventListener("mousemove", function (e) {
-    console.log(1);
     if (!isDown) return;
     e.preventDefault();
     const pos = e.pageX - videojump.offsetLeft; // מיקום העכבר על הציר

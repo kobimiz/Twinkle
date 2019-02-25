@@ -52,10 +52,12 @@
         </div>
         <div id="posts">
             <?php
-                $posts = DB::query("SELECT `userID`, `date`, `content`, `fileUploaded`, `totalStars` FROM `posts` ORDER BY `date` DESC");
+                $_SESSION['postIds'] = array();
+                $posts = DB::query("SELECT * FROM `posts` ORDER BY `date` DESC");
                 // consider changing posts table's userid to username for it is unique as well
                 // consider distinguishing between images and videos when stored
                 foreach($posts as $post) {
+                    array_push($_SESSION['postIds'], $post['id']);
                     $username = DB::query("SELECT `username` FROM `users` WHERE `id`='".$post['userID']."'")->fetch_assoc()['username'];
                     echo "<div class='post'>
                     <div class='leftPostSide'>
@@ -71,14 +73,15 @@
                         echo "<video src='uploads/".$post['fileUploaded']."' alt='posted video' controls></video>";
                     echo "</div>
                     <br/>
-                    <div class='footer'>
-                        Total stars: ".$post['totalStars']." |
-                        <img alt='star' src='/iconList/RateStar.svg' class='star'>
-                        <img alt='star' src='/iconList/RateStar.svg' class='star'>
-                        <img alt='star' src='/iconList/RateStar.svg' class='star'>
-                        <img alt='star' src='/iconList/RateStar.svg' class='star'>
-                        <img alt='star' src='/iconList/RateStar.svg' class='star'>
-                    </div>
+                    <div class='postFooter'>
+                        Total stars: <span class='stars'>".$post['totalStars']."</span> |";
+                        $userid = DB::query("SELECT `id` FROM `users` WHERE `username`='".$_SESSION['username']."'")->fetch_assoc()['id'];
+                        $stars = DB::query("SELECT `stars` FROM `postsstars` WHERE `userID`='".$userid."' AND `postID`='".$post['id']."'")->fetch_assoc()['stars'];
+                        for ($i=0; $i < $stars; $i++)
+                            echo "<img alt='star' src='/iconList/FilledStar.png' class='star'>";
+                        for ($i=$stars; $i < 5; $i++)
+                            echo "<img alt='star' src='/iconList/RateStar.svg' class='star'>";
+                    echo "</div>
                     </div>";
                 }
                 
@@ -90,39 +93,6 @@
     </main>
     <script src="scripts/homepage.js"></script>
     <script src="scripts/sidenav.js"></script>
-    <script>
-        function getChildNum(element) {
-    var siblings = element.parentElement.children;
-    for(var i = 0; i < siblings.length; i++)
-        if(siblings[i] === element)
-            return i;
-    return -1;
-}
-
-
-function rate(e) {
-    if (e.target.matches("img")) {
-        var childNum = getChildNum(e.target),
-            siblings = e.target.parentElement.children,
-            xmlhttp = new XMLHttpRequest(),
-            formData = new FormData();
-        if(siblings[childNum].src.indexOf("Fulledstar.png") !== -1 && (!siblings[childNum + 1] || siblings[childNum + 1].src.indexOf("Firststar.png") !== -1)) { // pressed again on same star - cancel
-            formData.append("stars", 0);
-            for(var i = 0; i < 5; i++) 
-                siblings[i].src = "/Firststar.png";
-        } else {
-            var i = 0;
-            for(; i <= childNum; i++)
-                siblings[i].src = "/Fulledstar.png";
-            for(; i < 5; i++)
-                siblings[i].src = "/Firststar.png";
-            formData.append("stars", i + 1);
-        }
-        // xmlhttp.open("POST", "templates/uploadPost.php", true);
-        // xmlhttp.send(formData);
-    }
-}
-    </script>
 </body>
 
 </html>
