@@ -486,21 +486,24 @@ body{
 .comreply:hover, .comnote:hover{
     color:#001942;
 }
+.comform{
+    display: none;
+}
 input[name="typecom"]{
     outline:none;
-    border:none;
-    border-bottom:1px solid black;
-    border-top:1px solid black;
-    border-left:1px solid black;
+    border: 1px solid black;
     padding:10px 15px;
     margin: 9px 0 9px 14px;
     width:80%;
+    font-size: 18px;
 }
 .submit{
     outline: none;
-    border-bottom:1px solid black;
-    border-top:1px solid black;
-    border-right:1px solid black;
     font-size:32px;
     vertical-align: middle;
+    cursor: pointer;
+    padding: 5px;
+}
+.submit:hover{
+    color:rgb(34, 140, 238);
 }

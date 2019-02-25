@@ -18,6 +18,9 @@ var screensize = document.querySelector(".screenicon");
 var volume = document.querySelector(".volumeicon");
 var volumecheck = false;
 var clickcheck_ = false;
+var comform = document.querySelector('.comform');
+var checkcom = false;
+var act = document.querySelector('.act1');
 
 function FPP() {
     if (video.paused) {
@@ -258,7 +261,7 @@ function rate(e) {
 
 document.getElementsByClassName("starrate")[0].addEventListener("click", rate);
 
-//change the size of the screen
+//change the size of the video screen
 
 screensize.addEventListener("click", openFullscreen);
 function openFullscreen() {
@@ -272,3 +275,23 @@ function openFullscreen() {
     video.msRequestFullscreen();
   }
 }
+//comment click anim
+act.addEventListener("click",function(e){
+    if(!checkcom){
+        comform.style.display = "block";
+        checkcom = true;
+        e.stopPropagation();
+    }else{
+        comform.style.display = "none";
+        checkcom = false;
+    }
+});
+document.body.addEventListener('click',function(){
+    if(checkcom == true){
+        comform.style.display = "none";
+        checkcom = false;
+    }
+});
+comform.addEventListener("click",function(e){
+    e.stopPropagation();
+});
