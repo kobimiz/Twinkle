@@ -127,6 +127,7 @@ header{
     left:0;
     display: block;
     box-sizing: border-box;
+    pointer-events: none;
 }
 /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<--------------------------->>>>>>>>>>>>>>>>>>>>>>>*/
 main {
@@ -205,4 +206,11 @@ label[for="fileUpload"]:hover {
     width: 20px;
     display: inline-block;
     vertical-align: bottom;
+}
+.addedinp{
+    border:none;
+    outline: none;
+    width: 60px;
+    margin: 5px;
+    font-size: 18px;
 }

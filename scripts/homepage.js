@@ -132,6 +132,7 @@ function bordlink(){
     bord.style.top =  `${linkcoords.top - window.scrollY + document.offsetTop}px`;
     bord.style.width =  `${linkcoords.width}px`;
     bord.style.height =`${linkcoords.height}px`;
+    console.log("1");
 }
 
 links.forEach(a => a.addEventListener("click", bordlink));
@@ -144,9 +145,31 @@ window.addEventListener("load",function(){
 });
 
 addplus.addEventListener("click",function(){
-    var newItem = document.createElement("li");
-    newItem.classList.add('list');
-    var textnode = document.createTextNode("Water");
-    newItem.appendChild(textnode);
-    filterlist.insertBefore(newItem, filterlist.childNodes[`${filterlist.length - 2}`]);
+    var child = document.createElement("li");
+    var childtwo = document.createElement("input");
+    childtwo.className = "addedinp";
+    childtwo.setAttribute('maxlength','20');
+    child.appendChild(childtwo);
+    filterlist.insertBefore(child, addplus);
+    childtwo.focus();
+    childtwo.addEventListener("keyup", function(e){
+        if(e.keyCode === 13 && childtwo.value != " "){
+            var filter = document.createElement('a');
+            filter.className = "link";
+            filter.setAttribute("href", "#");
+            var txtnode = document.createTextNode(childtwo.value);
+            filter.appendChild(txtnode);
+            e.preventDefault();
+            childtwo.remove();
+            child.appendChild(filter);
+            filter.addEventListener("keyup",function(e){
+                if(e.keyCode === 13){
+                    bordlink;
+                }
+            });
+            filter.addEventListener("click",bordlink);
+        }else if(e.keyCode === 13 && childtwo.value == " "){
+            window.alert("please fill up");
+        }
+    });
 });
