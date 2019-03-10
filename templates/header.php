@@ -7,6 +7,6 @@
             <li><a href="#"><img alt="note" src="/iconList/notewhite.png" class="note"></a></li>
             <input name="searchbar" type="search" placeholder="Popularities..." id="searchBar"/>
         </ul>
+        <span><a href="homepage.php" id="logo">Twinkle</a></span>
     </nav>
-    <a href="homepage.php" id="logo">Twinkle</a>
 </header>

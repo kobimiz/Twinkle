@@ -1,31 +1,26 @@
 header{
     position: fixed;
-    top: 0;
+    z-index: 10;
+    top:0;
     left: 0;
-    background-color:#001942; /*#cc973be1*/
-    width: 100vw;
+    height:70px;
+    width: 100%;
     box-sizing: border-box;
-    padding: 10px 40px;
-    vertical-align: middle;
-    height: 90px;
-    box-shadow: 5px 2px 5px rgba(27, 27, 27, 0.712);
-    transition: 0.3s;
 }
 #logo{
     font-size: 40px;
     font-weight: bold;
-    height: 50px;
-    line-height: 70px;
     color: rgb(248, 245, 245);
-    float: right;
     text-decoration: none;
-    transition: 0.3s;
+    float: right;
 }
 #navi{
-    position: relative;
-    top: 15px;
-    display:inline-block;
-    transition: 0.3s;
+    padding: 10px 40px;
+    height:60px;
+    width: 100%;
+    display: grid;
+    grid-template-columns:75% 25%; 
+    background-color:#001942;
 }
 #navi>ul{
     display: flex;

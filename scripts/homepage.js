@@ -132,7 +132,6 @@ function bordlink(){
     bord.style.top =  `${linkcoords.top - window.scrollY + document.offsetTop}px`;
     bord.style.width =  `${linkcoords.width}px`;
     bord.style.height =`${linkcoords.height}px`;
-    console.log("1");
 }
 
 links.forEach(a => a.addEventListener("click", bordlink));
@@ -152,6 +151,12 @@ addplus.addEventListener("click",function(){
     child.appendChild(childtwo);
     filterlist.insertBefore(child, addplus);
     childtwo.focus();
+    childtwo.bordlink;
+    childtwo.addEventListener("keydown", function(){
+        if(childtwo.value == null ){
+            childtwo.value.replace(" ", "");
+        }
+     });
     childtwo.addEventListener("keyup", function(e){
         if(e.keyCode === 13 && childtwo.value != " "){
             var filter = document.createElement('a');
@@ -168,7 +173,7 @@ addplus.addEventListener("click",function(){
                 }
             });
             filter.addEventListener("click",bordlink);
-        }else if(e.keyCode === 13 && childtwo.value == " "){
+        }else if(e.keyCode === 13 && childtwo.value == "" || e.keyCode === 13 && childtwo.value == null){
             window.alert("please fill up");
         }
     });

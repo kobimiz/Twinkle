@@ -20,7 +20,11 @@ var volumecheck = false;
 var clickcheck_ = false;
 var comform = document.querySelector('.comform');
 var checkcom = false;
+var checkrep = false;
 var act = document.querySelector('.act1');
+var reply = document.querySelector(".comreply");
+var repform = document.querySelector(".replyform");
+
 
 function FPP() {
     if (video.paused) {
@@ -170,8 +174,8 @@ function displaytime() {
 volume.addEventListener("click",function(){
     if(!volumecheck){
         volume.src = "Volumeon.png";
-        volume.style.width = "25px";
-        volume.style.height = "25px";
+        volume.style.width = "22px";
+        volume.style.height = "20px";
         video.muted = true;
         volumecheck = true;
 
@@ -263,19 +267,19 @@ document.getElementsByClassName("starrate")[0].addEventListener("click", rate);
 
 //change the size of the video screen
 
-screensize.addEventListener("click", openFullscreen);
-function openFullscreen() {
-  if (screensize.requestFullscreen) {
-    video.requestFullscreen();
-  } else if (screensize.mozRequestFullScreen) { /* Firefox */
-    video.mozRequestFullScreen();
-  } else if (screensize.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-    video.webkitRequestFullscreen();
-  } else if (screensize.msRequestFullscreen) { /* IE/Edge */
-    video.msRequestFullscreen();
-  }
-}
-//comment click anim
+            // screensize.addEventListener("click", openFullscreen);
+            // function openFullscreen() {
+            //   if (screensize.requestFullscreen) {
+            //     video.requestFullscreen();
+            //   } else if (screensize.mozRequestFullScreen) { /* Firefox */
+            //     video.mozRequestFullScreen();
+            //   } else if (screensize.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+            //     video.webkitRequestFullscreen();
+            //   } else if (screensize.msRequestFullscreen) { /* IE/Edge */
+            //     video.msRequestFullscreen();
+            //   }
+            // }
+//comment click anime
 act.addEventListener("click",function(e){
     if(!checkcom){
         comform.style.display = "block";
@@ -293,5 +297,26 @@ document.body.addEventListener('click',function(){
     }
 });
 comform.addEventListener("click",function(e){
+    e.stopPropagation();
+});
+
+//reply click anime
+reply.addEventListener("click",function(e){
+    if(!checkrep){
+        repform.style.display = "block";
+        checkrep = true;
+        e.stopPropagation();
+    }else{
+        repform.style.display = "none";
+        checkrep = false;
+    }
+});
+document.body.addEventListener('click',function(){
+    if(checkrep == true){
+        repform.style.display = "none";
+        checkrep = false;
+    }
+});
+repform.addEventListener("click",function(e){
     e.stopPropagation();
 });
