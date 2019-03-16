@@ -91,7 +91,7 @@
                         <p class='content'>".htmlspecialchars($post['content'])."</p>
                     </div>
                     <div class='media'>";
-                    if(isImage($post['fileUploaded']))
+                    if(isImage($post['fileUploaded']) !== NULL)
                         echo "<image src='uploads/".$post['fileUploaded']."' alt='posted image'>";
                     else
                         echo "<video src='uploads/".$post['fileUploaded']."' alt='posted video' controls></video>";
@@ -108,7 +108,6 @@
                     echo "</div>
                     </div>";
                 }
-                
                 function isImage($fileName) {
                     return array_search(pathinfo($fileName, PATHINFO_EXTENSION), array("jpeg", "jpg", "png"));
                 }
