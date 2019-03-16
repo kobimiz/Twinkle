@@ -1,3 +1,4 @@
+"use strict";
 var filePreview = document.getElementById("filePreview"),
     errorMessage = document.getElementById("errorMessage"),
     fileInput = document.getElementById("fileUpload"),
@@ -129,13 +130,11 @@ bord.classList.add("bord");
 function bordlink(){
     const linkcoords = this.getBoundingClientRect();
     bord.style.left =  `${linkcoords.left - window.scrollX}px`;
-    bord.style.top =  `${linkcoords.top - window.scrollY + document.offsetTop}px`;
     bord.style.width =  `${linkcoords.width}px`;
-    bord.style.height =`${linkcoords.height}px`;
 }
 
 links.forEach(a => a.addEventListener("click", bordlink));
-window.addEventListener("load",function(){
+window.addEventListener("load", function(){
     const firstlink = links[0].getBoundingClientRect();
     bord.style.left = `${firstlink.left}px`;
     bord.style.top = `${firstlink.top}px`;
@@ -151,30 +150,27 @@ addplus.addEventListener("click",function(){
     child.appendChild(childtwo);
     filterlist.insertBefore(child, addplus);
     childtwo.focus();
-    childtwo.bordlink;
-    childtwo.addEventListener("keydown", function(){
-        if(childtwo.value == null ){
-            childtwo.value.replace(" ", "");
-        }
-     });
+    childtwo.addEventListener("blur", addCategory);
     childtwo.addEventListener("keyup", function(e){
-        if(e.keyCode === 13 && childtwo.value != " "){
-            var filter = document.createElement('a');
-            filter.className = "link";
-            filter.setAttribute("href", "#");
-            var txtnode = document.createTextNode(childtwo.value);
-            filter.appendChild(txtnode);
-            e.preventDefault();
-            childtwo.remove();
-            child.appendChild(filter);
-            filter.addEventListener("keyup",function(e){
-                if(e.keyCode === 13){
-                    bordlink;
-                }
-            });
-            filter.addEventListener("click",bordlink);
-        }else if(e.keyCode === 13 && childtwo.value == "" || e.keyCode === 13 && childtwo.value == null){
-            window.alert("please fill up");
+        if(e.keyCode === 13) {
+            if(childtwo.value.trim() !== ""){
+                var filter = document.createElement('a');
+                filter.className = "link";
+                filter.setAttribute("href", "#");
+                var txtnode = document.createTextNode(childtwo.value);
+                filter.appendChild(txtnode);
+                child.appendChild(filter);
+                var linkcoords = child.getBoundingClientRect();
+                bord.style.width =  `${linkcoords.width}px`;
+                childtwo.removeEventListener("blur", addCategory);
+                childtwo.remove();
+                filter.addEventListener("click", bordlink);
+            } else
+                alert("please fill up");
         }
     });
 });
+
+function addCategory() {
+    this.dispatchEvent(new KeyboardEvent("keyup", { keyCode:13 }));
+}
