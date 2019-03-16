@@ -112,16 +112,19 @@ topbar.addEventListener("mouseleave", hideBars);
 var isDown = false;
 var startX;
 var scrolLeft;
+var pausedBeforeJump = true;
 
 videojump.addEventListener("mousedown", function (e) {
     isDown = true;
     startX = e.pageX - videojump.offsetLeft;
     scrolLeft = videojump.scrollLeft;
-    if (video.play) {
+    if (video.paused) {
+        pausedBeforeJump = true;
+        video.pause();
         btn.classList.add("play");
         btn.classList.remove("pause");
-        video.pause();
-    }
+    } else
+        pausedBeforeJump = false;
 });
 
 videojump.addEventListener("mouseleave", function () {
@@ -130,14 +133,13 @@ videojump.addEventListener("mouseleave", function () {
 
 videojump.addEventListener("mouseup", function () {
     isDown = false;
-    if (video.paused) {
+    if (video.paused && !pausedBeforeJump) {
         btn.classList.add("pause");
         btn.classList.remove("play");
         video.play();
     } else {
         btn.classList.add("play");
         btn.classList.remove("pause");
-        video.pause();
     }
 });
 
