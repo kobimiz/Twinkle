@@ -150,7 +150,7 @@ addplus.addEventListener("click",function(){
     child.appendChild(childtwo);
     filterlist.insertBefore(child, addplus);
     childtwo.focus();
-    childtwo.addEventListener("blur", addCategory);
+    childtwo.addEventListener("focusout", addCategory);
     childtwo.addEventListener("keyup", function(e){
         if(e.keyCode === 13) {
             if(childtwo.value.trim() !== ""){
@@ -162,15 +162,22 @@ addplus.addEventListener("click",function(){
                 child.appendChild(filter);
                 var linkcoords = child.getBoundingClientRect();
                 bord.style.width =  `${linkcoords.width}px`;
-                childtwo.removeEventListener("blur", addCategory);
+                childtwo.removeEventListener("focusout", addCategory);
+                childtwo.focusout = undefined;
                 childtwo.remove();
                 filter.addEventListener("click", bordlink);
             } else
                 alert("please fill up");
+        } else if(e.key === "esc"){
+            child.remove();
+            childtwo.remove();
         }
     });
 });
 
 function addCategory() {
-    this.dispatchEvent(new KeyboardEvent("keyup", { keyCode:13 }));
+    if(this.value === "")
+        this.dispatchEvent(new KeyboardEvent("keyup", { key:"esc" }));
+    else
+        this.dispatchEvent(new KeyboardEvent("keyup", { keyCode:13 }));
 }
