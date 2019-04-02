@@ -70,23 +70,23 @@ body{
     box-sizing: border-box;
     border-bottom: 2px solid #0d6cca;
 }
-.contain>form>input:focus{
+/* .contain>form>input:focus{
     background-color: white;
-}
+} */
 #email{
-    background-image: url(/iconList/envelope-regular.svg);
-    background-position: 10px 8px;
+    background-image: url(/iconList/Mail.png);
+    background-position: 10px 12px;
     background-repeat: no-repeat;
     background-size: 25px;
 }
 #choosename{
-    background-image: url(/iconList/user-regular.svg);
+    background-image: url(/iconList/User.png);
     background-position: 10px 8px;
     background-repeat: no-repeat;
     background-size: 25px;
 }
 #choosepass{
-    background-image: url(/iconList/lock-solid.svg);
+    background-image: url(/iconList/Lock.png);
     background-position: 10px 8px;
     background-repeat: no-repeat;
     background-size: 25px;

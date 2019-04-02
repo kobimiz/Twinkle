@@ -78,7 +78,7 @@
 				echo "<form method='POST' name='register' action='signup.php'>
 					<label for='email'>Email</label><br>
 					<span class='error'>$emailErr</span><br/><br/>
-					<input name='email' type='email' id='email' placeholder='Email..' autocomplete='off' required maxlength='40'><br>
+					<input name='email' type='email' id='email' placeholder='Email..' autocomplete='off' required maxlength='40' oninput='thatmail()'><br>
 					<label for='choosename'>Username</label><br>
 					<span class='error'>$usernameErr</span><br/>
 					<div class='inputContainer'>

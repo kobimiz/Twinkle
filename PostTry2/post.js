@@ -24,6 +24,23 @@ var checkrep = false;
 var act = document.querySelector('.act1');
 var reply = document.querySelector(".comreply");
 var repform = document.querySelector(".replyform");
+// var mobcheck;
+
+// // function detectmob() { 
+// //     if( navigator.userAgent.match(/Android/i)
+// //        || navigator.userAgent.match(/webOS/i)
+// //        || navigator.userAgent.match(/iPhone/i)
+// //        || navigator.userAgent.match(/iPad/i)
+// //        || navigator.userAgent.match(/iPod/i)
+// //        || navigator.userAgent.match(/BlackBerry/i)
+// //        || navigator.userAgent.match(/Windows Phone/i)
+// //        ){
+// //        mobcheck = true;
+// //      }
+// //     else {
+// //        mobcheck = false;
+// //     }
+// // }
 
 
 function FPP() {
@@ -81,10 +98,6 @@ videojump.addEventListener("mousemove", (e) => mousedown && scrub(e));
 videojump.addEventListener("mousemove", (e) => mousedown = true);
 videojump.addEventListener("mousemove", (e) => mousedown = false);
 
-video.addEventListener("mouseenter", function () {
-
-});
-
 var closeBars;
 function manageBars() {
     clearTimeout(closeBars);
@@ -108,7 +121,11 @@ video.addEventListener("mouseleave", hideBars);
 bottombar.addEventListener("mouseleave", hideBars);
 topbar.addEventListener("mouseleave", hideBars);
 
-/* sliding the juiceBar and changing currentTime position */
+
+
+
+
+//sliding the juiceBar and changing currentTime position
 var isDown = false;
 var startX;
 var scrolLeft;
@@ -188,7 +205,7 @@ volume.addEventListener("click",function(){
     }
 });
 
-/*<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+//<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>
 //<<<<<<<>>>>>>>>
 video.addEventListener("click", function () {
     if (video.paused) {
@@ -205,7 +222,7 @@ function RemoveClass() {
 function RemoveClass_() {
     pauseanime.classList.remove("pauseanimeadd");
 }
-/*<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+//<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 // show and hide of the options nav bar
 optionsarrow.addEventListener("click",function(e){
@@ -229,7 +246,7 @@ optionscon.addEventListener("click",function(e){
 });
 
 
-/*stars animation --------------------- */
+//stars animation --------------------- 
 
 function getChildNum(element) {
     var siblings = element.parentElement.children;
@@ -264,22 +281,6 @@ function rate(e) {
 }
 
 document.getElementsByClassName("starrate")[0].addEventListener("click", rate);
-
-//change the size of the video screen
-
-            // screensize.addEventListener("click", openFullscreen);
-            // function openFullscreen() {
-            //   if (screensize.requestFullscreen) {
-            //     video.requestFullscreen();
-            //   } else if (screensize.mozRequestFullScreen) { /* Firefox */
-            //     video.mozRequestFullScreen();
-            //   } else if (screensize.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-            //     video.webkitRequestFullscreen();
-            //   } else if (screensize.msRequestFullscreen) { /* IE/Edge */
-            //     video.msRequestFullscreen();
-            //   }
-            // }
-//comment click anime
 act.addEventListener("click",function(e){
     if(!checkcom){
         comform.style.display = "block";

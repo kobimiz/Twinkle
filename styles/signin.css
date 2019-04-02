@@ -10,7 +10,7 @@ body{
     font-size: 65px;
     position: relative;
     top: 3%;
-    color:#03037c;
+    color:#001942;
     text-align:right;
 }
 /* Note: organize different devices' media queries */
@@ -141,7 +141,7 @@ body{
     background-size: 25px;
 }
 #password{
-    background-image: url(/iconList/lock-solid.svg);
+    background-image: url(/iconList/Lock.png);
     background-position: 10px 8px;
     background-repeat: no-repeat;
     background-size: 25px;

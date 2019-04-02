@@ -2,7 +2,8 @@ var Wshowpass = document.getElementById("Wshowpass"),
     Wpass = document.getElementById("choosepass"),
     input = document.getElementById("choosename"),
     targ = document.getElementById("letternum"),
-    container = document.getElementById("count");
+    container = document.getElementById("count"),
+    mail = document.getElementById("email");
 
 function WshowPass() {
     Wshowpass.style.display = "block";
@@ -37,3 +38,6 @@ Wpass.addEventListener("blur", function () {
 document.body.addEventListener("load", function () {
     document.register.email.focus();
 });
+function thatmail(){
+    mail.style.background = "white";
+}

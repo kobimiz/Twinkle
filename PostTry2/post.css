@@ -513,7 +513,7 @@
     }
 
     .replyform{
-        /* display:none; */
+        display:none;
     }
     input[name="typerep"]{
         outline:none;
@@ -1050,7 +1050,7 @@
     }
 
     .replyform{
-        /* display:none; */
+        display:none;
     }
     input[name="typerep"]{
         outline:none;
@@ -1058,7 +1058,7 @@
         border-radius: 6px;
         padding:5px 15px;
         margin: 0 0 3% 0;
-        width:60%;
+        width:90%;
         font-size: 18px;
     }
     .replydiv{
