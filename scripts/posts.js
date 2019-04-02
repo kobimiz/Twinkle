@@ -18,13 +18,12 @@ var screensize = document.querySelector(".screenicon");
 var volume = document.querySelector(".volumeicon");
 var volumecheck = false;
 var clickcheck_ = false;
-var comform = document.querySelector('.comform');
-var checkcom = false;
+var comforms = document.querySelectorAll('.comform');
+var activatedCommentIndex = -1;
 var checkrep = false;
-var act = document.querySelector('.act1');
+var acts1 = document.querySelectorAll('.act1');
 var reply = document.querySelector(".comreply");
 var repform = document.querySelector(".replyform");
-
 
 function FPP() {
     if (video.paused) {
@@ -176,14 +175,14 @@ function displaytime() {
 
 volume.addEventListener("click",function(){
     if(!volumecheck){
-        volume.src = "Volumeon.png";
+        volume.src = "/iconList/Volumeon.png";
         volume.style.width = "22px";
         volume.style.height = "20px";
         video.muted = true;
         volumecheck = true;
 
     }else{
-        volume.src = "Volumeoff.png";
+        volume.src = "/iconList/Volumeoff.png";
         volume.style.width = "30px";
         volume.style.height = "35px";
         video.muted = false;
@@ -231,40 +230,9 @@ optionscon.addEventListener("click",function(e){
     e.stopPropagation();
 });
 
-
 /*stars animation --------------------- */
 
-function getChildNum(element) {
-    var siblings = element.parentElement.children;
-    for(var i = 0; i < siblings.length; i++)
-        if(siblings[i] === element)
-            return i;
-    return -1;
-}
-
-
-// function rate(e) {
-//     if (e.target.matches("img")) {
-//         var childNum = getChildNum(e.target),
-//             siblings = e.target.parentElement.children,
-//             xmlhttp = new XMLHttpRequest(),
-//             formData = new FormData();
-//         if(siblings[childNum].src.indexOf("FilledStar.png") !== -1 && (!siblings[childNum + 1] || siblings[childNum + 1].src.indexOf("Star.png") !== -1)) { // pressed again on same star - cancel
-//             formData.append("stars", 0);
-//             for(var i = 0; i < 5; i++) 
-//                 siblings[i].src = "Star.png";
-//         } else {
-//             var i = 0;
-//             for(; i <= childNum; i++)
-//                 siblings[i].src = "FilledStar.png";
-//             for(; i < 5; i++)
-//                 siblings[i].src = "Star.png";
-//             formData.append("stars", i + 1);
-//         }
-//         // xmlhttp.open("POST", "templates/uploadPost.php", true);
-//         // xmlhttp.send(formData);
-//     }
-// }
+var starsContainer = document.getElementsByClassName("starrate");
 
 function getChildIndex(element) {
     var siblings = element.parentElement.children;
@@ -280,11 +248,12 @@ function rate(e) {
             siblings = e.target.parentElement.children,
             xmlhttp = new XMLHttpRequest(),
             formData = new FormData(),
-            postIndex = getChildIndex(this.parentElement);
+            postIndex = getChildIndex(this.parentElement.parentElement.parentElement);
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                var currStars = document.getElementsByClassName("stars")[postIndex];
-                currStars.innerHTML = parseInt(currStars.innerHTML) + parseInt(this.responseText);
+                var stats = this.responseText.split("\n");
+                document.getElementsByClassName("avgstardata")[postIndex].textContent = stats[0];
+                document.getElementsByClassName("stars")[postIndex].textContent = stats[1];
             }
         }
         formData.append("postIndex", postIndex);
@@ -299,90 +268,15 @@ function rate(e) {
                 siblings[i].src = "/iconList/RateStar.svg";
             formData.append("starRating", starRate);
         }
-        //xmlhttp.open("POST", "templates/rate.php", true);
-        //xmlhttp.send(formData);
-    }
-}
-
-document.getElementsByClassName("starrate")[0].addEventListener("click", rate);
-
-/*
-document.getElementById("post").addEventListener("click", function() {
-    if(reader.result !== null) {
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-            if(this.readyState === 4 && this.status === 200) {
-                // consider the case where a document is returned from this.responseText
-                if(this.responseText === "success")
-                    errorMessage.style.display = "none";
-                else if(this.responseText === "error") {
-                    errorMessage.style.display = "inline";
-                    errorMessage.innerHTML = "An unknown error has occured. Please try again, or contact us if the problem presists.";
-                } else if(this.responseText === "invalid type") {
-                    errorMessage.style.display = "inline";
-                    errorMessage.innerHTML = "File format is not supported. <a href='helpCenter/fileUploadingQA.php'>For further information please click here.</a>";
-                } else { // file too big
-                    errorMessage.style.display = "inline";
-                    errorMessage.innerHTML = "The uploaded file is too large. <a href='helpCenter/fileUploadingQA.php#largeFile'>For further information, please click here.</a>";
-                }
-            }
-        };
-        // same loading effects as "reader"-'s
-        xmlhttp.onloadstart = reader.onloadstart;
-        xmlhttp.onloadend = reader.onloadend;
-        xmlhttp.onprogress = reader.onprogress;
-    
-        var formData = new FormData();
-        formData.append("file", fileInput.files[0], fileInput.files[0].name);
-        formData.append("content", document.getElementsByTagName("textarea")[0].value);
-        xmlhttp.open("POST", "templates/uploadPost.php", true);
-        xmlhttp.send(formData);
-    } else {
-        errorMessage.style.display = "inline";
-        errorMessage.innerHTML = "No image/video? Shall we share as a note instead?";
-    }
-});
-
-var starsContainer = document.getElementsByClassName("postFooter");
-
-function getChildIndex(element) {
-    var siblings = element.parentElement.children;
-    for (var i = 0; i < siblings.length; i++)
-        if (siblings[i] === element)
-            return i;
-    return -1;
-}
-
-function rate(e) {
-    if (e.target.matches("img")) {
-        var starRate = getChildIndex(e.target), // since there is a span element in e.target.parentElement, its child index is equal its star rate
-            siblings = e.target.parentElement.children,
-            xmlhttp = new XMLHttpRequest(),
-            formData = new FormData(),
-            postIndex = getChildIndex(this.parentElement);
-        xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var currStars = document.getElementsByClassName("stars")[postIndex];
-                currStars.innerHTML = parseInt(currStars.innerHTML) + parseInt(this.responseText);
-            }
-        }
-        formData.append("postIndex", postIndex);
-        if (siblings[starRate].src.indexOf("FilledStar.png") !== -1 && (!siblings[starRate + 1] || siblings[starRate + 1].src.indexOf("RateStar.svg") !== -1)) { // pressed again on same star - cancel
-            formData.append("starRating", 0);
-            for (var i = 1; i < 6; i++)
-                siblings[i].src = "iconList/RateStar.svg";
-        } else {
-            for (var i = 1; i <= starRate; i++)
-                siblings[i].src = "iconList/FilledStar.png";
-            for (var i = starRate + 1; i < 6; i++)
-                siblings[i].src = "iconList/RateStar.svg";
-            formData.append("starRating", starRate);
-        }
         xmlhttp.open("POST", "templates/rate.php", true);
         xmlhttp.send(formData);
     }
 }
 
+for(var i = 0; i < starsContainer.length; i++)
+    starsContainer[i].addEventListener("click", rate);
+
+/*
 for(var i = 0; i < starsContainer.length; i++)
     starsContainer[i].addEventListener("click", rate);
 const links = document.querySelectorAll(".link");
@@ -405,24 +299,34 @@ bord.classList.add("bord");
             //   }
             // }
 //comment click anime
-act.addEventListener("click",function(e){
-    if(!checkcom){
-        comform.style.display = "block";
-        checkcom = true;
+for(var i = 0; i < acts1.length; i++) {
+    acts1[i].addEventListener("click", (function() {
+        var index = i; // closure
+        return function(e){
+            if(index !== activatedCommentIndex){ // current comment not displayed
+                if(activatedCommentIndex !== -1) { // hide last comment
+                    comforms[activatedCommentIndex].style.display = "none";
+                }
+                comforms[index].style.display = "block"; // display current comment
+                activatedCommentIndex = index;
+                e.stopPropagation();
+            } else { // current comment already displayed
+                comforms[index].style.display = "none";
+                activatedCommentIndex = -1;
+            }
+        }
+    })());
+
+    comforms[i].addEventListener("click", function(e){ // same number of comforms as acts1
         e.stopPropagation();
-    }else{
-        comform.style.display = "none";
-        checkcom = false;
+    });
+}
+
+document.body.addEventListener('click', function(){
+    if(activatedCommentIndex !== -1) {
+        comforms[activatedCommentIndex].style.display = "none";
+        activatedCommentIndex = -1;
     }
-});
-document.body.addEventListener('click',function(){
-    if(checkcom == true){
-        comform.style.display = "none";
-        checkcom = false;
-    }
-});
-comform.addEventListener("click",function(e){
-    e.stopPropagation();
 });
 
 //reply click anime

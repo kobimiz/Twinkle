@@ -79,53 +79,9 @@ document.getElementById("post").addEventListener("click", function() {
     }
 });
 
-var starsContainer = document.getElementsByClassName("postFooter");
-
-function getChildIndex(element) {
-    var siblings = element.parentElement.children;
-    for (var i = 0; i < siblings.length; i++)
-        if (siblings[i] === element)
-            return i;
-    return -1;
-}
-
-function rate(e) {
-    if (e.target.matches("img")) {
-        var starRate = getChildIndex(e.target), // since there is a span element in e.target.parentElement, its child index is equal its star rate
-            siblings = e.target.parentElement.children,
-            xmlhttp = new XMLHttpRequest(),
-            formData = new FormData(),
-            postIndex = getChildIndex(this.parentElement);
-        xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var currStars = document.getElementsByClassName("stars")[postIndex];
-                currStars.innerHTML = parseInt(currStars.innerHTML) + parseInt(this.responseText);
-            }
-        }
-        formData.append("postIndex", postIndex);
-        if (siblings[starRate].src.indexOf("FilledStar.png") !== -1 && (!siblings[starRate + 1] || siblings[starRate + 1].src.indexOf("RateStar.svg") !== -1)) { // pressed again on same star - cancel
-            formData.append("starRating", 0);
-            for (var i = 1; i < 6; i++)
-                siblings[i].src = "iconList/RateStar.svg";
-        } else {
-            for (var i = 1; i <= starRate; i++)
-                siblings[i].src = "iconList/FilledStar.png";
-            for (var i = starRate + 1; i < 6; i++)
-                siblings[i].src = "iconList/RateStar.svg";
-            formData.append("starRating", starRate);
-        }
-        xmlhttp.open("POST", "templates/rate.php", true);
-        xmlhttp.send(formData);
-    }
-}
-
-for(var i = 0; i < starsContainer.length; i++)
-    starsContainer[i].addEventListener("click", rate);
 const links = document.querySelectorAll(".link");
 const bord = document.querySelector(".bord");
 bord.classList.add("bord");
-// document.body.append(bord);
-
 
 function bordlink(){
     const linkcoords = this.getBoundingClientRect();

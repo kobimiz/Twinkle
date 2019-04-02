@@ -1,3 +1,13 @@
+/* replace the rule below with a proper content sizing function */
+.Vcon > img, .Vcon > video {
+    width: 700px;
+    max-height: 400px;
+}
+
+.comments {
+    padding-left: 20px;
+}
+
 @media only screen and (min-width: 701px ){
     body{
         margin:0;
@@ -6,6 +16,7 @@
     }
 
     .postcon{
+        margin-bottom: 10px;
         height: 100%;
         max-width: 700px;
         width:100%;
@@ -41,7 +52,7 @@
         top:50%;
         left:50%;
         transform:translate(-50%, -50%);
-        background-image: url("play-solid.svg");
+        background-image: url("/iconList/play-solid.svg");
         background-repeat: no-repeat;
         background-position: 25px;
         background-size: 40px;
@@ -76,7 +87,7 @@
         top:50%;
         left:50%;
         transform:translate(-50%, -50%);
-        background-image: url("pause-solid.svg");
+        background-image: url("/iconList/pause-solid.svg");
         background-repeat: no-repeat;
         background-position: 20px;
         background-size: 40px;
@@ -130,7 +141,7 @@
     }
     .play-pause:before{
         padding-top: 2px;
-        content: url('play-solid.svg');
+        content: url('/iconList/play-solid.svg');
         width:20px;
         height:20px;
         color:black;
@@ -139,11 +150,11 @@
         -webkit-font-smoothing: antialiased;
     }
     .play-pause.play:before{
-        content: url("play-solid.svg");
+        content: url("/iconList/play-solid.svg");
         padding-left:2px;
     }
     .play-pause.pause:before{
-        content: url("pause-solid.svg");
+        content: url("/iconList/pause-solid.svg");
     }
     .left{
         position: absolute;
@@ -521,6 +532,7 @@
     }
 
     .postcon{
+        margin-bottom: 10px;
         height: 100%;
         max-width: 700px;
         width:100%;
@@ -554,7 +566,7 @@
         top:50%;
         left:50%;
         transform:translate(-50%, -50%);
-        background-image: url("play-solid.svg");
+        background-image: url("/iconList/play-solid.svg");
         background-repeat: no-repeat;
         background-position: 25px;
         background-size: 40px;
@@ -589,7 +601,7 @@
         top:50%;
         left:50%;
         transform:translate(-50%, -50%);
-        background-image: url("pause-solid.svg");
+        background-image: url("/iconList/pause-solid.svg");
         background-repeat: no-repeat;
         background-position: 20px;
         background-size: 40px;
@@ -642,7 +654,7 @@
     }
     .play-pause:before{
         padding-top: 2px;
-        content: url('play-solid.svg');
+        content: url('/iconList/play-solid.svg');
         width:20px;
         height:20px;
         color:black;
@@ -651,11 +663,11 @@
         -webkit-font-smoothing: antialiased;
     }
     .play-pause.play:before{
-        content: url("play-solid.svg");
+        content: url("/iconList/play-solid.svg");
         padding-left:2px;
     }
     .play-pause.pause:before{
-        content: url("pause-solid.svg");
+        content: url("/iconList/pause-solid.svg");
     }
     .left{
         position: absolute;
