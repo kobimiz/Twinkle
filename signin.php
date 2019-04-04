@@ -23,7 +23,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
+    <link rel="icon" href="/iconList/TwinkleCon.png" type="image/png">
     <link rel="stylesheet" href="styles/signin.css" type="text/css">
     <link rel="stylesheet" href="styles/general.css" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
@@ -32,7 +32,7 @@
 </head>
 
 <body>
-    <div id="logo">Twinkle</div>
+    <div id="logo"><img src="/iconList/TwinkleCon.png" style="width:65px; height:65px;" alt="Twinkle logo" class="Tlogo" > winkle</div>
 
     <section id="loginsec">
         <h1 id="intro">Sign in</h1>

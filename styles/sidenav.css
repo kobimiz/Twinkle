@@ -21,7 +21,6 @@
   background-color: #fff;
   overflow-x: hidden;
   transition: 0.5s;
-  padding-top: 60px;
   animation-name: sidecontent;
   animation-duration: 0.4s;
   -webkit-animation-name: sidecontent;
@@ -32,32 +31,86 @@
   from {width:0; opacity: 0}
     to {width:100px; opacity: 1}
 }
+@-webkit-keyframes sidecontent{
+  from {width:0; opacity: 0}
+    to {width:100px; opacity: 1}
+}
 
-.sidenavcont>a {
-  padding: 8px 8px 8px 32px;
+.btn1{
+  padding: 8px 12px 8px 32px;
+  text-decoration: none;
+  font-size: 32px;
+  color: #818181;
+  display: block;
+}
+.btn1:hover{
+  color: #f1f1f1;
+}
+.btn2{
+  padding: 8px 12px 8px 25px;
   text-decoration: none;
   font-size: 18px;
   color: #818181;
   display: block;
 }
-.sidenavcont>a>img{
-    width: 37px;
-    height: 37px;
+.btn2>img{
+  width: 44px;
+  height: 44px;
 }
-
-.sidenavcont>a:hover {
-  color: #f1f1f1;
+.btn3{
+  padding: 8px 12px 8px 22px;
+  text-decoration: none;
+  font-size: 18px;
+  color: #818181;
+  display: block;
+}
+.btn3>img{
+  width: 50px;
+  height: 40px;
+}
+.btn4{
+  padding: 8px 12px 8px 25px;
+  text-decoration: none;
+  font-size: 18px;
+  color: #818181;
+  display: block;
+}
+.btn4>img{
+  width: 44px;
+  height: 46px;
+}
+.btn5{
+  padding: 8px 12px 8px 32px;
+  text-decoration: none;
+  font-size: 70px;
+  color: rgb(247, 12, 12);
+  display: block;
+}
+.btn5:hover{
+  color: rgb(141, 1, 1);
+}
+.btn6{
+  padding: 8px 12px 8px 25px;
+  text-decoration: none;
+  font-size: 18px;
+  color: #818181;
+  display: block;
+}
+.btn6>img{
+  width: 44px;
+  height: 44px;
 }
 
 .sidenavcont>.closebtn {
-  position: absolute;
-  top: 0;
-  right: 25px;
   font-size: 36px;
-  margin-left: 50px;
+  margin-left: 65px;
 }
 
 #logout{
-  position: relative;
+  position: absolute;
   bottom: 0;
+  text-decoration: none;
+  color: rgb(223, 15, 15);
+  font-size: 24px;
+  padding: 20px 0 20px 3px;
 }

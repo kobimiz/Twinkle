@@ -3,7 +3,22 @@ body{
     overflow: hidden;
     background-color: #f5f5f8;
 }
+.Tlogo{
+    margin: 10px -40px -10px 0;
+    animation: Tlogo 3s infinite;
+    -webkit-animation: Tlogo 3s infinite;
+    animation-timing-function:cubic-bezier(0, 0, 0, 1.23);
+}
+@keyframes Tlogo{
+    from{transform:rotateY(0deg);}
+    to{transform:rotateY(540deg);}
 
+}
+@-webkit-keyframes Tlogo{
+    from{transform:rotateY(0deg);}
+    to{transform:rotateY(540deg);}
+
+}
 #logo{
     font-family: 'Courier New', Courier, monospace;
     font-weight: 900;
@@ -128,6 +143,7 @@ body{
     cursor: pointer;
     height: 0;
     width: 0;
+    margin-right:10px;
 }
 .checkc>#checkin{
     position: absolute;
@@ -186,7 +202,7 @@ body{
     font-weight: 580;
     text-align: center;
     width: 8vw;
-    padding: 6px;
+    padding: 10px;
     letter-spacing: 4px;
 }
 #signbottun>a:hover{
