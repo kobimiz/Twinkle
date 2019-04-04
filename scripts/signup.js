@@ -35,9 +35,6 @@ Wpass.addEventListener("blur", function () {
     Wshowpass.src = "iconList/eye-solid.svg";
 });
 
-document.body.addEventListener("load", function () {
-    document.register.email.focus();
+window.addEventListener("load",function(){
+    mail.focus();
 });
-function thatmail(){
-    mail.style.background = "white";
-}

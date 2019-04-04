@@ -76,20 +76,24 @@
 						</div>";
 			} else {
 				echo "<form method='POST' name='register' action='signup.php'>
-					<label for='email'>Email</label><br>
-					<span class='error'>$emailErr</span><br/><br/>
-					<input name='email' type='email' id='email' placeholder='Email..' autocomplete='off' required maxlength='40' oninput='thatmail()'><br>
-					<label for='choosename'>Username</label><br>
+					<label for='email'>Email</label><br/>
+					<span class='error'>$emailErr</span><br/>
+					<input name='email' type='email' id='email' placeholder='Email..' autocomplete='off' required maxlength='60'><br />
+					<label for='choosename'>Username</label><br/>
 					<span class='error'>$usernameErr</span><br/>
 					<div class='inputContainer'>
-					<input name='username' id='choosename' type='text' placeholder='Choose username' required autocomplete='off' maxlength='25' onkeyup='change()'><br>
-					<div id='count'> <span id='letternum'></span><span>/25</span></div></div>
-					<label for='choosepass'>Password</label><br>
+					<input name='username' id='choosename' type='text' placeholder='Username' required autocomplete='off' maxlength='45' onkeyup='change()'><br>
+					<div id='count'> <span id='letternum'></span><span>/25</span></div></div><br />
+					<label for='fname'>First name</label> <label for='lname'>Last name</label> <br />
+					<input name='fname' id='fname' type='text' placeholder='First name...' required autocomplete='off' maxlength='45'>
+					<input name='lname' id='lname' type='text' placeholder='Last name...' required autocomplete='off' maxlength='45'>
+					<label for='choosepass'>Password</label><br/>
 					<span class='error'>$passwordErr</span><br/>
 					<div class='inputContainer'>
 					<input name='password' id='choosepass' type='password' placeholder='Password' required onkeyup='WshowPass()' maxlength='25'>
 					<img src='iconList/eye-solid.svg' id='Wshowpass' onclick='Wchangepass()'></div>
 					<input type='submit' name='register' value='Sign up' id='register'>
+					<a href='/signin.php' class='login'>Log in</a>
 					</form>";
 			}
 		?>

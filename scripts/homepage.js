@@ -1,3 +1,4 @@
+"use strict";
 var filePreview = document.getElementById("filePreview"),
     errorMessage = document.getElementById("errorMessage"),
     fileInput = document.getElementById("fileUpload"),
@@ -78,64 +79,18 @@ document.getElementById("post").addEventListener("click", function() {
     }
 });
 
-var starsContainer = document.getElementsByClassName("postFooter");
-
-function getChildIndex(element) {
-    var siblings = element.parentElement.children;
-    for (var i = 0; i < siblings.length; i++)
-        if (siblings[i] === element)
-            return i;
-    return -1;
-}
-
-function rate(e) {
-    if (e.target.matches("img")) {
-        var starRate = getChildIndex(e.target), // since there is a span element in e.target.parentElement, its child index is equal its star rate
-            siblings = e.target.parentElement.children,
-            xmlhttp = new XMLHttpRequest(),
-            formData = new FormData(),
-            postIndex = getChildIndex(this.parentElement);
-        xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var currStars = document.getElementsByClassName("stars")[postIndex];
-                currStars.innerHTML = parseInt(currStars.innerHTML) + parseInt(this.responseText);
-            }
-        }
-        formData.append("postIndex", postIndex);
-        if (siblings[starRate].src.indexOf("FilledStar.png") !== -1 && (!siblings[starRate + 1] || siblings[starRate + 1].src.indexOf("RateStar.svg") !== -1)) { // pressed again on same star - cancel
-            formData.append("starRating", 0);
-            for (var i = 1; i < 6; i++)
-                siblings[i].src = "iconList/RateStar.svg";
-        } else {
-            for (var i = 1; i <= starRate; i++)
-                siblings[i].src = "iconList/FilledStar.png";
-            for (var i = starRate + 1; i < 6; i++)
-                siblings[i].src = "iconList/RateStar.svg";
-            formData.append("starRating", starRate);
-        }
-        xmlhttp.open("POST", "templates/rate.php", true);
-        xmlhttp.send(formData);
-    }
-}
-
-for(var i = 0; i < starsContainer.length; i++)
-    starsContainer[i].addEventListener("click", rate);
 const links = document.querySelectorAll(".link");
 const bord = document.querySelector(".bord");
 bord.classList.add("bord");
-// document.body.append(bord);
-
 
 function bordlink(){
     const linkcoords = this.getBoundingClientRect();
     bord.style.left =  `${linkcoords.left - window.scrollX}px`;
-    bord.style.top =  `${linkcoords.top - window.scrollY + document.offsetTop}px`;
     bord.style.width =  `${linkcoords.width}px`;
-    bord.style.height =`${linkcoords.height}px`;
 }
 
 links.forEach(a => a.addEventListener("click", bordlink));
-window.addEventListener("load",function(){
+window.addEventListener("load", function(){
     const firstlink = links[0].getBoundingClientRect();
     bord.style.left = `${firstlink.left}px`;
     bord.style.top = `${firstlink.top}px`;
@@ -151,30 +106,34 @@ addplus.addEventListener("click",function(){
     child.appendChild(childtwo);
     filterlist.insertBefore(child, addplus);
     childtwo.focus();
-    childtwo.bordlink;
-    childtwo.addEventListener("keydown", function(){
-        if(childtwo.value == null ){
-            childtwo.value.replace(" ", "");
-        }
-     });
+    childtwo.addEventListener("focusout", addCategory);
     childtwo.addEventListener("keyup", function(e){
-        if(e.keyCode === 13 && childtwo.value != " "){
-            var filter = document.createElement('a');
-            filter.className = "link";
-            filter.setAttribute("href", "#");
-            var txtnode = document.createTextNode(childtwo.value);
-            filter.appendChild(txtnode);
-            e.preventDefault();
+        if(e.keyCode === 13) {
+            if(childtwo.value.trim() !== ""){
+                var filter = document.createElement('a');
+                filter.className = "link";
+                filter.setAttribute("href", "#");
+                var txtnode = document.createTextNode(childtwo.value);
+                filter.appendChild(txtnode);
+                child.appendChild(filter);
+                var linkcoords = child.getBoundingClientRect();
+                bord.style.width =  `${linkcoords.width}px`;
+                childtwo.removeEventListener("focusout", addCategory);
+                childtwo.focusout = undefined;
+                childtwo.remove();
+                filter.addEventListener("click", bordlink);
+            } else
+                alert("please fill up");
+        } else if(e.key === "esc"){
+            child.remove();
             childtwo.remove();
-            child.appendChild(filter);
-            filter.addEventListener("keyup",function(e){
-                if(e.keyCode === 13){
-                    bordlink;
-                }
-            });
-            filter.addEventListener("click",bordlink);
-        }else if(e.keyCode === 13 && childtwo.value == "" || e.keyCode === 13 && childtwo.value == null){
-            window.alert("please fill up");
         }
     });
 });
+
+function addCategory() {
+    if(this.value === "")
+        this.dispatchEvent(new KeyboardEvent("keyup", { key:"esc" }));
+    else
+        this.dispatchEvent(new KeyboardEvent("keyup", { keyCode:13 }));
+}

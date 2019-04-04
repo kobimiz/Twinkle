@@ -21,6 +21,8 @@
                 $starDiff = $_POST['starRating'];
             }
             DB::query("UPDATE `posts` SET `totalStars`=totalStars + ".$starDiff." WHERE `id`='".$_SESSION['postIds'][$_POST['postIndex']]."'");
-            echo $starDiff;
+            $stats = DB::query("select avg(stars) as average, sum(stars) as sum from postsstars where postID = ".$_SESSION['postIds'][$_POST['postIndex']])->fetch_assoc();
+            echo round($stats['average'], 2)."\n".
+                ($stats['sum'] | 0); // in case sum=0, than sql returns empty string
     }
 ?>

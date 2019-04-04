@@ -8,10 +8,10 @@ body{
     font-family: 'Courier New', Courier, monospace;
     font-weight: 900;
     font-size: 65px;
-    position: relative;
     top: 3%;
     color:#001942;
-    text-align:right;
+    text-align:center;
+    letter-spacing: 0.5em;
 }
 /* Note: organize different devices' media queries */
 #loginsec{
@@ -63,6 +63,9 @@ body{
     font-size: 20px;
     border: none;
 }
+#loginsec>form input:not([type="checkbox"]):focus,#loginsec>form input:not([type="checkbox"]):valid{
+    background-color: white;
+}
 #loginsec>form input:not([type="submit"]):not([type="checkbox"]){
     padding: 10px 4px 10px 50px;
     border-bottom: 2px solid #0d6cca;
@@ -70,14 +73,16 @@ body{
 #loginsec>form>input[type="submit"]{
     background-color: transparent;
     font-weight: 600;
-    border: 1px solid rgb(31, 31, 31);
+    border: 1px solid rgb(230, 230, 230);
 }
-#loginsec>form>input:focus{
+#loginsec>form>input[type="text"]:focus{
     border-bottom:2px solid #0a68c5;
     background-color: white;
 }
+
 /* remember me styling */
 .checkc{
+    margin:8px 0 ;
     display:block;
     position: relative;
     font-size: 20px;
@@ -162,7 +167,7 @@ body{
     color: #000;
     font-weight: 600;
     font-size: 25px;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: Arial, Helvetica, sans-serif
 }
 #loginsec>form>input[type="submit"]:hover{
     background-color: #6284e03d;
@@ -175,14 +180,14 @@ body{
 
 #signbottun>a{
     background-color: #001942;
-    font-size: 20px;
+    font-size: 17px;
     text-decoration: none;
     color: #fff;
-    font-weight: 530;
+    font-weight: 580;
     text-align: center;
-    border-radius: 20px;
     width: 8vw;
-    padding: 10px;
+    padding: 6px;
+    letter-spacing: 4px;
 }
 #signbottun>a:hover{
     background-color: #001942bd;
