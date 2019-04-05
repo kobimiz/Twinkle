@@ -7,7 +7,8 @@ body{
     margin: 10px -40px -10px 0;
     animation: Tlogo 3s infinite;
     -webkit-animation: Tlogo 3s infinite;
-    animation-timing-function:cubic-bezier(0, 0, 0, 1.23);
+    -moz-animation: Tlogo 3s infinite;
+    animation-timing-function:cubic-bezier(0.26, 0.48, 0, 1.25);
 }
 @keyframes Tlogo{
     from{transform:rotateY(0deg);}
@@ -15,6 +16,11 @@ body{
 
 }
 @-webkit-keyframes Tlogo{
+    from{transform:rotateY(0deg);}
+    to{transform:rotateY(540deg);}
+
+}
+@-moz-keyframes Tlogo{
     from{transform:rotateY(0deg);}
     to{transform:rotateY(540deg);}
 

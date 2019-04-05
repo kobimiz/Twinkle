@@ -32,7 +32,7 @@
 </head>
 
 <body>
-    <div id="logo"><img src="/iconList/TwinkleCon.png" style="width:65px; height:65px;" alt="Twinkle logo" class="Tlogo" > winkle</div>
+    <div id="logo"><img src="/iconList/TwinkleR.png" style="width:65px; height:65px;" alt="Twinkle logo" class="Tlogo" > winkle</div>
 
     <section id="loginsec">
         <h1 id="intro">Sign in</h1>

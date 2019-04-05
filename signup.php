@@ -18,7 +18,7 @@
 
 <body>
     <div class="topnav">
-        <div id="logo">Twinkle</div>
+        <div id="logo"><img src="/iconList/TwinkleR.png" style="width:65px; height:65px;" alt="Twinkle logo" > winkle</div>
     </div>
 
     <div class="contain">

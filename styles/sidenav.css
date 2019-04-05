@@ -110,7 +110,10 @@
   position: absolute;
   bottom: 0;
   text-decoration: none;
-  color: rgb(223, 15, 15);
+  color: rgb(247, 12, 12);  
   font-size: 24px;
   padding: 20px 0 20px 3px;
+}
+#logout:hover{
+  background-color: rgb(230, 230, 230);
 }
