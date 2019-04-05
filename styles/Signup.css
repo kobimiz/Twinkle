@@ -3,19 +3,41 @@ body{
     overflow: hidden;
     background: #f5f5f8;
 }
+#logo>img{
+    margin: 10px -40px -10px 0;
+    animation: Tlogo 3s infinite;
+    -webkit-animation: Tlogo 3s infinite;
+    -moz-animation: Tlogo 3s infinite;
+    animation-timing-function:cubic-bezier(0.26, 0.48, 0, 1.25);
+}
+@keyframes Tlogo{
+    from{transform:rotateY(0deg);}
+    to{transform:rotateY(540deg);}
 
+}
+@-webkit-keyframes Tlogo{
+    from{transform:rotateY(0deg);}
+    to{transform:rotateY(540deg);}
+
+}
+@-moz-keyframes Tlogo{
+    from{transform:rotateY(0deg);}
+    to{transform:rotateY(540deg);}
+
+}
 #logo{
     font-family: 'Courier New', Courier, monospace;
     font-weight: 900;
     font-size: 65px;
-    position: relative;
     top: 3%;
-    color:#03037c;
-    text-align:right;
+    color:#001942;
+    text-align:center;
+    letter-spacing: 0.5em;
+    margin-bottom: 2%;
 }
 .contain{
     margin: auto;
-    height: 32em;
+    height: 35em;
     display:block;
     align-items: center;
     background-color: white;
@@ -36,7 +58,7 @@ body{
 .inputContainer {
     display:flex;
     align-items: center;
-    border-bottom: 2px solid #0d6cca;
+    border-bottom: 3px solid #0d6cca;
 }
 .inputContainer #choosename, .inputContainer #choosepass {
     border:none;
@@ -70,23 +92,41 @@ body{
     box-sizing: border-box;
     border-bottom: 2px solid #0d6cca;
 }
-.contain>form>input:focus{
-    background-color: white;
+.contain>form input:not([type="submit"]):focus{
+    background-color:white;
 }
+.contain>form input:not([type="submit"]):valid, .contain>form input[type="email"]{
+    background-color:white;
+}
+#fname{
+    width:47%;
+    float:left;
+    padding: 10px 4px 10px 10px;
+}
+#lname{
+    width:47%;
+    float:right;
+    padding: 10px 4px 10px 10px;
+}
+label[for="lname"]{
+    float:right;
+    margin-right: 22%;
+}
+
 #email{
-    background-image: url(/iconList/envelope-regular.svg);
-    background-position: 10px 8px;
+    background-image: url(/iconList/Mail.png);
+    background-position: 10px 12px;
     background-repeat: no-repeat;
     background-size: 25px;
 }
 #choosename{
-    background-image: url(/iconList/user-regular.svg);
+    background-image: url(/iconList/User.png);
     background-position: 10px 8px;
     background-repeat: no-repeat;
     background-size: 25px;
 }
 #choosepass{
-    background-image: url(/iconList/lock-solid.svg);
+    background-image: url(/iconList/Lock.png);
     background-position: 10px 8px;
     background-repeat: no-repeat;
     background-size: 25px;
@@ -94,7 +134,7 @@ body{
 
 .contain>form>#register{
     font-weight: 600;
-    border: 1px solid rgb(31, 31, 31);
+    border: 1px solid rgb(230, 230, 230);
 }
 .contain>form>label{
     color: black;
@@ -105,6 +145,25 @@ body{
 .contain>form>input[type="submit"]:hover{
     background-color: #6284e03d;
     cursor: pointer;
+}
+#register{
+    width:75%;
+    float:left;
+}
+.login{
+    color:white;
+    float:right;
+    text-decoration: none;
+    outline: none;
+    border: 1px solid rgb(230, 230, 230);
+    display:block;
+    padding:10px;
+    margin-top: 5px;
+    font-size: 20px;
+    background-color: #001942;
+}
+.login:hover{
+    opacity: .7;
 }
 #Wshowpass{
     width: 24px;

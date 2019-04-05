@@ -3,15 +3,36 @@ body{
     overflow: hidden;
     background-color: #f5f5f8;
 }
+.Tlogo{
+    margin: 10px -40px -10px 0;
+    animation: Tlogo 3s infinite;
+    -webkit-animation: Tlogo 3s infinite;
+    -moz-animation: Tlogo 3s infinite;
+    animation-timing-function:cubic-bezier(0.26, 0.48, 0, 1.25);
+}
+@keyframes Tlogo{
+    from{transform:rotateY(0deg);}
+    to{transform:rotateY(540deg);}
 
+}
+@-webkit-keyframes Tlogo{
+    from{transform:rotateY(0deg);}
+    to{transform:rotateY(540deg);}
+
+}
+@-moz-keyframes Tlogo{
+    from{transform:rotateY(0deg);}
+    to{transform:rotateY(540deg);}
+
+}
 #logo{
     font-family: 'Courier New', Courier, monospace;
     font-weight: 900;
     font-size: 65px;
-    position: relative;
     top: 3%;
-    color:#03037c;
-    text-align:right;
+    color:#001942;
+    text-align:center;
+    letter-spacing: 0.5em;
 }
 /* Note: organize different devices' media queries */
 #loginsec{
@@ -63,6 +84,9 @@ body{
     font-size: 20px;
     border: none;
 }
+#loginsec>form input:not([type="checkbox"]):focus,#loginsec>form input:not([type="checkbox"]):valid{
+    background-color: white;
+}
 #loginsec>form input:not([type="submit"]):not([type="checkbox"]){
     padding: 10px 4px 10px 50px;
     border-bottom: 2px solid #0d6cca;
@@ -70,14 +94,16 @@ body{
 #loginsec>form>input[type="submit"]{
     background-color: transparent;
     font-weight: 600;
-    border: 1px solid rgb(31, 31, 31);
+    border: 1px solid rgb(230, 230, 230);
 }
-#loginsec>form>input:focus{
+#loginsec>form>input[type="text"]:focus{
     border-bottom:2px solid #0a68c5;
     background-color: white;
 }
+
 /* remember me styling */
 .checkc{
+    margin:8px 0 ;
     display:block;
     position: relative;
     font-size: 20px;
@@ -123,6 +149,7 @@ body{
     cursor: pointer;
     height: 0;
     width: 0;
+    margin-right:10px;
 }
 .checkc>#checkin{
     position: absolute;
@@ -141,7 +168,7 @@ body{
     background-size: 25px;
 }
 #password{
-    background-image: url(/iconList/lock-solid.svg);
+    background-image: url(/iconList/Lock.png);
     background-position: 10px 8px;
     background-repeat: no-repeat;
     background-size: 25px;
@@ -162,7 +189,7 @@ body{
     color: #000;
     font-weight: 600;
     font-size: 25px;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: Arial, Helvetica, sans-serif
 }
 #loginsec>form>input[type="submit"]:hover{
     background-color: #6284e03d;
@@ -175,14 +202,14 @@ body{
 
 #signbottun>a{
     background-color: #001942;
-    font-size: 20px;
+    font-size: 17px;
     text-decoration: none;
     color: #fff;
-    font-weight: 530;
+    font-weight: 580;
     text-align: center;
-    border-radius: 20px;
     width: 8vw;
     padding: 10px;
+    letter-spacing: 4px;
 }
 #signbottun>a:hover{
     background-color: #001942bd;

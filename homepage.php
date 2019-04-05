@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="styles/sidenav.css">
     <link rel="stylesheet" href="styles/posts.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+    <link rel="icon" href="/iconList/TwinkleCon.png" type="image/png">
 
     <title>Homepage Twinkle</title>
 </head>
