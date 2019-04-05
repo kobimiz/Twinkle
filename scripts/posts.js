@@ -12,18 +12,19 @@ var playanime = document.querySelector(".playanime");
 var pauseanime = document.querySelector(".pauseanime");
 var topbar = document.querySelector(".topbar");
 var bottombar = document.querySelector(".bottombar");
-var optionsarrow = document.querySelector(".optionicon");
-var optionscon = document.querySelector(".optionscon");
+var optionsarrows = document.querySelectorAll(".optionicon");
+var optionscons = document.querySelectorAll(".optionscon");
 var screensize = document.querySelector(".screenicon");
 var volume = document.querySelector(".volumeicon");
 var volumecheck = false;
-var clickcheck_ = false;
+var activatedArrowDownIndex = -1;
 var comforms = document.querySelectorAll('.comform');
 var activatedCommentIndex = -1;
-var checkrep = false;
+var activatedRepIndex = -1;
 var acts1 = document.querySelectorAll('.act1');
-var reply = document.querySelector(".comreply");
-var repform = document.querySelector(".replyform");
+var replies = document.querySelectorAll(".comreply");
+var repforms = document.querySelectorAll(".replyform");
+var submitReplyCommentButtons = document.querySelectorAll(".submit");
 
 function FPP() {
     if (video.paused) {
@@ -37,9 +38,7 @@ function FPP() {
     }
 }
 
-btn.onclick = function () {
-    FPP();
-}
+btn.onclick = FPP;
 video.onclick = function () {
     if (video.paused) {
         btn.classList.add("pause");
@@ -56,7 +55,6 @@ video.ontimeupdate = function () {
         btn.classList.add("play");
     }
 }
-
 leftBtn.onclick = function () {
     video.currentTime += -5;
 }
@@ -69,6 +67,7 @@ video.addEventListener("timeupdate", function () {
     juiceBar.style.width = juicePos * 100 + "%";
 });
 
+// What the fuck is this & and 3 mousemove event listeners??? check this asap
 function scrub(event) {
     var scrubTime = (event.offsetX / videojump.offsetWidth) * video.duration;
     video.currentTime = scrubTime;
@@ -192,44 +191,32 @@ volume.addEventListener("click",function(){
 
 /*<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 //<<<<<<<>>>>>>>>
+// consider setting already existing functions to timeOut for there would be multiple videos
 video.addEventListener("click", function () {
     if (video.paused) {
         pauseanime.classList.add("pauseanimeadd");
-        setTimeout(RemoveClass_, 1000);
+        setTimeout(function() { pauseanime.classList.remove("pauseanimeadd"); }, 1000);
     } else if (video.play) {
         playanime.classList.add("playanimeadd");
-        setTimeout(RemoveClass, 1000);
+        setTimeout(function() { playanime.classList.remove("playanimeadd"); }, 1000);
     }
 });
-function RemoveClass() {
-    playanime.classList.remove("playanimeadd");
-}
-function RemoveClass_() {
-    pauseanime.classList.remove("pauseanimeadd");
-}
+
 /*<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 
-// show and hide of the options nav bar
-optionsarrow.addEventListener("click",function(e){
-    if(!clickcheck_){
-        optionscon.style.display = "block";
-        clickcheck_ = true;
-        e.stopPropagation();
-    }else{
-        optionscon.style.display = "none";
-        clickcheck_ = false;
-    }
-});
 document.body.addEventListener('click',function(){
-    if(clickcheck_ == true){
-        optionscon.style.display = "none";
-        clickcheck_ = false;
+    if(activatedArrowDownIndex !== -1){
+        optionscons[activatedArrowDownIndex].style.display = "none";
+        activatedArrowDownIndex = -1
     }
-});
-optionscon.addEventListener("click",function(e){
-    e.stopPropagation();
 });
 
+document.body.addEventListener('click', function(){
+    if(activatedCommentIndex !== -1) {
+        comforms[activatedCommentIndex].style.display = "none";
+        activatedCommentIndex = -1;
+    }
+});
 /*stars animation --------------------- */
 
 var starsContainer = document.getElementsByClassName("starrate");
@@ -241,7 +228,6 @@ function getChildIndex(element) {
             return i;
     return -1;
 }
-
 function rate(e) {
     if (e.target.matches("img")) {
         var starRate = getChildIndex(e.target), // since there is a span element in e.target.parentElement, its child index is equal its star rate
@@ -273,40 +259,19 @@ function rate(e) {
     }
 }
 
-for(var i = 0; i < starsContainer.length; i++)
+function stopPropagation(e) { e.stopPropagation(); }
+
+for(var i = 0; i < starsContainer.length; i++) {
     starsContainer[i].addEventListener("click", rate);
+    comforms[i].addEventListener("click", stopPropagation);
+    optionscons[i].addEventListener("click", stopPropagation);
 
-/*
-for(var i = 0; i < starsContainer.length; i++)
-    starsContainer[i].addEventListener("click", rate);
-const links = document.querySelectorAll(".link");
-const bord = document.querySelector(".bord");
-bord.classList.add("bord");
-*/
-
-//change the size of the video screen
-
-            // screensize.addEventListener("click", openFullscreen);
-            // function openFullscreen() {
-            //   if (screensize.requestFullscreen) {
-            //     video.requestFullscreen();
-            //   } else if (screensize.mozRequestFullScreen) { /* Firefox */
-            //     video.mozRequestFullScreen();
-            //   } else if (screensize.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-            //     video.webkitRequestFullscreen();
-            //   } else if (screensize.msRequestFullscreen) { /* IE/Edge */
-            //     video.msRequestFullscreen();
-            //   }
-            // }
-//comment click anime
-for(var i = 0; i < acts1.length; i++) {
     acts1[i].addEventListener("click", (function() {
         var index = i; // closure
         return function(e){
             if(index !== activatedCommentIndex){ // current comment not displayed
-                if(activatedCommentIndex !== -1) { // hide last comment
+                if(activatedCommentIndex !== -1)// hide last comment
                     comforms[activatedCommentIndex].style.display = "none";
-                }
                 comforms[index].style.display = "block"; // display current comment
                 activatedCommentIndex = index;
                 e.stopPropagation();
@@ -317,35 +282,112 @@ for(var i = 0; i < acts1.length; i++) {
         }
     })());
 
-    comforms[i].addEventListener("click", function(e){ // same number of comforms as acts1
-        e.stopPropagation();
-    });
+    // show and hide of the options nav bar
+    optionsarrows[i].addEventListener("click", (function() {
+        var index = i; // closure
+        return function(e){
+            if(index !== activatedArrowDownIndex) { // current arrow not displayed
+                if(activatedArrowDownIndex !== -1) // hide last arrow
+                    optionscons[activatedArrowDownIndex].style.display = "none";
+                optionscons[index].style.display = "block"; // display current arrow
+                activatedArrowDownIndex = index;
+                e.stopPropagation();
+            } else { // current arrow already displayed
+                optionscons[index].style.display = "none";
+                activatedArrowDownIndex = -1;
+            }
+        }
+    })());
 }
 
-document.body.addEventListener('click', function(){
-    if(activatedCommentIndex !== -1) {
-        comforms[activatedCommentIndex].style.display = "none";
-        activatedCommentIndex = -1;
+//change the size of the video screen
+
+// screensize.addEventListener("click", openFullscreen);
+// function openFullscreen() {
+//   if (screensize.requestFullscreen) {
+//     video.requestFullscreen();
+//   } else if (screensize.mozRequestFullScreen) { /* Firefox */
+//     video.mozRequestFullScreen();
+//   } else if (screensize.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+//     video.webkitRequestFullscreen();
+//   } else if (screensize.msRequestFullscreen) { /* IE/Edge */
+//     video.msRequestFullscreen();
+//   }
+// }
+//comment click anime
+
+// consider adding onerror to all ajaxes
+// add loading post/comment/reply after ajax is done
+function submitReply(e) {
+    var val = e.target.parentElement.children[0].value;
+    if(val !== "") {
+        var xmlhttp = new XMLHttpRequest();
+        // Loading effect
+        xmlhttp.onloadstart = reader.onloadstart;
+        xmlhttp.onloadend = reader.onloadend;
+        xmlhttp.onprogress = reader.onprogress;
+
+        var formData = new FormData();
+        formData.append("content", val);
+        formData.append("commentIndex", getChildIndex(e.target.parentElement.parentElement) - 1);
+        formData.append("postIndex", getChildIndex(e.target.parentElement.parentElement.parentElement.parentElement.parentElement));
+        xmlhttp.open("POST", "templates/reply.php", true);
+        xmlhttp.send(formData);
+    } else {
+        // .....
     }
-});
+}
+
+function submitComment(e) {
+    var val = e.target.parentElement.children[0].value;
+    if(val !== "") {
+        var xmlhttp = new XMLHttpRequest();
+        // Loading effect
+        xmlhttp.onloadstart = reader.onloadstart;
+        xmlhttp.onloadend = reader.onloadend;
+        xmlhttp.onprogress = reader.onprogress;
+
+        var formData = new FormData();
+        formData.append("content", val);
+        formData.append("postIndex", getChildIndex(e.target.parentElement.parentElement.parentElement));
+        xmlhttp.open("POST", "templates/comment.php", true);
+        xmlhttp.send(formData);
+    } else {
+        // .....
+    }
+}
 
 //reply click anime
-reply.addEventListener("click",function(e){
-    if(!checkrep){
-        repform.style.display = "block";
-        checkrep = true;
-        e.stopPropagation();
-    }else{
-        repform.style.display = "none";
-        checkrep = false;
-    }
-});
+// consider making a common function for that closure trick function
+for (let i = 0; i < replies.length; i++) {
+    replies[i].addEventListener("click", (function() {
+        var index = i;
+        return function(e){
+            if(index !== activatedRepIndex){ // current reply not displayed
+                if(activatedRepIndex !== -1)// hide last reply
+                    repforms[activatedRepIndex].style.display = "none";
+                repforms[index].style.display = "block"; // display reply comment
+                activatedRepIndex = index;
+                e.stopPropagation();
+            } else { // current reply already displayed
+                repforms[index].style.display = "none";
+                activatedRepIndex = -1;
+            }
+        }
+    })());
+    repforms[i].addEventListener("click", stopPropagation);
+}
+
+for (let i = 0; i < submitReplyCommentButtons.length; i++) {
+    if(submitReplyCommentButtons[i].parentElement.classList[0].search("reply") === -1) // comment
+        submitReplyCommentButtons[i].addEventListener("click", submitComment);
+    else // reply
+        submitReplyCommentButtons[i].addEventListener("click", submitReply);
+}
+// consider mergin all body click listeners to one function
 document.body.addEventListener('click',function(){
-    if(checkrep == true){
-        repform.style.display = "none";
-        checkrep = false;
+    if(activatedRepIndex !== -1){
+        repforms[activatedRepIndex].style.display = "none";
+        activatedRepIndex = -1;
     }
-});
-repform.addEventListener("click",function(e){
-    e.stopPropagation();
 });

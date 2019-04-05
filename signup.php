@@ -50,15 +50,15 @@
 					$password = htmlspecialchars($_POST['password']);
 					if(!preg_match("/^[a-zA-Z0-9]*$/",$password))
 						$passwordErr = "Only letters and numbers allowed";
-					elseif(strlen($password) < 4 || strlen($password) >= 25)
-						$passwordErr = "Password must be between 4-25 characters";
+					elseif(strlen($password) < 6 || strlen($password) >= 25)
+						$passwordErr = "Password must be between 6-25 characters";
 				}
 				if(empty($_POST['email']))
-					$emailErr = "Please fill in an email adress";
+					$emailErr = "Please fill in an email address";
 				else {
 					$email = testInput($_POST['email']);
 					if(!filter_var($email, FILTER_VALIDATE_EMAIL))
-						$emailErr = "Please enter a valid email adress";
+						$emailErr = "Please enter a valid email address";
 					elseif(strlen($email) >= 40)
 						$passwordErr = "Email mustn't be over 40 characters";
 					elseif(DB::query("SELECT * FROM `users` WHERE `email` = '$email'")->num_rows == 1)

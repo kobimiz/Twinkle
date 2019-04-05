@@ -363,7 +363,6 @@
         display: inline-block;
         float:right;
         margin:0 20px;
-        cursor: pointer;
     }
     .UserAm{
         width:40px;
@@ -397,9 +396,8 @@
     .date{
         float:right;
         padding:5px;
-    }
-    .datenum{
-        font-size: 24px;
+        font-size:18px;
+        color: rgb(161, 161, 161);
     }
     .descript{
         justify-content: center;
@@ -474,6 +472,7 @@
     }
     .comform{
         display: none;
+        margin-left: 15px;
     }
     input[name="typecom"]{
         outline:none;
@@ -491,6 +490,8 @@
         cursor: pointer;
         padding: 5px;
         border-radius: 20%;
+        border: 0px;
+        background: white;
     }
     .submit:hover{
         color:rgb(34, 140, 238);
@@ -498,7 +499,8 @@
     }
 
     .replyform{
-        /* display:none; */
+        margin-left:5px;
+        display:none;
     }
     input[name="typerep"]{
         outline:none;
@@ -876,7 +878,6 @@
         display: inline-block;
         float:right;
         margin:0 20px;
-        cursor: pointer;
     }
     .UserAm{
         width:40px;
@@ -910,9 +911,8 @@
     .date{
         float:right;
         padding:5px;
-    }
-    .datenum{
-        font-size: 24px;
+        font-size:18px;
+        color: rgb(161, 161, 161);
     }
     .descript{
         justify-content: center;
@@ -987,6 +987,7 @@
     }
     .comform{
         display: none;
+        margin-left: 15px;
     }
     input[name="typecom"]{
         outline:none;
@@ -1004,6 +1005,8 @@
         cursor: pointer;
         padding: 5px;
         border-radius: 20%;
+        border: 0px;
+        background: white;
     }
     .submit:hover{
         color:rgb(34, 140, 238);
@@ -1011,7 +1014,8 @@
     }
 
     .replyform{
-        /* display:none; */
+        margin-left:5px;
+        display:none;
     }
     input[name="typerep"]{
         outline:none;

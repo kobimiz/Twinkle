@@ -2,8 +2,10 @@
     class DB {
         private static $connection;
         public static function connect() {
-            self::$connection = new mysqli('localhost', 'root', '', 'twinkle');
-            self::$connection->set_charset("utf8");
+            if(!isset(self::$connection)) {
+                self::$connection = new mysqli('localhost', 'root', '', 'twinkle');
+                self::$connection->set_charset("utf8");
+            }
         }
 
         public static function query($query) {

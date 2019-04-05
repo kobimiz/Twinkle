@@ -1,6 +1,7 @@
 <?php
     session_start();
     require_once("classes/queries.php");
+    require_once("classes/posts.php");
     DB::connect();
 
     if(isset($_SESSION['username']) && isset($_SESSION['password'])) {
@@ -77,12 +78,14 @@
         </div>
         <div id="posts">
             <?php
-                $_SESSION['postIds'] = array();
+                // make a class for it
+                $_SESSION['posts'] = array();
                 $posts = DB::query("SELECT * FROM `posts` ORDER BY `date` DESC");
                 // consider changing posts table's userid to username for it is unique as well
                 // consider distinguishing between images and videos when stored
+                // consider changing post label for reply\comment forms to actualy sumbit buttons
                 foreach($posts as $post) { // consider rethinking the way to show posts, comments (fewer queries)
-                    array_push($_SESSION['postIds'], $post['id']);
+                    array_push($_SESSION['posts'], new Post($post['id']));
                     $userInfo = DB::query("SELECT `username`,`profilePic` FROM `users` WHERE `id`='".$post['userID']."'")->fetch_assoc();
                     echo 
                     "<div class='postcon'>
@@ -144,10 +147,13 @@
                                         echo "<img alt='star' src='/iconList/FilledStar.png' class='star'>";
                                     for ($i=$stars; $i < 5; $i++)
                                         echo "<img alt='star' src='/iconList/RateStar.svg' class='star'>";
+                                        
+                                    $count = DB::query("select count(*) as numUsers from postsstars where postID=".$post['id'])->fetch_assoc()['numUsers'];
                                 echo
                                 "</div>
                                 <div class='Avgdata'>
-                                    <img alt='Users Amount' src='/iconList/User.png' class='UserAm'><span class='usernum'>234</span>
+                                    <img alt='Users Amount' src='/iconList/User.png' class='UserAm'>
+                                    <span class='usernum'>".$count."</span>
                                 </div>
                             </div>
 
@@ -157,7 +163,7 @@
                                     <a class='ownerfullname' href=profile.php?user=".$userInfo['username'].">".$userInfo['username']."</a>
                                 </div>
 
-                                <div class='date'><span class='datenum'>".$post['date']."</span></div>
+                                <div class='date'>".$post['date']."</div>
                             </div>
 
                             <div class='descript'>".htmlspecialchars($post['content'])."</div>
@@ -177,20 +183,21 @@
                                 </div>
                                 <div class='act3'>
                                     <a href='#'>
-                                        <span>Send</span>
-                                    <img alt='Send it' src='/iconList/Sendit.png' class='send' style='width:30px; height:30px;'>
+                                        <span>Share</span>
+                                    <img alt='Share a post' src='/iconList/share.png' style='width:30px; height:30px;'>
                                     </a>
                                 </div>
                             </div>
 
-                            <form method='post' name='compost' class='comform'>
-                                    <input name='typecom' type='text' placeholder='Share your thoughts..' autocomplete='off'>
-                                    <label for='typcom' class='submit'>></label>
-                            </form>
-                            <div class='comments'>
-                                <h2>Comments</h2>";
-
-                                $postComments = DB::query("select * from comments where isPostComment=true and itemCommentedId=".$post['id']." order by date asc");
+                            <div class='comform'>
+                                <input name='typecom' type='text' placeholder='Share your thoughts..' autocomplete='off'>
+                                <button class='submit'>></button>
+                            </div>
+                            <div class='comments'>";
+                            
+                                $postComments = DB::query("select * from comments where postId=".$post['id']." order by date asc");
+                                if($postComments->num_rows !== 0)
+                                    echo "<h2>Comments</h2>";
                                 foreach($postComments as $comment) {
                                     $commentingUser = DB::query("select * from users where id=".$comment['userid'])->fetch_assoc();
                                     echo
@@ -203,17 +210,35 @@
                                                 </a>
                                                 <span class='commdate'>".$comment['date']."</span>
                                             </div>
-                                            <div class='commentcont'>".$comment['content']."</div>
+                                            <div class='commentcont'>".htmlspecialchars($comment['content'])."</div>
                                             <div class='comset'>
                                                 <span class='comreply'>reply</span> <span class='comnote'>note</span>
                                             </div>
                                         </div>
 
-                                        <form method='post' name='replyform' class='replyform'>
+                                        <div class='replyform'>
                                             <input name='typerep' type='text' placeholder='Reply...' autocomplete='off'>
-                                        </form>";
+                                            <button class='submit'>></button>
+                                        </div>";
 
-                                        displayCommentComments($comment["id"]);
+                                        $replies = DB::query("select * from replies where commentId=".$comment['id']." order by date desc");
+                                        foreach($replies as $reply) {
+                                            $replyingUser = DB::query("select * from users where id=".$reply['userId'])->fetch_assoc();
+                                            echo
+                                        "<div class='replydiv'>
+                                            <div class='userD'>
+                                                <a href='profile.php?user=".$replyingUser["username"]."' class='userN'>
+                                                    <img alt='profile photo' src='".profilePic($replyingUser["profilePic"])."' class='selfimg'/>
+                                                    ".$replyingUser["username"]."
+                                                </a>
+                                                <span class='commdate'>".$reply['date']."</span>
+                                            </div>
+                                            <div class='replycont'>".htmlspecialchars($reply['content'])."</div>
+                                            <div class='comset'>
+                                                <span class='comnote'>note</span>
+                                            </div>".
+                                        "</div>";
+                                        }
                                 echo "</div>";
                                 }
                             echo
@@ -226,29 +251,6 @@
                 }
                 function profilePic($picName) {
                     return ($picName === "") ? "/iconList/"."user.png":"/uploads/".$picName;
-                }
-
-                function displayCommentComments($commentId) {
-                    $commentComments = DB::query("select * from comments where isPostComment=false and itemCommentedId=".$commentId);
-                    $commentComment;
-                    while(($commentComment = $commentComments->fetch_assoc()) !== null) {
-                        $commentingUser = DB::query("select * from users where id=".$commentComment['userid'])->fetch_assoc();
-                        echo
-                        "<div class='replydiv'>
-                            <div class='userD'>
-                                <a href='profile.php?user=".$commentingUser["username"]."' class='userN'>
-                                    <img alt='profile photo' src='".profilePic($commentingUser["profilePic"])."' class='selfimg'/>
-                                    ".$commentingUser["username"]."
-                                </a>
-                                <span class='commdate'>".$commentComment['date']."</span>
-                            </div>
-                            <div class='replycont'>".$commentComment['content']."</div>
-                            <div class='comset'>
-                                <span class='comreply'>reply</span> <span class='comnote'>note</span>
-                            </div>".
-                            displayCommentComments($commentComment["id"]).
-                        "</div>";
-                    }
                 }
             ?>
         </div>
