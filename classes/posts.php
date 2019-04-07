@@ -1,7 +1,7 @@
 <?php
     require_once(__DIR__."/../classes/queries.php");
     DB::connect();
-    // consider adding destructors
+    // consider adding destructors, and adding replies somehow because they need to be edited somehow
     class Post {
         public $id; // consider doing something with public
         public $commentsIds = array();

@@ -6,8 +6,9 @@
     // consider checking file isn't empty
     // consider changing userid to username posts, since it is easier to get
     // preg_match("/\s\([\d]+(?=\)\.)/", $_FILES["file"]["name"], $res); <--- random thing i want to keep for a while
-    session_start();
     require_once(__DIR__."/../classes/queries.php");
+    require_once(__DIR__."/../classes/posts.php");
+    session_start();
     DB::connect();
 
     if(isset($_FILES["file"])) {
@@ -32,6 +33,8 @@
                 "', '".$_FILES["file"]["name"].
                 "', '0')");
             echo "success";
+
+            array_splice($_SESSION['posts'], 0, 0, array(new Post(DB::insertId()))); // insert a new post in the beggining
         }
     } else if(isset($_SESSION["username"]))
         header('Location: /../homepage.php');

@@ -79,7 +79,9 @@
         </div>
         <div id="posts">
             <?php
-                // make a class for it
+                // todo: fix bug crash when uploading a video (possibly by size or thumbnail)
+                // todo: add preview of uploading videos
+                // todo: tell yehuda about swapping volume icons in on\off modes
                 $_SESSION['posts'] = array();
                 $posts = DB::query("SELECT * FROM `posts` ORDER BY `date` DESC");
                 // consider changing posts table's userid to username for it is unique as well
@@ -196,7 +198,7 @@
                             </div>
                             <div class='comments'>";
                             
-                                $postComments = DB::query("select * from comments where postId=".$post['id']." order by date asc");
+                                $postComments = DB::query("select * from comments where postId=".$post['id']." order by date desc");
                                 if($postComments->num_rows !== 0)
                                     echo "<h2>Comments</h2>";
                                 foreach($postComments as $comment) {
@@ -206,7 +208,7 @@
                                         <div class='commentsarea'>
                                             <div class='userD'>
                                                 <a href='profile.php?user=".$commentingUser["username"]."' class='userN'>
-                                                    <img alt='profile photo' src='".profilePic($commentingUser["profilePic"])."' class='selfimg'/>
+                                                    <img alt='Profile photo' src='".profilePic($commentingUser["profilePic"])."' class='selfimg'/>
                                                     ".$commentingUser["username"]."
                                                 </a>
                                                 <span class='commdate'>".$comment['date']."</span>
@@ -229,7 +231,7 @@
                                         "<div class='replydiv'>
                                             <div class='userD'>
                                                 <a href='profile.php?user=".$replyingUser["username"]."' class='userN'>
-                                                    <img alt='profile photo' src='".profilePic($replyingUser["profilePic"])."' class='selfimg'/>
+                                                    <img alt='Profile photo' src='".profilePic($replyingUser["profilePic"])."' class='selfimg'/>
                                                     ".$replyingUser["username"]."
                                                 </a>
                                                 <span class='commdate'>".$reply['date']."</span>

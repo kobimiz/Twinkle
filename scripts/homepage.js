@@ -61,6 +61,7 @@ document.getElementById("post").addEventListener("click", function() {
                     errorMessage.style.display = "inline";
                     errorMessage.innerHTML = "The uploaded file is too large. <a href='helpCenter/fileUploadingQA.php#largeFile'>For further information, please click here.</a>";
                 }
+                console.log(this.responseText);
             }
         };
         // same loading effects as "reader"-'s

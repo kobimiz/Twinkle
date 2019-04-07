@@ -11,5 +11,9 @@
             $_POST['content']."', '".
             date("Y-m-d H:i:s").
         "')");
+
+        // consider importing the profilePic function. 
+        $picName = DB::query("select profilePic from users where username='".$_SESSION['username']."'")->fetch_assoc()['profilePic'];
+        echo $_SESSION["username"].','.(($picName === "") ? "/iconList/"."user.png":"/uploads/".$picName);
     }
 ?>

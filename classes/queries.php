@@ -1,5 +1,6 @@
 <?php
     class DB {
+        // consider redesigning
         private static $connection;
         public static function connect() {
             if(!isset(self::$connection)) {
@@ -23,6 +24,10 @@
 
         public static function error() {
             return self::$connection->error;
+        }
+
+        public static function insertId() {
+            return self::$connection->insert_id;
         }
     }
 ?>
