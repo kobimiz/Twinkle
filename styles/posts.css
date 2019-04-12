@@ -1,7 +1,12 @@
 /* replace the rule below with a proper content sizing function */
-.Vcon > img, .Vcon > video {
+.Vcon > video {
     width: 700px;
     max-height: 400px;
+}
+.Vcon > img{
+    width:auto;
+    max-height: 400px;
+    margin: 0;
 }
 
 .comments {
