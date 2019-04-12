@@ -9,6 +9,12 @@
     margin: 0;
 }
 
+.Vcon > img {
+    max-height: 400px;
+    display:block;
+    margin:auto;
+}
+
 .comments {
     padding-left: 20px;
 }

@@ -10,8 +10,7 @@
     require_once(__DIR__."/../classes/posts.php");
     session_start();
     DB::connect();
-
-    if(isset($_FILES["file"])) {
+    if(isset($_FILES)) {
         $target_dir = __DIR__."/../uploads/";
         $target_file = $target_dir.basename($_FILES["file"]["name"]);
         $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -20,9 +19,9 @@
         $arr = array("jpeg", "jpg", "png", "gif", "avi", "amv", "mp4");
 
         if(array_search($fileType, $arr) === false)
-            echo "invalid type";
+            echo "invalid type,";
         else if($_FILES["file"]["size"] > 20000000) // file size greater than 20mb
-            echo "too big";
+            echo "too big,";
         else if(!move_uploaded_file($_FILES["file"]["tmp_name"], $target_file))
             echo "error";
         else {
@@ -32,15 +31,17 @@
                 "', '".addslashes($_POST['content']).
                 "', '".$_FILES["file"]["name"].
                 "', '0')");
-            echo "success";
+            echo "success,";
 
             array_splice($_SESSION['posts'], 0, 0, array(new Post(DB::insertId()))); // insert a new post in the beggining
         }
-    } else if(isset($_SESSION["username"]))
+    } else if(isset($_SESSION["username"])) // todo: handle file serving (so i can get rid of this)
         header('Location: /../homepage.php');
     else
         header('Location: /../signin.php');
 
+    $picName = DB::query("select profilePic from users where username='".$_SESSION['username']."'")->fetch_assoc()['profilePic'];
+    echo $_SESSION['username'].",".$_FILES["file"]["name"].",".$_POST['content'].",".(($picName === "") ? "/iconList/"."user.png":"/uploads/".$picName);
     function randomizeName() { // 10 lowercase letters/digits characters long
         $name = "";
         for ($i=0; $i < 10; $i++) {
