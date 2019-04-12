@@ -1,42 +1,5 @@
-var video = document.querySelector(".video");
-var btn = document.querySelector(".play-pause");
-var leftBtn = document.querySelector(".left");
-var rightBtn = document.querySelector(".right");
-var juiceMark = document.querySelector(".juicemark");
-var videojump = document.querySelector('.videojump');
-var linediv = document.querySelector(".linediv");
-var durTIme = document.querySelector(".durtime");
-var curTIme = document.querySelector(".curtime");
-var playanime = document.querySelector(".playanime");
-var pauseanime = document.querySelector(".pauseanime");
-var topbar = document.querySelector(".topbar");
-var bottombar = document.querySelector(".bottombar");
-var optionsarrows = document.querySelectorAll(".optionicon");
-var optionscons = document.querySelectorAll(".optionscon");
-var screensize = document.querySelector(".screenicon");
-var volume = document.querySelector(".volumeicon");
-var volumecheck = false;
-var activatedArrowDownIndex = -1;
-var comforms = document.querySelectorAll('.comform');
-var activatedCommentIndex = -1;
-var activatedRepIndex = -1;
-var acts1 = document.querySelectorAll('.act1');
-var replies = document.querySelectorAll(".comreply");
-var repforms = document.querySelectorAll(".replyform");
-var submitReplyCommentButtons = document.querySelectorAll(".submit");
-
 // consider adding onerror to all ajaxes
 // consider making a common function for that closure trick function
-// !!!!! todo: VVVVV
-/*
-var someInput = $0;
-someInput.addEventListener('click', myFunc, false);
-someInput.myParam = 'This is my parameter';
-function myFunc(evt)
-{
-  window.alert( evt.target.myParam );
-}
-*/
 // todo: move post upload to here
 // todo: add delete\edit buttons
 // Function.prototype.bind function polyfil. todo: test on old browser
@@ -66,6 +29,7 @@ function getChildIndex(element) {
             return i;
     return -1;
 };
+
 // todo: improve event listeners system
 // todo: benchmark using event listeners w\ prototype or with event argument
 // todo: ask if one can rate oneself
@@ -89,7 +53,8 @@ Post.rate = function(e) { // todo: fix possible exploit, fix stars moving aside 
             siblings = e.target.parentElement.children,
             xmlhttp = new XMLHttpRequest(),
             formData = new FormData(),
-            postIndex = getChildIndex(this.parentElement.parentElement.parentElement);
+            postIndex = getChildIndex(this.parentElement.parentElement.parentElement),
+            userNum = e.target.parentElement.nextElementSibling.children[1];
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 var stats = this.responseText.split("\n");
@@ -102,12 +67,14 @@ Post.rate = function(e) { // todo: fix possible exploit, fix stars moving aside 
             formData.append("starRating", 0);
             for (var i = 1; i < 6; i++)
                 siblings[i].src = "/iconList/RateStar.svg";
+            userNum.innerHTML = parseInt(userNum.innerHTML) - 1;
         } else {
             for (var i = 1; i <= starRate; i++)
                 siblings[i].src = "/iconList/FilledStar.png";
             for (var i = starRate + 1; i < 6; i++)
                 siblings[i].src = "/iconList/RateStar.svg";
             formData.append("starRating", starRate);
+            userNum.innerHTML = parseInt(userNum.innerHTML) + 1;
         }
         xmlhttp.open("POST", "templates/rate.php", true);
         xmlhttp.send(formData);
@@ -119,7 +86,7 @@ Post.init = function() {
     for(var i = 0; i < postElements.length; i++)
         Post.posts.push(new Post(postElements[i]));
 };
-Post.submitComment = function(e) { 
+Post.submitComment = function(e) { // todo: fix comment & reply order when submiting 2 and than refreshing
     // consider making one xmlhttp object for all ajaxes, but check only on it first
     var val = e.target.parentElement.children[0].value;
     if(val !== "") {
@@ -130,28 +97,27 @@ Post.submitComment = function(e) {
         formData.append("postIndex", getChildIndex(e.target.parentElement.parentElement.parentElement));
         xmlhttp.open("POST", "templates/comment.php", true);
         xmlhttp.send(formData);
-    } else {
-        // .....
     }
 }
 Post.insertComment = function() { // an ajax callback function
     // consider removing the typerep name from the input element but first check its style with vscode search
-   // consider removing autocomplete attribute from input
-   if(this.readyState === 4 && this.status === 200) { // todo: fix commenting when there are no comments (possibly use adjacentHTML)
-        var commentSection = Post.activatedCommentForm.nextElementSibling;
+    // consider removing autocomplete attribute from input
+    if(this.readyState === 4 && this.status === 200) { // todo: fix commenting when there are no comments (possibly use adjacentHTML)
+        var commentSection = Post.activatedCommentForm.nextElementSibling,
+            res = this.responseText.split(','); // [username, profilePic]
         if(commentSection.childElementCount === 0)
             commentSection.insertAdjacentHTML("afterbegin", "<h2>Comments</h2>");
         commentSection.firstElementChild.insertAdjacentHTML("afterend",
         '<div class="newarea"> \
             <div class="commentsarea"> \
             <div class="userD"> \
-                <a class="userN"> \
-                    <img alt="Profile photo" class="selfimg"> \
-                    \
-                </a> \
-                <span class="commdate"></span> \
+                <a href="profile.php?user=' + res[0] + '" class="userN"> \
+                    <img alt="Profile photo" src="' + res[1] + '" class="selfimg">' +
+                    res[0] +
+                '</a> \
+                <span class="commdate">' + getDate() + '</span> \
             </div> \
-            <div class="commentcont"></div> \
+            <div class="commentcont">' + Post.activatedCommentForm.firstElementChild.value + '</div> \
             <div class="comset"> \
                 <span class="comreply">reply</span> <span class="comnote">note</span> \
             </div> \
@@ -161,20 +127,11 @@ Post.insertComment = function() { // an ajax callback function
                 <button class="submit">&gt;</button> \
             </div> \
         </div>');
-        var res = this.responseText.split(','), // [username, profilePic]
-            newComment = Post.activatedCommentForm.nextElementSibling.querySelector(".newarea"),
-            userN = newComment.querySelector(".userN");
-        userN.href = "profile.php?user=" + res[0];
-        userN.childNodes[2].textContent = res[0];
-        newComment.querySelector(".selfimg").src = res[1];
-        newComment.querySelector(".commdate").textContent = getDate();
-        newComment.querySelector(".commentcont").textContent = Post.activatedCommentForm.firstElementChild.value;
+        Comment.comments.push(new Comment(Post.activatedCommentForm.nextElementSibling.querySelector(".newarea")));
         Post.activatedCommentForm.firstElementChild.value = ""; // reset input
         Post.activatedCommentForm.style.display = "none"; // 
         Post.activatedCommentForm = null;
-        Comment.comments.push(new Comment(newComment));
-        console.log(this.responseText);
-   }
+    }
 }
 Post.prototype.toggleComment = function(e) {
     if(this.commentForm !== Post.activatedCommentForm) { // current comment not displayed
@@ -236,40 +193,31 @@ Comment.submitReply = function(e) {
         formData.append("postIndex", getChildIndex(e.target.parentElement.parentElement.parentElement.parentElement.parentElement));
         xmlhttp.open("POST", "templates/reply.php", true);
         xmlhttp.send(formData);
-    } else {
-        // .....
     }
 }
 Comment.insertReply = function() { // an ajax callback function
     // consider removing the typerep name from the input element but first check its style with vscode search
    // consider removing autocomplete attribute from input
    if(this.readyState === 4 && this.status === 200) {
+        var res = this.responseText.split(','); // [username, profilePic]
        Comment.activatedReplyForm.insertAdjacentHTML("afterend",
-       '<div class="replydiv"> \
-           <div class="userD"> \
-               <a class="userN"> \
-                   <img alt="Profile photo" class="selfimg"> \
-                   \
-               </a> \
-               <span class="commdate"></span> \
-           </div> \
-           <div class="replycont"></div> \
-           <div class="comset"> \
-               <span class="comnote">note</span> \
-           </div> \
-       </div>');
-        var res = this.responseText.split(','), // [username, profilePic]
-            newReply = Comment.activatedReplyForm.nextElementSibling,
-            userN = newReply.querySelector(".userN");
-        userN.href = "profile.php?user=" + res[0];
-        userN.childNodes[2].textContent = res[0];
-        newReply.querySelector(".selfimg").src = res[1];
-        newReply.querySelector(".commdate").textContent = getDate();
-        newReply.querySelector(".replycont").textContent = Comment.activatedReplyForm.firstElementChild.value;
+        '<div class="replydiv"> \
+            <div class="userD"> \
+                <a href="profile.php?user="' + res[0]  + '" class="userN"> \
+                    <img src="' + res[1] + '" alt="Profile photo" class="selfimg">' + 
+                    res[0] +
+                '</a> \
+                <span class="commdate">' + getDate() + '</span> \
+            </div> \
+            <div class="replycont">' + Comment.activatedReplyForm.firstElementChild.value + '</div> \
+            <div class="comset"> \
+                <span class="comnote">note</span> \
+            </div> \
+        </div>');
+        Reply.replies.push(new Reply(Comment.activatedReplyForm.nextElementSibling));
         Comment.activatedReplyForm.firstElementChild.value = ""; // reset input
         Comment.activatedReplyForm.style.display = "none";
         Comment.activatedReplyForm = null;
-        Reply.replies.push(new Reply(newReply));
    }
 }
 Comment.init = function() {
@@ -463,175 +411,32 @@ document.body.addEventListener('click', function(){
         Comment.activatedReplyForm = null;
     }
 });
+/*window.addEventListener("scroll", function() {
+    if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
+        var loadMorePosts = new XMLHttpRequest();
+        loadMorePosts.onloadstart = function() { document.getElementById("showMore").style.display = "block"; }; // todo: fix flickering
+        loadMorePosts.onloadend = function() { document.getElementById("showMore").style.display = "none"; };
+        loadMorePosts.onreadystatechange = function() { // todo: add restraint
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(this.responseText);
+                var div = document.createElement("div");
+                div.innerHTML = "1234";
+                div.style.height = "400px";
+                document.querySelector("#posts").appendChild(div);
+            }
+        };
+        console.log("bottom");
+        var formData = new FormData();
+        formData.append("lastPostIndex", document.getElementById("posts").childElementCount - 1);
+        loadMorePosts.open("POST", "templates/load.php", true);
+        loadMorePosts.send(formData);
+    }
+});*/
+
 Post.init();
 Comment.init();
 Reply.init();
 Video.init();
-
-// function FPP() {
-//     if (video.paused) {
-//         btn.classList.add("pause");
-//         btn.classList.remove("play");
-//         video.play();
-//     } else {
-//         btn.classList.add("play");
-//         btn.classList.remove("pause");
-//         video.pause();
-//     }
-// }
-
-// btn.onclick = FPP;
-// video.onclick = FPP;
-// video.ontimeupdate = function () {
-//     if (video.ended) {
-//         btn.classList.add("play");
-//     }
-// }
-// leftBtn.onclick = function () {
-//     video.currentTime += -5;
-// }
-// rightBtn.onclick = function () {
-//     video.currentTime += +5;
-// }
-
-// video.addEventListener("timeupdate", function () {
-//     var juicePos = video.currentTime / video.duration;
-//     juiceBar.style.width = juicePos * 100 + "%";
-// });
-
-// // What the fuck is this & and 3 mousemove event listeners??? check this asap
-// function scrub(event) {
-//     var scrubTime = (event.offsetX / videojump.offsetWidth) * video.duration;
-//     video.currentTime = scrubTime;
-// }
-
-// var mousedown = false;
-// videojump.addEventListener("click", scrub);
-// // removed the two firsts in class implementation. todo: update yehuda
-// videojump.addEventListener("mousemove", (e) => mousedown && scrub(e));
-// videojump.addEventListener("mousemove", (e) => mousedown = true);
-// videojump.addEventListener("mousemove", (e) => mousedown = false);
-
-// var closeBars;
-// function manageBars() {
-//     clearTimeout(closeBars);
-//     bottombar.style.bottom = "0px";
-//     topbar.style.top = "0px";
-//     closeBars = setTimeout(function() {
-//         bottombar.style.bottom = "-40px";
-//         topbar.style.top = "-40px";
-//     }, 2000);
-// }
-// function hideBars() {
-//     bottombar.style.bottom = "-40px";
-//     topbar.style.top = "-40px";
-// }
-
-// video.addEventListener("mousemove", manageBars);
-// bottombar.addEventListener("mousemove", manageBars);
-// topbar.addEventListener("mousemove", manageBars);
-
-// video.addEventListener("mouseleave", hideBars);
-// bottombar.addEventListener("mouseleave", hideBars);
-// topbar.addEventListener("mouseleave", hideBars);
-
-// /* sliding the juiceBar and changing currentTime position */
-// var isDown = false;
-// var startX;
-// var scrolLeft;
-// var pausedBeforeJump = true;
-
-// videojump.addEventListener("mousedown", function (e) {
-//     isDown = true;
-//     startX = e.pageX - videojump.offsetLeft;
-//     scrolLeft = videojump.scrollLeft;
-//     if (video.paused)
-//         pausedBeforeJump = true;
-//     else {
-//         pausedBeforeJump = false;
-//         video.pause();
-//     }
-//     btn.classList.add("play");
-//     btn.classList.remove("pause");
-// });
-
-// videojump.addEventListener("mouseleave", function () {
-//     isDown = false;
-// });
-
-// videojump.addEventListener("mouseup", function () {
-//     isDown = false;
-//     if (video.paused && !pausedBeforeJump) {
-//         btn.classList.add("pause");
-//         btn.classList.remove("play");
-//         video.play();
-//     } else{
-//         btn.classList.add("play");
-//         btn.classList.remove("pause");
-//     }
-// });
-
-// videojump.addEventListener("mousemove", function (e) {
-//     if (!isDown) return;
-//     e.preventDefault();
-//     const pos = e.pageX - videojump.offsetLeft; // mouse position on X axis
-//     const run = pos - startX; // mouse distance from starting point
-//     juiceBar.style.width = juiceBar.offsetWidth + (e.offsetX - juiceBar.offsetWidth) + "px";
-//     video.currentTime = (e.offsetX / videojump.offsetWidth) * video.duration;
-// });
-
-// // red line lenght plus mouse distance
-
-
-// video.addEventListener("timeupdate", displaytime, false);
-
-// function displaytime() {
-//     var curmins = Math.floor(video.currentTime / 60);
-//     var cursecs = Math.round(video.currentTime - curmins * 60);
-//     var durmins = Math.floor(video.duration / 60);
-//     var dursecs = Math.round(video.duration - durmins * 60);
-//     if (cursecs < 10) {
-//         cursecs = "0" + cursecs;
-//     }
-//     if (dursecs < 10) {
-//         dursecs = "0" + dursecs;
-//     }
-//     curTIme.innerHTML = curmins + ":" + cursecs;
-//     durTIme.innerHTML = durmins + ":" + dursecs;
-
-// }
-
-// volume.addEventListener("click",function(){
-//     if(!volumecheck){
-//         volume.src = "/iconList/Volumeon.png";
-//         volume.style.width = "22px";
-//         volume.style.height = "20px";
-//         video.muted = true;
-//         volumecheck = true;
-
-//     }else{
-//         volume.src = "/iconList/Volumeoff.png";
-//         volume.style.width = "30px";
-//         volume.style.height = "35px";
-//         video.muted = false;
-//         volumecheck = false;
-//     }
-// });
-
-// /*<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-// //<<<<<<<>>>>>>>>
-// // consider setting already existing functions to timeOut for there would be multiple videos
-// video.addEventListener("click", function () {
-//     if (video.paused) {
-//         pauseanime.classList.add("pauseanimeadd");
-//         setTimeout(function() { pauseanime.classList.remove("pauseanimeadd"); }, 1000);
-//     } else if (video.play) {
-//         playanime.classList.add("playanimeadd");
-//         setTimeout(function() { playanime.classList.remove("playanimeadd"); }, 1000);
-//     }
-// });
-
-/*<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 
 //change the size of the video screen
 

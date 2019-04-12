@@ -83,10 +83,11 @@
                 // todo: add preview of uploading videos
                 // todo: tell yehuda about swapping volume icons in on\off modes
                 $_SESSION['posts'] = array();
-                $posts = DB::query("SELECT * FROM `posts` ORDER BY `date` DESC");
+                $posts = DB::query("SELECT * FROM `posts` ORDER BY `date` DESC limit 20");
                 // consider changing posts table's userid to username for it is unique as well
                 // consider distinguishing between images and videos when stored
                 // consider changing post label for reply\comment forms to actualy sumbit buttons
+                // consider making a load function that makes an ajax call for a more modular approch. note: it will be in js, using ajax and load.php
                 foreach($posts as $post) { // consider rethinking the way to show posts, comments (fewer queries)
                     array_push($_SESSION['posts'], new Post($post['id']));
                     $userInfo = DB::query("SELECT `username`,`profilePic` FROM `users` WHERE `id`='".$post['userID']."'")->fetch_assoc();
@@ -114,7 +115,7 @@
                                 echo 
                                     "<div class='topbar'>
                                         <div class='juicecon'>
-                                            <div class='TimeCount'> <span class='curtime'>0:00</span> <span>/</span> <span class='durtime'>0:00</span></div>
+                                            <div class='TimeCount'> <span class='curtime'>0:00</span> <span>/</span> <span class='durtime'></span></div>
                                             <div class='linediv'>
                                                 <div class='juicebar'></div>
                                                 <div class='juicemark'></div>
@@ -256,6 +257,7 @@
                     return ($picName === "") ? "/iconList/"."user.png":"/uploads/".$picName;
                 }
             ?>
+            <div id='showMore' style="background:red;display:none;">Show more</div>
         </div>
     </main>
     <script src="scripts/homepage.js"></script>
