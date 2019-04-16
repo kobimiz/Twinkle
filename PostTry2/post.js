@@ -322,8 +322,6 @@ function rate(e) {
 }
 
 document.getElementsByClassName("starrate")[0].addEventListener("click", rate);
-<<<<<<< HEAD
-=======
 
 /*
 document.getElementById("post").addEventListener("click", function() {
@@ -424,7 +422,6 @@ bord.classList.add("bord");
             //   }
             // }
 //comment click anime
->>>>>>> b2b97ffe581cf11604124534513cb0b2bcaf6df8
 act.addEventListener("click",function(e){
     if(!checkcom){
         comform.style.display = "block";

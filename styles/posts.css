@@ -18,6 +18,24 @@
     padding-left: 20px;
 }
 
+.viewMoreReplies {
+    color: rgb(145, 145, 145);
+    cursor: pointer;
+}
+
+.replies {
+    display: none;
+}
+
+.comset > span {
+    color:rgb(145, 145, 145);
+    padding: 0 8px;
+    cursor: pointer;
+}
+.comset > span:hover {
+    color:#001942;
+}
+
 @media only screen and (min-width: 701px ){
     body{
         margin:0;
@@ -26,6 +44,7 @@
     }
 
     .postcon{
+        padding-bottom: 10px;
         margin-bottom: 10px;
         height: 100%;
         max-width: 700px;
@@ -472,14 +491,6 @@
         padding:10px 10px;
         color:rgb(161, 161, 161);
     }
-    .comreply, .comnote{
-        color:rgb(145, 145, 145);
-        cursor: pointer;
-        padding: 0 10px;
-    }
-    .comreply:hover, .comnote:hover{
-        color:#001942;
-    }
     .comform{
         display: none;
         margin-left: 15px;
@@ -544,6 +555,7 @@
     }
 
     .postcon{
+        padding-bottom: 10px;
         margin-bottom: 10px;
         height: 100%;
         max-width: 700px;
@@ -986,14 +998,6 @@
         font-size: 18px;
         padding:10px 10px;
         color:rgb(161, 161, 161);
-    }
-    .comreply, .comnote{
-        color:rgb(145, 145, 145);
-        cursor: pointer;
-        padding: 0 10px;
-    }
-    .comreply:hover, .comnote:hover{
-        color:#001942;
     }
     .comform{
         display: none;

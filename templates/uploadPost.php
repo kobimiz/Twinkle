@@ -11,6 +11,7 @@
     session_start();
     DB::connect();
     if(isset($_FILES)) {
+        $username = DB::getLoggedUserInfo("username")["username"];
         $target_dir = __DIR__."/../uploads/";
         $target_file = $target_dir.basename($_FILES["file"]["name"]);
         $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -26,7 +27,7 @@
             echo "error";
         else {
             DB::query("INSERT INTO `posts`(`userID`, `date`, `content`, `fileUploaded`, `totalStars`) VALUES ('".
-                DB::query("SELECT * FROM `users` WHERE `username`='".$_SESSION['username']."'")->fetch_assoc()["id"].
+                DB::query("SELECT * FROM `users` WHERE `username`='".$username."'")->fetch_assoc()["id"].
                 "', '".date("Y-m-d H:i:s").
                 "', '".addslashes($_POST['content']).
                 "', '".$_FILES["file"]["name"].
@@ -35,13 +36,13 @@
 
             array_splice($_SESSION['posts'], 0, 0, array(new Post(DB::insertId()))); // insert a new post in the beggining
         }
-    } else if(isset($_SESSION["username"])) // todo: handle file serving (so i can get rid of this)
+    } else if(isset($username)) // todo: handle file serving (so i can get rid of this)
         header('Location: /../homepage.php');
     else
         header('Location: /../signin.php');
 
-    $picName = DB::query("select profilePic from users where username='".$_SESSION['username']."'")->fetch_assoc()['profilePic'];
-    echo $_SESSION['username'].",".$_FILES["file"]["name"].",".$_POST['content'].",".(($picName === "") ? "/iconList/"."user.png":"/uploads/".$picName);
+    $picName = DB::query("select profilePic from users where username='".$username."'")->fetch_assoc()['profilePic'];
+    echo $username.",".$_FILES["file"]["name"].",".$_POST['content'].",".(($picName === "") ? "/iconList/"."user.png":"/uploads/".$picName);
     function randomizeName() { // 10 lowercase letters/digits characters long
         $name = "";
         for ($i=0; $i < 10; $i++) {

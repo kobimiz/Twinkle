@@ -30,6 +30,7 @@ function getChildIndex(element) {
     return -1;
 };
 
+// consider not storing variables inside
 // todo: improve event listeners system
 // todo: benchmark using event listeners w\ prototype or with event argument
 // todo: ask if one can rate oneself
@@ -69,12 +70,13 @@ Post.rate = function(e) { // todo: fix possible exploit, fix stars moving aside 
                 siblings[i].src = "/iconList/RateStar.svg";
             userNum.innerHTML = parseInt(userNum.innerHTML) - 1;
         } else {
+            if(siblings[1].src.indexOf("FilledStar.png") === -1) // not clicked on before
+                userNum.innerHTML = parseInt(userNum.innerHTML) + 1;
             for (var i = 1; i <= starRate; i++)
                 siblings[i].src = "/iconList/FilledStar.png";
             for (var i = starRate + 1; i < 6; i++)
                 siblings[i].src = "/iconList/RateStar.svg";
             formData.append("starRating", starRate);
-            userNum.innerHTML = parseInt(userNum.innerHTML) + 1;
         }
         xmlhttp.open("POST", "templates/rate.php", true);
         xmlhttp.send(formData);
@@ -86,7 +88,7 @@ Post.init = function() {
     for(var i = 0; i < postElements.length; i++)
         Post.posts.push(new Post(postElements[i]));
 };
-Post.submitComment = function(e) { // todo: fix comment & reply order when submiting 2 and than refreshing
+Post.submitComment = function(e) { // todo: fix comment & reply order when submiting 2 and than refreshing.
     // consider making one xmlhttp object for all ajaxes, but check only on it first
     var val = e.target.parentElement.children[0].value;
     if(val !== "") {
@@ -161,14 +163,84 @@ Post.prototype.toggleOptions = function(e) {
 };
 
 function Comment(commentElement) {
+    var viewMoreReplies = commentElement.querySelector(".viewMoreReplies"),
+        comedit = commentElement.querySelector(".comedit");
     this.replyForm = commentElement.querySelector(".replyform");
     this.replyForm.querySelector(".submit").addEventListener("click", Comment.submitReply);
-    commentElement.querySelector(".comreply").addEventListener("click", Comment.toggleReply.bind(this)); // reply button
+    commentElement.querySelector(".comreply").addEventListener("click", Comment.toggleReplyForm.bind(this)); // reply button
     commentElement.querySelector(".replyform").addEventListener("click", stopPropagation);
+    if(viewMoreReplies !== null)
+        viewMoreReplies.addEventListener("click", Comment.toggleReplies);
+    if(comedit !== null) { // can edit/delete
+        commentElement.querySelector(".comedit").addEventListener("click", Comment.toggleEdit);
+        commentElement.querySelector(".comdelete").addEventListener("click", Comment.delete);
+    }
 }
 Comment.activatedReplyForm = null;
 Comment.comments = [];
-Comment.toggleReply = function(e) {
+// todo: add last edited date (also for replies and posts)
+// todo: fix exploit where you can delete/ change stuff thats isnt yours
+Comment.toggleEdit = function() {
+    var comment = this.parentElement.previousElementSibling;
+    if(comment.style.display === "none") {
+        var input = comment.previousElementSibling.previousElementSibling,
+            xmlhttp = new XMLHttpRequest();
+        // xmlhttp.onreadystatechange = Post.insertComment; consider changing styles etc here instead of doing so imediatly. also consider this for post, comment and reply
+        var formData = new FormData();
+        formData.append("content", input.value);
+        formData.append("postIndex", getChildIndex(this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement));
+        formData.append("commentIndex", getChildIndex(this.parentElement.parentElement.parentElement) - 1);
+        xmlhttp.open("POST", "templates/edit.php", true);
+        xmlhttp.send(formData);
+
+        input.nextElementSibling.remove(); // remove cancel button
+        comment.innerHTML = input.value;
+        input.remove();
+        comment.style.display = "block";
+        this.innerHTML = "edit";
+    } else {
+        this.innerHTML = "confirm";
+        var cancel = document.createElement("span"),
+            input = document.createElement("input");
+        input.type = "text";
+        input.value = comment.innerHTML;
+        cancel.style.cursor = "pointer";
+        cancel.innerHTML = " Cancel";
+        comment.style.display = "none";
+        comment.parentElement.insertBefore(input, comment);
+        comment.parentElement.insertBefore(cancel, comment);
+    }
+};
+// consider making a general function
+Comment.delete = function() {
+    if(this.innerHTML === "delete") // consider rethinking
+        this.innerHTML = "are you sure?";
+    else {
+        var xmlhttp = new XMLHttpRequest(),
+            formData = new FormData();
+        formData.append("postIndex", getChildIndex(this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement));
+        formData.append("commentIndex", getChildIndex(this.parentElement.parentElement.parentElement) - 1);
+        xmlhttp.open("POST", "templates/delete.php", true);
+        xmlhttp.send(formData);
+
+        this.parentElement.parentElement.parentElement.remove();
+        Comment.comments.splice(indexOfCommentArray(Comment.comments, this.parentElement.parentElement.nextElementSibling), 1); // rethink this. temporary solution
+    }
+};
+function indexOfCommentArray(comments, replyForm) {
+    for (let i = 0; i < comments.length; i++) {
+        if(comments[i].replyForm === replyForm)
+            return i;
+    }
+    return -1;
+}
+Comment.toggleReplies = function() {
+    if(this.nextElementSibling.style.display === "block")
+        this.nextElementSibling.style.display = "none";
+    else
+        this.nextElementSibling.style.display = "block";
+};
+Comment.toggleReplyForm = function(e) {
     if(this.replyForm !== Comment.activatedReplyForm) { // current comment not displayed
         if(Comment.activatedReplyForm !== null) // hide last comment
             Comment.activatedReplyForm.style.display = "none";
@@ -199,8 +271,14 @@ Comment.insertReply = function() { // an ajax callback function
     // consider removing the typerep name from the input element but first check its style with vscode search
    // consider removing autocomplete attribute from input
    if(this.readyState === 4 && this.status === 200) {
-        var res = this.responseText.split(','); // [username, profilePic]
-       Comment.activatedReplyForm.insertAdjacentHTML("afterend",
+        if(Comment.activatedReplyForm.parentElement.querySelector(".viewMoreReplies") === null) { // has no replies
+            Comment.activatedReplyForm.insertAdjacentHTML("afterend", "<span class='viewMoreReplies'>View replies</span>"); // add the view replies button
+            Comment.activatedReplyForm.nextElementSibling.addEventListener("click", Comment.toggleReplies);
+            Comment.toggleReplies.call(Comment.activatedReplyForm.nextElementSibling);
+        }
+        var res = this.responseText.split(','), // [username, profilePic]
+            replies = Comment.activatedReplyForm.nextElementSibling.nextElementSibling;
+        replies.insertAdjacentHTML("afterbegin",
         '<div class="replydiv"> \
             <div class="userD"> \
                 <a href="profile.php?user="' + res[0]  + '" class="userN"> \
@@ -214,7 +292,7 @@ Comment.insertReply = function() { // an ajax callback function
                 <span class="comnote">note</span> \
             </div> \
         </div>');
-        Reply.replies.push(new Reply(Comment.activatedReplyForm.nextElementSibling));
+        Reply.replies.push(new Reply(replies.firstElementChild));
         Comment.activatedReplyForm.firstElementChild.value = ""; // reset input
         Comment.activatedReplyForm.style.display = "none";
         Comment.activatedReplyForm = null;
