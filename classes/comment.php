@@ -5,7 +5,7 @@ class Comment {
     function __construct($id) {
         $this->id = $id;
     }
-    public static function displayComment($comment) {
+    public static function displayComment($comment, $loggedUserId) {
         $replies = DB::query("select * from replies where commentId=".$comment['id']." order by date desc");
         $commentingUser = DB::query("select username, profilePic from users where id=".$comment['userid'])->fetch_assoc();
         echo
@@ -21,8 +21,15 @@ class Comment {
 
                 <div class='commentcont'>".htmlspecialchars($comment['content'])."</div>
                 <div class='comset'>
-                    <span class='comreply'>reply</span> <span class='comnote'>note</span>
-                </div>
+                    <span class='comreply'>reply</span>
+                    <span class='comnote'>note</span>";
+            if($comment["userid"] === $loggedUserId) {
+                echo
+                    "<span class='comedit'>edit</span>
+                    <span class='comdelete'>delete</span>";
+            }
+            echo
+                "</div>
             </div>
 
             <div class='replyform'>
@@ -35,7 +42,7 @@ class Comment {
             echo
             "<div class='replies'>";
                 foreach($replies as $reply)
-                    Reply::displayReply($reply);
+                    Reply::displayReply($reply, $loggedUserId);
         echo
             "</div>
         </div>";

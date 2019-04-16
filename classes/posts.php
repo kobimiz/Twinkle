@@ -9,11 +9,11 @@ class Post {
         $this->id = $id;
     }
 
-    function displayPost() {
+    function displayPost($loggedUserId) {
         $postingUserId = DB::queryScalar("select userid from posts where id=".$this->id);
         $postingUserInfo = DB::query("SELECT `username`,`profilePic` FROM `users` WHERE `id`='".$postingUserId."'")->fetch_assoc();
         $post = DB::query("select * from posts where id=".$this->id)->fetch_assoc(); // consider a better approach
-        $stars = DB::queryScalar("SELECT `stars` FROM `postsstars` WHERE `userID`='".DB::getLoggedUserInfo("id")["id"]."' AND `postID`='".$post['id']."'");
+        $stars = DB::queryScalar("SELECT `stars` FROM `postsstars` WHERE `userID`='".$loggedUserId."' AND `postID`='".$post['id']."'");
         $count = DB::queryScalar("select count(*) from postsstars where postID=".$post['id']);
         echo 
         "<div class='postcon'>
@@ -24,10 +24,18 @@ class Post {
                     <span class='optionicon'><img alt='options' src='/iconList/ArrowDown.png' style='width:22px; height:15px;' class='more'></span>
                     <div class='topoptions'>
                         <div class='optionscon'>
-                            <ul>
-                                <li><a href='#'>Report</a></li>
-                                <li><a href='#'>Feed back</a></li>
-                            </ul>
+                            <ul>";
+                        if($postingUserId === $loggedUserId) {
+                            echo
+                                "<li>edit</li>
+                                <li>delete</li>";
+                        } else {
+                            echo
+                                "<li><a href='#'>Report</a></li>
+                                <li><a href='#'>Feed back</a></li>";
+                        }
+                        echo
+                            "</ul>
                         </div>
                     </div>
                 </div>
@@ -123,7 +131,7 @@ class Post {
                         echo "<h2>Comments</h2>";
                         
                     foreach($postComments as $comment) {
-                        Comment::displayComment($comment);
+                        Comment::displayComment($comment, $loggedUserId);
                         array_push($this->commentsIds, $comment['id']);
                     }
                     echo

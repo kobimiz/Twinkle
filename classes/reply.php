@@ -1,6 +1,6 @@
 <?php
 class Reply {
-    public static function displayReply($reply) {
+    public static function displayReply($reply, $loggedUserId) {
         $replyingUser = DB::query("select username, profilePic from users where id=".$reply['userId'])->fetch_assoc();
         echo
         "<div class='replydiv'>
@@ -14,6 +14,11 @@ class Reply {
             <div class='replycont'>".htmlspecialchars($reply['content'])."</div>
             <div class='comset'>
                 <span class='comnote'>note</span>";
+        if($reply["userId"] === $loggedUserId) {
+            echo
+                "<span class='comedit'>edit</span>
+                <span class='comdelete'>delete</span>";
+        }
         echo
             "</div>".
         "</div>";

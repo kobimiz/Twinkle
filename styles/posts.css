@@ -23,6 +23,15 @@
     display: none;
 }
 
+.comset > span {
+    color:rgb(145, 145, 145);
+    padding: 0 8px;
+    cursor: pointer;
+}
+.comset > span:hover {
+    color:#001942;
+}
+
 @media only screen and (min-width: 701px ){
     body{
         margin:0;
@@ -477,14 +486,6 @@
         font-size: 18px;
         padding:10px 10px;
         color:rgb(161, 161, 161);
-    }
-    .comreply, .comnote{
-        color:rgb(145, 145, 145);
-        cursor: pointer;
-        padding: 0 10px;
-    }
-    .comreply:hover, .comnote:hover{
-        color:#001942;
     }
     .comform{
         display: none;
@@ -993,14 +994,6 @@
         font-size: 18px;
         padding:10px 10px;
         color:rgb(161, 161, 161);
-    }
-    .comreply, .comnote{
-        color:rgb(145, 145, 145);
-        cursor: pointer;
-        padding: 0 10px;
-    }
-    .comreply:hover, .comnote:hover{
-        color:#001942;
     }
     .comform{
         display: none;

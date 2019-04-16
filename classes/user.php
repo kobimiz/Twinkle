@@ -12,11 +12,12 @@ class User {
         // add privillages\friendship\tag name sorting\etc checking here in order to determine displayed posts.
         // consider adding a seperate function for this purpose
         $posts = DB::query("select * from posts where date > ".$this->getLastPost()." order by date desc limit ".$numberOfPosts);
+        $loggedUserId = DB::getLoggedUserInfo("id")["id"];
         foreach($posts as $post) {
             $postObject = new Post($post['id']);
             array_push($_SESSION['posts'], $postObject); // consider rethinking
             array_push($this->postsLoaded, $postObject);
-            $postObject->displayPost();
+            $postObject->displayPost($loggedUserId); // consider rethinking
         }
     }
 
