@@ -7,11 +7,8 @@
     require_once("classes/reply.php");
     DB::connect();
 
-    if(isset($_SESSION['username']) && isset($_SESSION['password'])) {
-        if(!DB::userExists($_SESSION['username'], $_SESSION['password']))
-            header("Location: signin.php");
-    }
-    else
+
+    if(!DB::isLoggedIn())
         header("Location: signin.php");
 ?>
 <!DOCTYPE html>
@@ -82,7 +79,9 @@
         </div>
         <div id="posts">
             <?php
-                // todo: add error checking (e.g. exceptions)
+                // todo: tell yehuda to add new table (loginTokens) and change all tables' storage engine to innoDB & and relations
+                // todo: check w\ yehuda if a record (e.g. comment) should be deleted if parent is deleted (e.g. post)
+                // todo: add error checking (i.e. exceptions)
                 // todo: change fetch_assoc methods to queryScalar if needed through out this project
                 // todo: change authentication way (and add first & last name) to tokens, and change session variable stored about username aswell (also for security purposes)
                 // todo: fix bug crash when uploading a video (possibly by size or thumbnail)

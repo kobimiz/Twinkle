@@ -8,8 +8,21 @@
             $username = $_POST['username'];
             $password = $_POST['password'];
             if(DB::userExists($_POST['username'], $_POST['password'])) {
-                $_SESSION['username'] = $_POST['username'];
-                $_SESSION['password'] = $_POST['password'];
+                $loggedInUserId = DB::isLoggedIn();
+                $userSumbittedId = DB::queryScalar("select id from users where username='".$_POST['username']."'");
+                // if not logged in, or trying to log in from a different account- either case give a new cookie and a loginToken
+                if(!$loggedInUserId || $loggedInUserId !== $userSumbittedId) {
+                    if($loggedInUserId) // trying to login from a different account
+                        DB::query("delete from loginTokens where token='".sha1($_COOKIE["SNID"])."'");
+                    $cstrong = true;
+                    $token = bin2hex(openssl_random_pseudo_bytes(64, $cstrong));
+                    DB::query("insert into loginTokens (token, userid) values ('".sha1($token)."', ".$userSumbittedId.")");
+                    // valid for 1 week IMPORTANT: if website hosted over ssl make before last parameter true. same for second cookie
+                    setcookie("SNID", $token, time() + 60 * 60 * 24 * 7, '/', NULL, NULL,  TRUE);
+                    setcookie("SNID_", '1', time() + 60 * 60 * 24 * 3, '/', NULL, NULL,  TRUE);
+                    $_SESSION['username'] = $_POST['username'];
+                    $_SESSION['password'] = $_POST['password'];
+                }
                 header("Location: homepage.php");
             } else
                 $loginErr = "Invalid username and password combination";
