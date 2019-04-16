@@ -79,6 +79,8 @@
         </div>
         <div id="posts">
             <?php
+                // https://stackoverflow.com/questions/1370951/what-is-phpsessid
+                // after looking at that ^^^ change all session occurances to match new cookie setup
                 // todo: tell yehuda to add new table (loginTokens) and change all tables' storage engine to innoDB & and relations
                 // todo: check w\ yehuda if a record (e.g. comment) should be deleted if parent is deleted (e.g. post)
                 // todo: add error checking (i.e. exceptions)
@@ -95,7 +97,7 @@
                 // consider making a load function that makes an ajax call for a more modular approch. note: it will be in js, using ajax and load.php
                 // consider not storing totalStars for posts (benchmark?)
                 $_SESSION['posts'] = array();
-                $user = new User(DB::queryScalar("select id from users where username='".$_SESSION['username']."'"));
+                $user = new User(DB::getLoggedUserInfo("id")["id"]);
                 $user->loadNextPosts(5);
                 function profilePic($picName) {
                     return ($picName === "") ? "/iconList/"."user.png":"/uploads/".$picName;

@@ -1,5 +1,4 @@
 <?php
-    session_start();
     require_once("classes/queries.php");
     DB::connect();
     $loginErr = "";
@@ -20,8 +19,6 @@
                     // valid for 1 week IMPORTANT: if website hosted over ssl make before last parameter true. same for second cookie
                     setcookie("SNID", $token, time() + 60 * 60 * 24 * 7, '/', NULL, NULL,  TRUE);
                     setcookie("SNID_", '1', time() + 60 * 60 * 24 * 3, '/', NULL, NULL,  TRUE);
-                    $_SESSION['username'] = $_POST['username'];
-                    $_SESSION['password'] = $_POST['password'];
                 }
                 header("Location: homepage.php");
             } else

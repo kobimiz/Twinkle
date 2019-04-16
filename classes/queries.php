@@ -22,10 +22,6 @@ class DB {
         return !($res === NULL || !password_verify($password, $res['password']));
     }
 
-    public static function loggedIn() {
-        return (isset($_SESSION['username']) && isset($_SESSION['password']));
-    }
-
     public static function error() {
         return self::$connection->error;
     }
@@ -52,6 +48,11 @@ class DB {
             }
         }
         return false;
+    }
+
+    public static function getLoggedUserInfo($fields) {
+        $userid = self::queryScalar("select userid from loginTokens where token='".sha1($_COOKIE['SNID'])."'");
+        return self::query("select $fields from users where id=$userid")->fetch_assoc();
     }
 }
 ?>

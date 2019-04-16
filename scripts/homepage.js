@@ -51,9 +51,10 @@ fileInput.addEventListener("change", function (e) { // todo: add remove file upl
 });
 
 document.getElementById("post").addEventListener("click", function() {
-    if(fileInput.length > 0) {
+    if(fileInput.files.length > 0) {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
+            console.log(this.responseText);
             if(this.readyState === 4 && this.status === 200) {
                 var res = this.responseText.split(","); // [status,username,fileName,content,profilePic]
                 // consider the case where a document is returned from this.responseText

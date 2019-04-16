@@ -1,7 +1,5 @@
 <?php
 require_once('classes/queries.php');
-session_start();
-session_destroy();
 DB::connect();
 $userid = DB::isLoggedIn();
 if($userid && $_GET['allDevices']) {

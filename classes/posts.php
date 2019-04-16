@@ -12,9 +12,8 @@ class Post {
     function displayPost() {
         $postingUserId = DB::queryScalar("select userid from posts where id=".$this->id);
         $postingUserInfo = DB::query("SELECT `username`,`profilePic` FROM `users` WHERE `id`='".$postingUserId."'")->fetch_assoc();
-        $userid = DB::queryScalar("SELECT `id` FROM `users` WHERE `username`='".$_SESSION['username']."'");
         $post = DB::query("select * from posts where id=".$this->id)->fetch_assoc(); // consider a better approach
-        $stars = DB::queryScalar("SELECT `stars` FROM `postsstars` WHERE `userID`='".$userid."' AND `postID`='".$post['id']."'");
+        $stars = DB::queryScalar("SELECT `stars` FROM `postsstars` WHERE `userID`='".DB::getLoggedUserInfo("id")["id"]."' AND `postID`='".$post['id']."'");
         $count = DB::queryScalar("select count(*) from postsstars where postID=".$post['id']);
         echo 
         "<div class='postcon'>

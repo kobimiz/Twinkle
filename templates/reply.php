@@ -5,15 +5,16 @@
     DB::connect();
     
     if(isset($_POST["content"])) {
+        $username = DB::getLoggedUserInfo("username")["username"];
         DB::query("insert into replies (`userid`, `commentId`, `content`, `date`) values (".
-            DB::query("SELECT * FROM `users` WHERE `username`='".$_SESSION['username']."'")->fetch_assoc()["id"].", ".
+            DB::query("SELECT * FROM `users` WHERE `username`='".$username."'")->fetch_assoc()["id"].", ".
             $_SESSION['posts'][$_POST['postIndex']]->commentsIds[$_POST['commentIndex']].", '".
             $_POST['content']."', '".
             date("Y-m-d H:i:s").
         "')");
 
         // consider importing the profilePic function. 
-        $picName = DB::query("select profilePic from users where username='".$_SESSION['username']."'")->fetch_assoc()['profilePic'];
-        echo $_SESSION["username"].','.(($picName === "") ? "/iconList/"."user.png":"/uploads/".$picName);
+        $picName = DB::query("select profilePic from users where username='".$username."'")->fetch_assoc()['profilePic'];
+        echo $username.','.(($picName === "") ? "/iconList/"."user.png":"/uploads/".$picName);
     }
 ?>

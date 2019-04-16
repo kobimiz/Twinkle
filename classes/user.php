@@ -11,7 +11,7 @@ class User {
     function loadNextPosts($numberOfPosts) {
         // add privillages\friendship\tag name sorting\etc checking here in order to determine displayed posts.
         // consider adding a seperate function for this purpose
-        $posts = DB::query("select * from posts where date > ".$this->getLastPost()." order by date asc limit ".$numberOfPosts);
+        $posts = DB::query("select * from posts where date > ".$this->getLastPost()." order by date desc limit ".$numberOfPosts);
         foreach($posts as $post) {
             $postObject = new Post($post['id']);
             array_push($_SESSION['posts'], $postObject); // consider rethinking

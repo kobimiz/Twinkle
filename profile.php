@@ -1,20 +1,16 @@
 <?php
-    session_start();
-    require_once("classes/queries.php");
-    DB::connect();
+require_once("classes/queries.php");
+DB::connect();
 
-    if(isset($_SESSION['username']) && isset($_SESSION['password'])) { // consider using a different way rather than redirects
-        if(!DB::userExists($_SESSION['username'], $_SESSION['password']))
-            header("Location: signin.php");
-        if(!isset($_GET['user']))
-            header("Location: profile.php?user=".$_SESSION['username']);
-        else if(($details = DB::query("SELECT * FROM `users` WHERE `username`='".$_GET['user']."'")->fetch_assoc()) === NULL) {
-            include_once("templates/usernotfound.php"); // consider chaging the way this works
-            die();
-        }
-    }
-    else
-        header("Location: signin.php");
+if(!DB::isLoggedIn())
+    header("Location: signin.php");
+
+if(!isset($_GET['user']))
+    header("Location: profile.php?user=".DB::getLoggedUserInfo("username")["username"]);
+else if(($details = DB::query("SELECT * FROM `users` WHERE `username`='".$_GET['user']."'")->fetch_assoc()) === NULL) {
+    include_once("templates/usernotfound.php"); // consider chaging the way this works
+    die();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

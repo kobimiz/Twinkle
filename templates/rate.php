@@ -4,10 +4,11 @@
     session_start();
     DB::connect();
 
-    $userId = DB::query("SELECT `id` FROM `users` WHERE `username`='".$_SESSION['username']."'")->fetch_assoc()['id'];
+    $username = DB::getLoggedUserInfo("username")["username"];
+    $userId = DB::query("SELECT `id` FROM `users` WHERE `username`='".$username."'")->fetch_assoc()['id'];
     // consider not deleting rows.... TODO: benchmark
-    if(isset($_POST['starRating']) && isset($_SESSION['username'])) {
-        $userId = DB::query("SELECT `id` FROM `users` WHERE `username`='".$_SESSION['username']."'")->fetch_assoc()['id'];
+    if(isset($_POST['starRating'])) {
+        $userId = DB::query("SELECT `id` FROM `users` WHERE `username`='".$username."'")->fetch_assoc()['id'];
         if($_POST['starRating'] == 0) { // (sakoju UwU)
             $starDiff = -1 * (int)DB::query("SELECT `stars` FROM `postsstars` WHERE `userID`='".$userId."' AND `postID`='".$_SESSION['posts'][$_POST['postIndex']]->id."'")->fetch_assoc()['stars'];
             DB::query("DELETE FROM `postsstars` WHERE `userID`='".$userId."' AND `postID`='".$_SESSION['posts'][$_POST['postIndex']]->id."'");
@@ -18,7 +19,7 @@
         }
         else {// insert completly new value
             DB::query("INSERT INTO `postsstars` VALUES ('".
-                DB::query("SELECT * FROM `users` WHERE `username`='".$_SESSION['username']."'")->fetch_assoc()['id']."','".
+                DB::query("SELECT * FROM `users` WHERE `username`='".$username."'")->fetch_assoc()['id']."','".
                 $_SESSION['posts'][$_POST['postIndex']]->id."','".
                 $_POST['starRating']."')");
                 $starDiff = $_POST['starRating'];
