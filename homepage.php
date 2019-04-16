@@ -1,7 +1,10 @@
 <?php
     session_start();
     require_once("classes/queries.php");
+    require_once("classes/user.php");
     require_once("classes/posts.php");
+    require_once("classes/comment.php");
+    require_once("classes/reply.php");
     DB::connect();
 
     if(isset($_SESSION['username']) && isset($_SESSION['password'])) {
@@ -79,180 +82,22 @@
         </div>
         <div id="posts">
             <?php
+                // todo: add error checking (e.g. exceptions)
+                // todo: change fetch_assoc methods to queryScalar if needed through out this project
+                // todo: change authentication way (and add first & last name) to tokens, and change session variable stored about username aswell (also for security purposes)
                 // todo: fix bug crash when uploading a video (possibly by size or thumbnail)
                 // todo: add preview of uploading videos
                 // todo: tell yehuda about swapping volume icons in on\off modes
-                $_SESSION['posts'] = array();
-                $posts = DB::query("SELECT * FROM `posts` ORDER BY `date` DESC limit 20");
+                // todo: auto logout after a time period
+                // todo: rename all xId (id case insensitive) to xi and update in code
                 // consider changing posts table's userid to username for it is unique as well
                 // consider distinguishing between images and videos when stored
                 // consider changing post label for reply\comment forms to actualy sumbit buttons
                 // consider making a load function that makes an ajax call for a more modular approch. note: it will be in js, using ajax and load.php
-                foreach($posts as $post) { // consider rethinking the way to show posts, comments (fewer queries)
-                    array_push($_SESSION['posts'], new Post($post['id']));
-                    $userInfo = DB::query("SELECT `username`,`profilePic` FROM `users` WHERE `id`='".$post['userID']."'")->fetch_assoc();
-                    echo 
-                    "<div class='postcon'>
-                        <div class='contentcon'>  
-                            <div class='topdata'>
-                                <span class='fas fa-star avgstar'></span>
-                                <span class='avgstardata'>".round(DB::query("select avg(stars) as average from postsstars where postID = ".$post['id'])->fetch_assoc()['average'], 2)."</span>
-                                <span class='optionicon'><img alt='options' src='/iconList/ArrowDown.png' style='width:22px; height:15px;' class='more'></span>
-                                <div class='topoptions'>
-                                    <div class='optionscon'>
-                                        <ul>
-                                            <li><a href='#'>Report</a></li>
-                                            <li><a href='#'>Feed back</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class='Vcon'>";
-                            if(isImage($post['fileUploaded']) !== false)
-                                echo "<image src='uploads/".$post['fileUploaded']."' alt='posted image'>";
-                            else {
-                                echo 
-                                    "<div class='topbar'>
-                                        <div class='juicecon'>
-                                            <div class='TimeCount'> <span class='curtime'>0:00</span> <span>/</span> <span class='durtime'></span></div>
-                                            <div class='linediv'>
-                                                <div class='juicebar'></div>
-                                                <div class='juicemark'></div>
-                                                <div class='videojump'></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <video class='video' src='uploads/".$post['fileUploaded']."#t=0.1' alt='Posted video'>Your browser do not support videos. You may want to consider upgrading it.</video>
-                                    <div class='playanime'></div>
-                                    <div class='pauseanime'></div>
-                                    <div class='bottombar'>
-                                        <div class='left'>&#x276E;</div>
-                                        <div class='extracon'>
-                                            <div class='volume'> <img alt='volume' src='/iconList/Volumeoff.png' class='volumeicon'> </div>
-                                            <!-- <div><span class='screenicon'></span></div> -->
-                                        </div>
-                                        <div class='control'>
-                                            <button class='play-pause'></button>
-                                        </div>
-                                        <div class='right'>&#x276F;</div>
-                                    </div>";
-                            }
-
-                            echo
-                            "</div>
-
-                            <div class='bottomdata'>
-                                <div class='starrate'>
-                                    Total stars: <span class='stars'>".$post['totalStars']."</span> |";
-                                    $userid = DB::query("SELECT `id` FROM `users` WHERE `username`='".$_SESSION['username']."'")->fetch_assoc()['id'];
-                                    $stars = DB::query("SELECT `stars` FROM `postsstars` WHERE `userID`='".$userid."' AND `postID`='".$post['id']."'")->fetch_assoc()['stars'];
-                                    for ($i=0; $i < $stars; $i++)
-                                        echo "<img alt='star' src='/iconList/FilledStar.png' class='star'>";
-                                    for ($i=$stars; $i < 5; $i++)
-                                        echo "<img alt='star' src='/iconList/RateStar.svg' class='star'>";
-                                        
-                                    $count = DB::query("select count(*) as numUsers from postsstars where postID=".$post['id'])->fetch_assoc()['numUsers'];
-                                echo
-                                "</div>
-                                <div class='Avgdata'>
-                                    <img alt='Users Amount' src='/iconList/User.png' class='UserAm'>
-                                    <span class='usernum'>".$count."</span>
-                                </div>
-                            </div>
-
-                            <div class='contentData'>
-                                <div class='postowner'>
-                                    <img alt='User profile photo' src='".profilePic($userInfo['profilePic'])."' class='ownerphoto'>
-                                    <a class='ownerfullname' href=profile.php?user=".$userInfo['username'].">".$userInfo['username']."</a>
-                                </div>
-
-                                <div class='date'>".$post['date']."</div>
-                            </div>
-
-                            <div class='descript'>".htmlspecialchars($post['content'])."</div>
-
-                            <div class='acts'>
-                                <div class='act1'>
-                                    <a>
-                                        <span>Comment</span>
-                                    <img alt='comment' src='/iconList/comment.png' class='comment' style='width:40px; height:30px;'>
-                                    </a>
-                                </div>
-                                <div class='act2'>
-                                        <a>
-                                            <span>Note</span>
-                                        <img alt='Note Button' src='/iconList/note.png' class='note' style='width:30px; height:30px;'>
-                                        </a>
-                                </div>
-                                <div class='act3'>
-                                    <a href='#'>
-                                        <span>Share</span>
-                                    <img alt='Share a post' src='/iconList/share.png' style='width:30px; height:30px;'>
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class='comform'>
-                                <input name='typecom' type='text' placeholder='Share your thoughts..' autocomplete='off'>
-                                <button class='submit'>></button>
-                            </div>
-                            <div class='comments'>";
-                            
-                                $postComments = DB::query("select * from comments where postId=".$post['id']." order by date desc");
-                                if($postComments->num_rows !== 0)
-                                    echo "<h2>Comments</h2>";
-                                foreach($postComments as $comment) {
-                                    $commentingUser = DB::query("select * from users where id=".$comment['userid'])->fetch_assoc();
-                                    echo
-                                    "<div class='newarea'>
-                                        <div class='commentsarea'>
-                                            <div class='userD'>
-                                                <a href='profile.php?user=".$commentingUser["username"]."' class='userN'>
-                                                    <img alt='Profile photo' src='".profilePic($commentingUser["profilePic"])."' class='selfimg'/>
-                                                    ".$commentingUser["username"]."
-                                                </a>
-                                                <span class='commdate'>".$comment['date']."</span>
-                                            </div>
-                                            <div class='commentcont'>".htmlspecialchars($comment['content'])."</div>
-                                            <div class='comset'>
-                                                <span class='comreply'>reply</span> <span class='comnote'>note</span>
-                                            </div>
-                                        </div>
-
-                                        <div class='replyform'>
-                                            <input name='typerep' type='text' placeholder='Reply...' autocomplete='off'>
-                                            <button class='submit'>></button>
-                                        </div>";
-
-                                        $replies = DB::query("select * from replies where commentId=".$comment['id']." order by date desc");
-                                        foreach($replies as $reply) {
-                                            $replyingUser = DB::query("select * from users where id=".$reply['userId'])->fetch_assoc();
-                                            echo
-                                        "<div class='replydiv'>
-                                            <div class='userD'>
-                                                <a href='profile.php?user=".$replyingUser["username"]."' class='userN'>
-                                                    <img alt='Profile photo' src='".profilePic($replyingUser["profilePic"])."' class='selfimg'/>
-                                                    ".$replyingUser["username"]."
-                                                </a>
-                                                <span class='commdate'>".$reply['date']."</span>
-                                            </div>
-                                            <div class='replycont'>".htmlspecialchars($reply['content'])."</div>
-                                            <div class='comset'>
-                                                <span class='comnote'>note</span>
-                                            </div>".
-                                        "</div>";
-                                        }
-                                echo "</div>";
-                                }
-                            echo
-                            "</div>
-                        </div>
-                    </div>";
-                }
-                function isImage($fileName) {
-                    return array_search(pathinfo($fileName, PATHINFO_EXTENSION), array("jpeg", "jpg", "png"));
-                }
+                // consider not storing totalStars for posts (benchmark?)
+                $_SESSION['posts'] = array();
+                $user = new User(DB::queryScalar("select id from users where username='".$_SESSION['username']."'"));
+                $user->loadNextPosts(5);
                 function profilePic($picName) {
                     return ($picName === "") ? "/iconList/"."user.png":"/uploads/".$picName;
                 }

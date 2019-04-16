@@ -29,7 +29,7 @@ reader.onprogress = function(e) {
     }
 };
 
-fileInput.addEventListener("change", function (e) { // todo: add remove file upload
+fileInput.addEventListener("change", function (e) { // todo: add remove file upload, fix bug
     if(this.files.length > 0) {
         var fileExtension = this.files[0].name.split('.').pop().toLowerCase();
         if (acceptetFileTypes.indexOf(fileExtension) !== -1) {
@@ -42,13 +42,16 @@ fileInput.addEventListener("change", function (e) { // todo: add remove file upl
             errorMessage.innerHTML = "File format is not supported. <a href='helpCenter/fileUploadingQA.php'>For further information please click here.</a>";
             filePreview.style.display = "none";
             filePreview.src = "";
-            reader.result = null;
         }
+    }
+    else {
+        filePreview.style.display = "none";
+        filePreview.src = "";
     }
 });
 
 document.getElementById("post").addEventListener("click", function() {
-    if(reader.result !== null) {
+    if(fileInput.length > 0) {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if(this.readyState === 4 && this.status === 200) {

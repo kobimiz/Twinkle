@@ -14,6 +14,15 @@
     padding-left: 20px;
 }
 
+.viewMoreReplies {
+    color: rgb(145, 145, 145);
+    cursor: pointer;
+}
+
+.replies {
+    display: none;
+}
+
 @media only screen and (min-width: 701px ){
     body{
         margin:0;
@@ -22,6 +31,7 @@
     }
 
     .postcon{
+        padding-bottom: 10px;
         margin-bottom: 10px;
         height: 100%;
         max-width: 700px;
@@ -540,6 +550,7 @@
     }
 
     .postcon{
+        padding-bottom: 10px;
         margin-bottom: 10px;
         height: 100%;
         max-width: 700px;
