@@ -21,6 +21,7 @@ header{
     text-decoration: none;
     float: right;
 }
+
 #navi{
     padding: 10px 40px;
     height:60px;
@@ -28,6 +29,7 @@ header{
     display: grid;
     grid-template-columns:75% 25%; 
     background-color:#001942;
+    transition:0.35s;
 }
 #navi>ul{
     display: flex;
@@ -48,29 +50,40 @@ header{
 .usericon{
     width:35px;
     height:38px;
+    transition: 0.35s;
+    transition: opacity 0.15;
 }
 .notifi{
     width:35px;
     height:35px;
+    transition: 0.35s;
+    transition: opacity 0.15;
 }
 .note{
     width:35px;
     height:40px;
+    transition: 0.35s;
+    transition: opacity 0.15;
 }
 #searchBar{
     outline: none;
-    padding: 0 5px;
+    padding: 5px 5px;
     border: none;
     border-bottom: 2px solid white;
     border-radius: 2px;
-    width: 300px;
-    height:40px;
+    width: 350px;
+    height:30px;
     font-size: 20px;
     background-image: url('/iconList/Search.png');
-    background-position: 10px 10px; 
+    background-position: 5px 5px; 
     background-repeat: no-repeat;
     background-size: 20px 20px;
-    padding-left: 40px
+    padding-left: 40px;
+    transition: 0.2s;
+}
+#searchBar:focus{
+    background-image: none;
+    padding-left: 10px;
 }
 #sidenavbutton{
     font-size: 30px;
@@ -79,6 +92,7 @@ header{
     cursor:pointer;
     float: left;
     padding: 0 30px;
+    transition: 0.15s;
 }
 #filtering{
     background-color: #fff;

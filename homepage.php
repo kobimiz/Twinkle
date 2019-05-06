@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
     <link rel="icon" href="/iconList/TwinkleCon.png" type="image/png">
 
-    <title>Homepage Twinkle</title>
+    <title>Home page Twinkle</title>
 </head>
 
 <body>
@@ -39,7 +39,7 @@
             <li><a href="#"><img alt="note" src="/iconList/notewhite.png" class="note"></a></li>
             <input name="searchbar" type="search" placeholder="Popularities..." id="searchBar"/>
         </ul>
-        <span><a href="homepage.php" id="logo">Twinkle</a></span>
+        <span><a href="homepage.php" id="logo"><img class="imgfont" src="/iconList/TwinkleCon.png" alt="Logo" style="width:40px; height:35px;" ><span class="Logofont">winkle</span></a></span>
     </nav>
     <div id="filtering">
         <ul class="filterlist">
