@@ -1,11 +1,13 @@
 <?php
 class Comment {
-    private $id;
+    public $id;
+    public $repliesIds = array();
 
     function __construct($id) {
         $this->id = $id;
     }
-    public static function displayComment($comment, $loggedUserId) {
+    public function displayComment($loggedUserId) {
+        $comment = DB::query("select * from comments where id=".$this->id)->fetch_assoc();
         $replies = DB::query("select * from replies where commentId=".$comment['id']." order by date desc");
         $commentingUser = DB::query("select username, profilePic from users where id=".$comment['userid'])->fetch_assoc();
         echo
@@ -23,11 +25,8 @@ class Comment {
                 <div class='comset'>
                     <span class='comreply'>reply</span>
                     <span class='comnote'>note</span>";
-            if($comment["userid"] === $loggedUserId) {
-                echo
-                    "<span class='comedit'>edit</span>
-                    <span class='comdelete'>delete</span>";
-            }
+            if($comment["userid"] === $loggedUserId)
+                echo "<span class='comdelete'>delete</span>";
             echo
                 "</div>
             </div>
@@ -41,8 +40,10 @@ class Comment {
         echo "<span class='viewMoreReplies'>View replies</span>";
             echo
             "<div class='replies'>";
-                foreach($replies as $reply)
+                foreach($replies as $reply) {
                     Reply::displayReply($reply, $loggedUserId);
+                    array_push($this->repliesIds, $reply['id']);
+                }
         echo
             "</div>
         </div>";

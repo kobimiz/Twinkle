@@ -54,7 +54,6 @@ document.getElementById("post").addEventListener("click", function() {
     if(fileInput.files.length > 0) {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
-            console.log(this.responseText);
             if(this.readyState === 4 && this.status === 200) {
                 var res = this.responseText.split(","); // [status,username,fileName,content,profilePic]
                 // consider the case where a document is returned from this.responseText
@@ -157,7 +156,7 @@ document.getElementById("post").addEventListener("click", function() {
                             </div>\
                         </div>");
                     if(videosFileTypes.indexOf(res[2].substring(res[2].indexOf(".") + 1,res[2].length)) !== -1) // file extention is a video's. consider rethinking because this check is being made twice
-                        Video.videos.unshift(posts.querySelector(".video")); // selects the first
+                        Video.videos.unshift(new Video(posts.querySelector(".Vcon"))); // selects the first
                     Post.posts.unshift(new Post(posts.querySelector(".postcon"))); // same
                 }
                 else if(res[0] === "error") {

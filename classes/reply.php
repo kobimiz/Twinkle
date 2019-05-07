@@ -14,11 +14,8 @@ class Reply {
             <div class='replycont'>".htmlspecialchars($reply['content'])."</div>
             <div class='comset'>
                 <span class='comnote'>note</span>";
-        if($reply["userId"] === $loggedUserId) {
-            echo
-                "<span class='comedit'>edit</span>
-                <span class='comdelete'>delete</span>";
-        }
+        if($reply["userId"] === $loggedUserId)
+            echo "<span class='comdelete'>delete</span>";
         echo
             "</div>".
         "</div>";

@@ -98,7 +98,7 @@
                 // consider not storing totalStars for posts (benchmark?)
                 $_SESSION['posts'] = array();
                 $user = new User(DB::getLoggedUserInfo("id")["id"]);
-                $user->loadNextPosts(5);
+                $user->loadNextPosts(25);
                 function profilePic($picName) {
                     return ($picName === "") ? "/iconList/"."user.png":"/uploads/".$picName;
                 }

@@ -3,7 +3,7 @@ DB::connect();
 // consider adding destructors, and adding replies somehow because they need to be edited somehow
 class Post {
     public $id; // consider doing something with public
-    public $commentsIds = array();
+    public $comments = array();
 
     function __construct ($id) {
         $this->id = $id;
@@ -25,11 +25,10 @@ class Post {
                     <div class='topoptions'>
                         <div class='optionscon'>
                             <ul>";
-                        if($postingUserId === $loggedUserId) {
+                        if($postingUserId === $loggedUserId)
                             echo
-                                "<li>edit</li>
-                                <li>delete</li>";
-                        } else {
+                                "<li>delete</li>";
+                        else {
                             echo
                                 "<li><a href='#'>Report</a></li>
                                 <li><a href='#'>Feed back</a></li>";
@@ -126,13 +125,15 @@ class Post {
                 </div>
 
                 <div class='comments'>";
-                    $postComments = DB::query("select * from comments where postId=".$post['id']." order by date desc limit 2");
+                    // highly consider coming up with a new way to insure comments are selected as planned
+                    $postComments = DB::query("select * from comments where postId=".$post['id']." order by date, id desc limit 2");
                     if($postComments->num_rows > 0)
                         echo "<h2>Comments</h2>";
                         
                     foreach($postComments as $comment) {
-                        Comment::displayComment($comment, $loggedUserId);
-                        array_push($this->commentsIds, $comment['id']);
+                        $commentObject = new Comment($comment['id']);
+                        $commentObject->displayComment($loggedUserId);
+                        array_push($this->comments, $commentObject);
                     }
                     echo
                 "</div>
