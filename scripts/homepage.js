@@ -9,6 +9,10 @@ var filePreview = document.getElementById("filePreview"),
 var acceptetFileTypes = ["jpeg", "jpg", "png", "gif", "avi", "amv", "mp4"], // consider adding more supported file types. consider rethinking
     videosFileTypes = ["avi", "amv", "mp4"];
 var prevYScroll = window.pageYOffset;
+var searchIcon = document.querySelector(".searchIcon");
+var sidenavbutton = document.getElementById("sidenavbutton");
+var searchInp = document.getElementById("searchBar");
+var displayDis = document.querySelectorAll("#navi>ul>li");
 
 // todo: think of ways to compress files
 // todo: asynchronous image loading
@@ -34,6 +38,7 @@ window.addEventListener("scroll", function(){
 
     if(prevYScroll < currentYScroll){
         document.getElementById("navi").style.padding = "5px 40px";
+        document.getElementById("filtering").style.top = "45px";
         document.getElementById("navi").style.height = "45px";
         document.querySelector(".usericon").style.visibility = "hidden";
         document.querySelector(".usericon").style.opacity = "0";
@@ -46,6 +51,7 @@ window.addEventListener("scroll", function(){
         document.querySelector(".imgfont").style.marginRight = "110px";
     }else{
         document.getElementById("navi").style.padding = "10px 40px";
+        document.getElementById("filtering").style.top = "60px";
         document.getElementById("navi").style.height = "60px";
         document.querySelector(".usericon").style.visibility = "visible";
         document.querySelector(".usericon").style.opacity = "1";
@@ -60,6 +66,29 @@ window.addEventListener("scroll", function(){
 
     prevYScroll = currentYScroll;
 });
+
+searchIcon.addEventListener("touchstart", function(){
+    // var Inplength = window.innerWidth - searchIcon.width - sidenavbutton.clientWidth + "px";
+
+    if(displayDis[1].style.display == ""){
+        for(var i=1; i < displayDis.length; i++){
+            displayDis[i].setAttribute("style", "display: none;");
+        }
+        // searchInp.setAttribute("style", "display: block; max-width: 350px;");
+        searchInp.style.display = "block";
+        searchInp.style.maxWidth = "35px"
+        setTimeout(function(){searchInp.style.maxWidth = "350px", 100});
+        document.querySelector("#navi>ul").setAttribute("style", "display: inline-flex");
+    }else{
+        for(var i=0; i < displayDis.length; i++){
+            displayDis[i].removeAttribute("style");
+        }
+        searchInp.setAttribute("style", "display: none;");
+        document.querySelector("#navi>ul").setAttribute("style", "display: flex;");
+        searchInp.setAttribute("style", "max-width: 350px");
+    }
+});
+
 
 
 fileInput.addEventListener("change", function (e) { // todo: add remove file upload, fix bug
@@ -87,7 +116,6 @@ document.getElementById("post").addEventListener("click", function() {
     if(fileInput.files.length > 0) {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
-            console.log(this.responseText);
             if(this.readyState === 4 && this.status === 200) {
                 var res = this.responseText.split(","); // [status,username,fileName,content,profilePic]
                 // consider the case where a document is returned from this.responseText
@@ -242,6 +270,12 @@ window.addEventListener("load", function(){
     bord.style.top = `${firstlink.top}px`;
     bord.style.width = `${firstlink.width}px`;
     bord.style.height = `${firstlink.height}px`;
+});
+window.addEventListener("scroll",function(){
+    bord.style.transition = "none";
+    const firstlink = links[0].getBoundingClientRect();
+    bord.style.top = `${firstlink.top}px`;
+    bord.style.transition = "all 0.4s";
 });
 
 addplus.addEventListener("click",function(){

@@ -36,12 +36,13 @@ body{
 }
 /* Note: organize different devices' media queries */
 #loginsec{
-    margin: auto;
+    margin: 20px auto;
     height: 27em;
     display: block;
     align-items: center;
     background-color: white;
     border-radius: 5px;
+    overflow:hidden;
 }
 #passwordContainer {
     display: flex;
@@ -64,10 +65,12 @@ body{
 }
 #loginsec>#intro{
     text-align: left;
-    margin-left: 10%;
     font-size: 40px;
-    color: black;
+    color: white;
     font-weight: 600;
+    background-color: #001942;
+    margin:0;
+    padding: 10px;
 }
 #loginsec>form{
     height:100%;

@@ -20,7 +20,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <link rel="stylesheet" href="styles/general.css">
-    <link rel="stylesheet" href="styles/homepage.css">
+    <link rel="stylesheet" media="screen and (min-width: 650px)" href="styles/homepageD.css">
+    <link rel="stylesheet" media="screen and (max-width: 650px)" href="styles/homepageM.css">
     <link rel="stylesheet" href="styles/sidenav.css">
     <link rel="stylesheet" href="styles/posts.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
@@ -34,28 +35,29 @@
     <nav id="navi">
         <ul>
         <span id="sidenavbutton" onclick="openNav()">&#9776;</span>
-            <li><a href="#"><img alt="user" src="/iconList/userwhite.png" class="usericon"></a></li>
-            <li><a href="#"><img alt="notifications" src="/iconList/FilledStar.png" class="notifi"></a></li>
-            <li><a href="#"><img alt="note" src="/iconList/notewhite.png" class="note"></a></li>
+            <li class="computer"><a href="#"><img alt="searchIcon" src="/iconList/searchWhite.png" class="searchIcon"></a></li>
+            <li class="displayDis iconset"><a href="#"><img alt="user" src="/iconList/userwhite.png" class="usericon"></a></li>
+            <li class="displayDis iconset"><a href="#"><img alt="notifications" src="/iconList/FilledStar.png" class="notifi"></a></li>
+            <li class="displayDis iconset"><a href="#"><img alt="note" src="/iconList/notewhite.png" class="note"></a></li>
+            <li class="computer displayDis"><a href="#"><img alt="Logo" src="/iconList/TwinkleCon.png" class="TwinkleLogo"></a></li>
             <input name="searchbar" type="search" placeholder="Popularities..." id="searchBar"/>
         </ul>
-        <span><a href="homepage.php" id="logo"><img class="imgfont" src="/iconList/TwinkleCon.png" alt="Logo" style="width:40px; height:35px;" ><span class="Logofont">winkle</span></a></span>
+        <span class="phone"><a href="homepage.php" id="logo"><img class="imgfont" src="/iconList/TwinkleCon.png" alt="Logo" style="width:40px; height:35px;" ><span class="Logofont">winkle</span></a></span>
     </nav>
-    <div id="filtering">
-        <ul class="filterlist">
-            <li><a href="#" class="link">HOME</a></li>
-            <li><a href="#" class="link">HUMOR</a></li>
-            <li><a href="#" class="link">ART</a></li>
-            <li><a href="#" class="link">SPORT</a></li>
-            <li><a href="#" class="link">TECH</a></li>
-            <li><a href="#" class="link">FOOD</a></li>
-            <li><a href="#" class="link">NATURE</a></li>
-            <li id="adding"><a href="#" class="plus link">+</a></li>
-        </ul>
-        <span class="bord"></span>
-    </div>
 </header>
-
+<div id="filtering">
+    <ul class="filterlist">
+        <li><a href="#" class="link">HOME</a></li>
+        <li><a href="#" class="link">HUMOR</a></li>
+        <li><a href="#" class="link">ART</a></li>
+        <li><a href="#" class="link">SPORT</a></li>
+        <li><a href="#" class="link">TECH</a></li>
+        <li><a href="#" class="link">FOOD</a></li>
+        <li><a href="#" class="link">NATURE</a></li>
+        <li id="adding"><a href="#" class="plus link">+</a></li>
+    </ul>
+    <span class="bord"></span>
+</div>
     <?php
         include_once("templates/sidenav.php");
     ?>
