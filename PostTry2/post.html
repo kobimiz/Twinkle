@@ -153,7 +153,27 @@
     </div>
 
 <script src="post.js"></script>
+<script>
+var box = document.querySelector(".videojump"),
+            mouseDown = false;
+        box.addEventListener("mousedown", function() {
+            mouseDown = true;
+        });
 
+        window.addEventListener("mouseup", function() {
+            mouseDown = false;
+        });
+
+        window.addEventListener("mousemove", function(e) {
+            if (!mouseDown) return;
+            e.preventDefault();
+            const pos = e.pageX - videojump.offsetLeft; // mouse position on X axis
+            const run = pos - startX; // mouse distance from starting point
+            juiceBar.style.width = juiceBar.offsetWidth + (e.offsetX - juiceBar.offsetWidth) + "px";
+            video.currentTime = (e.offsetX / videojump.offsetWidth) * video.duration;
+            manageBars();
+        });
+</script>
 </body>
 
 </html>

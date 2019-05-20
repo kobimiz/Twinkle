@@ -1,6 +1,7 @@
 <?php
 require_once(__DIR__."/../classes/queries.php");
 require_once(__DIR__."/../classes/posts.php");
+require_once(__DIR__."/../classes/comment.php");
 session_start();
 DB::connect();
 if(isset($_POST["content"])) {
@@ -14,7 +15,7 @@ if(isset($_POST["content"])) {
     //consider importing the profilePic function.
     // todo: update indecies also when uploading posts
     // add comment to the beginning of the array. todo: think of another way because comments are going to be sorted in different way
-    array_splice($_SESSION['posts'][$_POST['postIndex']]->commentsIds, 0, 0, DB::insertId());
+    array_splice($_SESSION['posts'][$_POST['postIndex']]->comments, 0, 0, new Comment(DB::insertId())); // insert in the begging of the array
     $picName = DB::query("select profilePic from users where username='".$username."'")->fetch_assoc()['profilePic'];
     echo $username.','.(($picName === "") ? "/iconList/"."user.png":"/uploads/".$picName);
 }

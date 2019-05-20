@@ -218,7 +218,7 @@ document.getElementById("post").addEventListener("click", function() {
                             </div>\
                         </div>");
                     if(videosFileTypes.indexOf(res[2].substring(res[2].indexOf(".") + 1,res[2].length)) !== -1) // file extention is a video's. consider rethinking because this check is being made twice
-                        Video.videos.unshift(posts.querySelector(".video")); // selects the first
+                        Video.videos.unshift(new Video(posts.querySelector(".Vcon"))); // selects the first
                     Post.posts.unshift(new Post(posts.querySelector(".postcon"))); // same
                 }
                 else if(res[0] === "error") {

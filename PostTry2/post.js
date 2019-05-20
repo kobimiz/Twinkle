@@ -92,12 +92,6 @@ function scrub(event) {
     video.currentTime = scrubTime;
 }
 
-var mousedown = false;
-videojump.addEventListener("click", scrub);
-videojump.addEventListener("mousemove", (e) => mousedown && scrub(e));
-videojump.addEventListener("mousemove", (e) => mousedown = true);
-videojump.addEventListener("mousemove", (e) => mousedown = false);
-
 var closeBars;
 function manageBars() {
     clearTimeout(closeBars);
@@ -131,7 +125,7 @@ var startX;
 var scrolLeft;
 var pausedBeforeJump = true;
 
-videojump.addEventListener("mousedown", function (e) {
+/*videojump.addEventListener("mousedown", function (e) {
     isDown = true;
     startX = e.pageX - videojump.offsetLeft;
     scrolLeft = videojump.scrollLeft;
@@ -168,7 +162,7 @@ videojump.addEventListener("mousemove", function (e) {
     const run = pos - startX; // mouse distance from starting point
     juiceBar.style.width = juiceBar.offsetWidth + (e.offsetX - juiceBar.offsetWidth) + "px";
     video.currentTime = (e.offsetX / videojump.offsetWidth) * video.duration;
-});
+});*/
 
 // red line lenght plus mouse distance
 
