@@ -5,13 +5,12 @@ require_once(__DIR__."/../classes/comment.php");
 session_start();
 
 if(isset($_POST['replyIndex'])) {
-    var_dump($_POST['postIndex']);
-    var_dump($_POST['commentIndex']);
-    var_dump($_POST['replyIndex']);
-    //DB::query("delete from replies where id=".$_SESSION['posts'][$_POST['postIndex']]->comments[$_POST['commentIndex']]->id);
+    DB::query("delete from replies where id=".$_SESSION['posts'][$_POST['postIndex']]->comments[$_POST['commentIndex']]->repliesIds[$_POST['replyIndex']]);
+    array_splice($_SESSION['posts'][$_POST['postIndex']]->comments[$_POST['commentIndex']]->repliesIds, $_POST['replyIndex'], 1);
+    var_dump($_SESSION['posts'][$_POST['postIndex']]->comments[$_POST['commentIndex']]->repliesIds[$_POST['replyIndex']]);
 } elseif(isset($_POST['commentIndex'])) {
     DB::query("delete from comments where id=".$_SESSION['posts'][$_POST['postIndex']]->comments[$_POST['commentIndex']]->id);
-    splice($_SESSION['posts'][$_POST['postIndex']]->comments, $_POST['commentIndex'], 1);
+    array_splice($_SESSION['posts'][$_POST['postIndex']]->comments, $_POST['commentIndex'], 1);
 } else {
 
 }

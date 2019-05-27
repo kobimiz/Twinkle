@@ -7,7 +7,6 @@
     require_once("classes/reply.php");
     DB::connect();
 
-
     if(!DB::isLoggedIn())
         header("Location: signin.php");
 ?>

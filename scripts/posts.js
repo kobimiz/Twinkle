@@ -1,6 +1,8 @@
 // consider adding onerror to all ajaxes
 // consider making a common function for that closure trick function
 // todo: move post upload to here
+// todo: add cancel button to deleting functionality (before clicking "are you sure")
+// todo: remove "view replies"\"view comments" if deleted and there are no more
 // Function.prototype.bind function polyfil. todo: test on old browsers
 if (!Function.prototype.bind) {
     Function.prototype.bind = function (context /* ...args */) {
@@ -28,102 +30,41 @@ function getChildIndex(element) {
         if (siblings[i] === element)
             return i;
     return -1;
-};
+}
 
 // consider not storing variables inside
 // todo: improve event listeners system
 // todo: benchmark using event listeners w\ prototype or with event argument
 // todo: ask if one can rate oneself
-function Post(postElement) {
+function Post(postElement, index) {
     // consider rethinking
-    this.comments = Post.getComments(postElement);
+    this.index = index;
+    this.comments = [];
     this.commentForm = postElement.querySelector(".comform");
     this.options = postElement.querySelector(".optionscon");
     this.commentForm.addEventListener("click", stopPropagation);
-    this.commentForm.querySelector(".submit").addEventListener("click", Post.submitComment.bind(this));
+    this.commentForm.querySelector(".submit").addEventListener("click", this.submitComment.bind(this));
     postElement.querySelector(".optionicon").addEventListener("click", this.toggleOptions.bind(this));
-    postElement.querySelector(".starrate").addEventListener("click", Post.rate);
+    postElement.querySelector(".starrate").addEventListener("click", this.rate.bind(this));
     postElement.querySelector(".optionscon").addEventListener("click", stopPropagation);
     postElement.querySelector(".act1").addEventListener("click", this.toggleComment.bind(this));
-    this.initComments();
+
+    // init comments
+    var commentElements = postElement.querySelectorAll(".newarea");
+    for(var i = 0; i < commentElements.length; i++) 
+        this.comments.push(new PostComment(commentElements[i], i, this));
 }
 Post.activatedOptions = null;
 Post.activatedCommentForm = null;
 Post.posts = [];
-Post.getComments = function(postElement) {
-    var commentObjects = [],
-        commentElements = postElement.querySelectorAll(".newarea");
-    for(var i = 0; i < commentElements.length; i++)
-        commentObjects.push(new Comment(commentElements[i]));
-    return commentObjects;
-};
-Post.rate = function(e) { // todo: fix possible exploit, fix stars moving aside when total star rating number gains more digits
-    if (e.target.matches("img")) {
-        var starRate = getChildIndex(e.target), // since there is a span element in e.target.parentElement, its child index is equal its star rate
-            siblings = e.target.parentElement.children,
-            xmlhttp = new XMLHttpRequest(),
-            formData = new FormData(),
-            postIndex = getChildIndex(this.parentElement.parentElement.parentElement),
-            userNum = e.target.parentElement.nextElementSibling.children[1];
-        xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var stats = this.responseText.split("\n");
-                document.getElementsByClassName("avgstardata")[postIndex].textContent = stats[0];
-                document.getElementsByClassName("stars")[postIndex].textContent = stats[1];
-            }
-        }
-        formData.append("postIndex", postIndex);
-        if (siblings[starRate].src.indexOf("FilledStar.png") !== -1 && (!siblings[starRate + 1] || siblings[starRate + 1].src.indexOf("RateStar.svg") !== -1)) { // pressed again on same star - cancel
-            formData.append("starRating", 0);
-            for (var i = 1; i < 6; i++)
-                siblings[i].src = "/iconList/RateStar.svg";
-            userNum.innerHTML = parseInt(userNum.innerHTML) - 1;
-        } else {
-            if(siblings[1].src.indexOf("FilledStar.png") === -1) // not clicked on before
-                userNum.innerHTML = parseInt(userNum.innerHTML) + 1;
-            for (var i = 1; i <= starRate; i++)
-                siblings[i].src = "/iconList/FilledStar.png";
-            for (var i = starRate + 1; i < 6; i++)
-                siblings[i].src = "/iconList/RateStar.svg";
-            formData.append("starRating", starRate);
-        }
-        xmlhttp.open("POST", "templates/rate.php", true);
-        xmlhttp.send(formData);
-    }
-};
+
 // consider making get[Blank] one function (possibly use inheritance), or\and user Post.posts array
 Post.init = function() {
     var postElements = document.querySelectorAll(".postcon");
     for(var i = 0; i < postElements.length; i++)
-        Post.posts.push(new Post(postElements[i]));
+        Post.posts.push(new Post(postElements[i], i));
 };
-Post.prototype.initComments = function() {
-    for (let i = 0; i < this.comments.length; i++) {
-        var comedelete = this.comments[i].commentElement.querySelector(".comdelete");
-        var viewMoreReplies = this.comments[i].commentElement.querySelector(".viewMoreReplies");
-        if(comedelete !== null) // can delete
-            this.comments[i].commentElement.querySelector(".comdelete").addEventListener("click", Post.deleteComment.bind(this));
-        if(viewMoreReplies !== null)
-        viewMoreReplies.addEventListener("click", Comment.toggleReplies);
-    }
-};
-Post.submitComment = function(e) { // todo: fix comment & reply order when submiting 2 and than refreshing.
-    var val = e.target.parentElement.children[0].value;
-    if(val !== "") {
-        var xmlhttp = new XMLHttpRequest(),
-            formData = new FormData(),
-            postElement = e.target.parentElement.parentElement.parentElement;
-        xmlhttp.onreadystatechange = Post.insertComment;
-        formData.append("content", val);
-        formData.append("postIndex", getChildIndex(postElement));
-        
-        xmlhttp.open("POST", "templates/comment.php", true);
-        xmlhttp.send(formData);
-        
-        this.comments.push(new Comment(e.target.parentElement.nextElementSibling.children[1]));
-    }
-}
-Post.insertComment = function() { // an ajax callback function
+Post.insertComment = function(post) { // an ajax callback function
     // consider removing the typerep name from the input element but first check its style with vscode search
     // consider removing autocomplete attribute from input
     if(this.readyState === 4 && this.status === 200) {
@@ -153,28 +94,60 @@ Post.insertComment = function() { // an ajax callback function
             </div> \
         </div>');
         Post.activatedCommentForm.firstElementChild.value = ""; // reset input
-        Post.activatedCommentForm.style.display = "none"; // 
+        Post.activatedCommentForm.style.display = "none";
         Post.activatedCommentForm = null;
+
+        for (var i = 0; i < post.comments.length; i++)
+            post.comments[i].index += 1;
+        post.comments.push(new PostComment(commentSection.children[1], 0, post));
     }
-}
-// todo: fix exploit where you can delete stuff thats isnt yours
-// consider making a general function
-Post.deleteComment = function(e) {
-    var commentElement = e.target.parentElement.parentElement.parentElement;
-    if(e.target.innerHTML === "delete") // consider rethinking
-        e.target.innerHTML = "are you sure?";
-    else {
+};
+
+Post.prototype.rate = function(e) { // todo: fix possible exploit, fix stars moving aside when total star rating number gains more digits
+    if (e.target.matches("img")) {
+        var starRate = getChildIndex(e.target), // since there is a span element in e.target.parentElement, its child index is equal its star rate
+            siblings = e.target.parentElement.children,
+            xmlhttp = new XMLHttpRequest(),
+            formData = new FormData(),
+            userNum = e.target.parentElement.nextElementSibling.children[1],
+            index = this.index;
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var stats = this.responseText.split("\n");
+                document.getElementsByClassName("avgstardata")[index].textContent = stats[0];
+                document.getElementsByClassName("stars")[index].textContent = stats[1];
+            }
+        }
+        formData.append("postIndex", index);
+        if (siblings[starRate].src.indexOf("FilledStar.png") !== -1 && (!siblings[starRate + 1] || siblings[starRate + 1].src.indexOf("RateStar.svg") !== -1)) { // pressed again on same star - cancel
+            formData.append("starRating", 0);
+            for (var i = 1; i < 6; i++)
+                siblings[i].src = "/iconList/RateStar.svg";
+            userNum.innerHTML = parseInt(userNum.innerHTML) - 1;
+        } else {
+            if(siblings[1].src.indexOf("FilledStar.png") === -1) // not clicked on before
+                userNum.innerHTML = parseInt(userNum.innerHTML) + 1;
+            for (var i = 1; i <= starRate; i++)
+                siblings[i].src = "/iconList/FilledStar.png";
+            for (var i = starRate + 1; i < 6; i++)
+                siblings[i].src = "/iconList/RateStar.svg";
+            formData.append("starRating", starRate);
+        }
+        xmlhttp.open("POST", "templates/rate.php", true);
+        xmlhttp.send(formData);
+    }
+};
+Post.prototype.submitComment = function(e) { // todo: fix comment & reply order when submiting 2 and than refreshing.
+    var val = e.target.parentElement.children[0].value;
+    if(val !== "") {
         var xmlhttp = new XMLHttpRequest(),
             formData = new FormData();
-        var postElement = commentElement.parentElement.parentElement.parentElement;
-        formData.append("postIndex", getChildIndex(postElement));
-        formData.append("commentIndex", getChildIndex(commentElement) - 1);
+        xmlhttp.onreadystatechange = Post.insertComment.bind(xmlhttp, this);
+        formData.append("content", val);
+        formData.append("postIndex", this.index);
         
-        xmlhttp.open("POST", "templates/delete.php", true);
+        xmlhttp.open("POST", "templates/comment.php", true);
         xmlhttp.send(formData);
-
-        commentElement.remove();
-        this.comments.splice(indexOfCommentArray(this.comments, commentElement.children[1]), 1); // rethink this. temporary solution
     }
 };
 Post.prototype.toggleComment = function(e) {
@@ -204,81 +177,67 @@ Post.prototype.toggleOptions = function(e) {
     }
 };
 
-function Comment(commentElement) {
+function PostComment(commentElement, index, owningPost) {
     this.commentElement = commentElement;
-    this.replies = Comment.getReplies(commentElement);
+    this.index = index;
+    this.owningPost = owningPost;
+    this.replies = [];
     this.replyForm = commentElement.querySelector(".replyform");
-    this.replyForm.querySelector(".submit").addEventListener("click", Comment.submitReply.bind(this));
-    commentElement.querySelector(".comreply").addEventListener("click", Comment.toggleReplyForm.bind(this)); // reply button
+    this.replyForm.querySelector(".submit").addEventListener("click", this.submitReply.bind(this));
+    commentElement.querySelector(".comreply").addEventListener("click", PostComment.toggleReplyForm.bind(this)); // reply button
     commentElement.querySelector(".replyform").addEventListener("click", stopPropagation);
-}
-Comment.prototype.addDelete
-Comment.activatedReplyForm = null;
-Comment.getReplies = function(commentElement) {
-    var replyObject = [],
-        replyElements = commentElement.querySelectorAll(".newarea");
+
+    var comedelete = commentElement.querySelector(".comdelete");
+    var viewMoreReplies = commentElement.querySelector(".viewMoreReplies");
+    if(comedelete !== null) // can delete
+        comedelete.addEventListener("click", this.delete.bind(this));
+    if(viewMoreReplies !== null)
+        viewMoreReplies.addEventListener("click", PostComment.toggleReplies);
+
+    // init replies
+    var replyElements = commentElement.querySelectorAll(".replydiv");
     for(var i = 0; i < replyElements.length; i++)
-        replyObject.push(new Reply(replyElements[i]));
-    return replyObject;
-};
+        this.replies.push(new Reply(replyElements[i], i, this));
+}
+PostComment.activatedReplyForm = null;
+
 function indexOfCommentArray(comments, replyForm) {
-    for (let i = 0; i < comments.length; i++) {
+    for (var i = 0; i < comments.length; i++) {
         if(comments[i].replyForm === replyForm)
             return i;
     }
     return -1;
 }
-Comment.toggleReplies = function() {
+PostComment.toggleReplies = function() {
     if(this.nextElementSibling.style.display === "block")
         this.nextElementSibling.style.display = "none";
     else
         this.nextElementSibling.style.display = "block";
 };
-Comment.toggleReplyForm = function(e) {
-    if(this.replyForm !== Comment.activatedReplyForm) { // current comment not displayed
-        if(Comment.activatedReplyForm !== null) // hide last comment
-            Comment.activatedReplyForm.style.display = "none";
+PostComment.toggleReplyForm = function(e) {
+    if(this.replyForm !== PostComment.activatedReplyForm) { // current comment not displayed
+        if(PostComment.activatedReplyForm !== null) // hide last comment
+            PostComment.activatedReplyForm.style.display = "none";
         this.replyForm.style.display = "block"; // display current comment
         this.replyForm.firstElementChild.focus(); // focus on input
-        Comment.activatedReplyForm = this.replyForm;
+        PostComment.activatedReplyForm = this.replyForm;
         e.stopPropagation();
     } else { // current comment already displayed
         this.replyForm.style.display = "none";
-        Comment.activatedReplyForm = null;
+        PostComment.activatedReplyForm = null;
     }
 };
-Comment.submitReply = function(e) {
-    var val = e.target.parentElement.children[0].value;
-    if(val !== "") {
-        var xmlhttp = new XMLHttpRequest(),
-            formData = new FormData(),
-            commentElement = e.target.parentElement.parentElement,
-            postElement = commentElement.parentElement.parentElement.parentElement;
-        xmlhttp.onreadystatechange = Comment.insertReply;
-        formData.append("content", val);
-        formData.append("commentIndex", getChildIndex(commentElement) - 1);
-        formData.append("postIndex", getChildIndex(postElement));
-        xmlhttp.open("POST", "templates/reply.php", true);
-        xmlhttp.send(formData);
-        
-        // todo: handle when there are no replies
-        var replyElement = e.target.parentElement.nextElementSibling.nextElementSibling.firstElementChild;
-        console.log(replyElement);
-        this.replies.push(new Reply(replyElement));
-    }
-}
-Comment.insertReply = function() { // an ajax callback function
+PostComment.insertReply = function(comment) { // an ajax callback function
     // consider removing the typerep name from the input element but first check its style with vscode search
    // consider removing autocomplete attribute from input
-   
    if(this.readyState === 4 && this.status === 200) {
-        if(Comment.activatedReplyForm.parentElement.querySelector(".viewMoreReplies") === null) { // has no replies
-            Comment.activatedReplyForm.insertAdjacentHTML("afterend", "<span class='viewMoreReplies'>View replies</span>"); // add the view replies button
-            Comment.activatedReplyForm.nextElementSibling.addEventListener("click", Comment.toggleReplies);
-            Comment.toggleReplies.call(Comment.activatedReplyForm.nextElementSibling);
+        if(PostComment.activatedReplyForm.parentElement.querySelector(".viewMoreReplies") === null) { // has no replies
+            PostComment.activatedReplyForm.insertAdjacentHTML("afterend", "<span class='viewMoreReplies'>View replies</span>"); // add the view replies button
+            PostComment.activatedReplyForm.nextElementSibling.addEventListener("click", PostComment.toggleReplies);
+            PostComment.toggleReplies.call(PostComment.activatedReplyForm.nextElementSibling);
         }
         var res = this.responseText.split(','), // [username, profilePic]
-            replies = Comment.activatedReplyForm.nextElementSibling.nextElementSibling;
+            replies = PostComment.activatedReplyForm.nextElementSibling.nextElementSibling;
         replies.insertAdjacentHTML("afterbegin",
         '<div class="replydiv"> \
             <div class="userD"> \
@@ -288,39 +247,104 @@ Comment.insertReply = function() { // an ajax callback function
                 '</a> \
                 <span class="commdate">' + getDate() + '</span> \
             </div> \
-            <div class="replycont">' + Comment.activatedReplyForm.firstElementChild.value + '</div> \
+            <div class="replycont">' + PostComment.activatedReplyForm.firstElementChild.value + '</div> \
             <div class="comset"> \
                 <span class="comnote">note</span> \
                 <span class="comdelete">delete</span> \
             </div> \
         </div>');
-        Comment.activatedReplyForm.firstElementChild.value = ""; // reset input
-        Comment.activatedReplyForm.style.display = "none";
-        Comment.activatedReplyForm = null;
+        PostComment.activatedReplyForm.firstElementChild.value = ""; // reset input
+        PostComment.activatedReplyForm.style.display = "none";
+        PostComment.activatedReplyForm = null;
+
+        for (var i = 0; i < comment.replies.length; i++)
+            comment.replies[i].index += 1;
+        comment.replies.push(new Reply(replies.children[0], 0, comment));
    }
 }
 
-function Reply(replyElement) {
-    // do something with note button
-    var repdelete = replyElement.querySelector(".comdelete");
-    if(repdelete !== null)
-        repdelete.addEventListener("click", Reply.delete);
-}
-Reply.delete = function() {
-    if(this.innerHTML === "delete") // consider rethinking
-        this.innerHTML = "are you sure?";
+// todo: fix exploit where you can delete stuff thats isnt yours
+// consider making a general function
+// todo: add here and in delete reply error handeling (e.g. using onreadystatechange)
+PostComment.prototype.delete = function() {
+    var button = this.commentElement.querySelector(".comdelete");
+    if(button.innerHTML === "delete") // consider rethinking
+        button.innerHTML = "are you sure?";
     else {
         var xmlhttp = new XMLHttpRequest(),
             formData = new FormData();
-        formData.append("postIndex", getChildIndex(this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement));
-        formData.append("commentIndex", getChildIndex(this.parentElement.parentElement.parentElement) - 1);
-        formData.append("replyIndex", getChildIndex(this.parentElement.parentElement));
+        xmlhttp.onreadystatechange = function(){};
+        formData.append("postIndex", this.owningPost.index);
+        formData.append("commentIndex", this.index);
+        
         xmlhttp.open("POST", "templates/delete.php", true);
         xmlhttp.send(formData);
-        this.parentElement.parentElement.parentElement.remove();
-        Reply.replies.splice(indexOfCommentArray(Reply.Replies, this.parentElement.parentElement), 1); // todo:rethink this. temporary solution
+
+        for (var i = 0; i < this.owningPost.comments.length; i++) {
+            if(this.owningPost.comments[i].index === this.index)
+                this.owningPost.comments.splice(i--, 1);
+            else if(this.owningPost.comments[i].index > this.index)
+                this.owningPost.comments[i].index -= 1;
+        }
+        this.commentElement.remove();
     }
 };
+PostComment.prototype.submitReply = function(e) {
+    var val = e.target.parentElement.children[0].value;
+    if(val !== "") {
+        var xmlhttp = new XMLHttpRequest(),
+            formData = new FormData();
+        xmlhttp.onreadystatechange = PostComment.insertReply.bind(xmlhttp, this);
+        formData.append("content", val);
+        formData.append("commentIndex", this.index);
+        formData.append("postIndex", this.owningPost.index);
+        xmlhttp.open("POST", "templates/reply.php", true);
+        xmlhttp.send(formData);
+    }
+};
+
+function Reply(replyElement, index, owningComment) {
+    // do something with note button
+    this.replyElement = replyElement;
+    this.index = index;
+    this.owningComment = owningComment;
+    var repdelete = replyElement.querySelector(".comdelete");
+    
+    if(repdelete !== null)
+        repdelete.addEventListener("click", this.delete.bind(this));
+}
+Reply.prototype.delete = function(e) {
+    var button = e.target;
+    if(button.innerHTML === "delete") // consider rethinking
+        button.innerHTML = "are you sure?";
+    else {
+        var xmlhttp = new XMLHttpRequest(),
+            formData = new FormData();
+            xmlhttp.onreadystatechange = function(){
+                console.log(this.responseText);
+            };
+        formData.append("postIndex", this.owningComment.owningPost.index);
+        formData.append("commentIndex", this.owningComment.index);
+        formData.append("replyIndex", this.index);
+        
+        xmlhttp.open("POST", "templates/delete.php", true);
+        xmlhttp.send(formData);
+
+        for (var i = 0; i < this.owningComment.replies.length; i++) {
+            if(this.owningComment.replies[i].index === this.index)
+                this.owningComment.replies.splice(i--, 1);
+            else if(this.owningComment.replies[i].index > this.index)
+                this.owningComment.replies[i].index -= 1;
+        }
+        this.replyElement.remove();
+    }
+};
+
+
+
+
+
+
 
 // consider making my own event system- one that takes advantage of multiple elements that have the same function for events (same events or consider even other)
 // todo: add video pause on leaving the screen on scroll\playing another video
@@ -482,7 +506,6 @@ Video.init = function() {
         Video.videos.push(new Video(videoElements[i].parentElement));
 };
 
-
 document.body.addEventListener('click', function(){
     if(Post.activatedCommentForm !== null){
         Post.activatedCommentForm.style.display = "none";
@@ -492,9 +515,9 @@ document.body.addEventListener('click', function(){
         Post.activatedOptions.style.display = "none";
         Post.activatedOptions = null;
     }
-    if(Comment.activatedReplyForm !== null){
-        Comment.activatedReplyForm.style.display = "none";
-        Comment.activatedReplyForm = null;
+    if(PostComment.activatedReplyForm !== null){
+        PostComment.activatedReplyForm.style.display = "none";
+        PostComment.activatedReplyForm = null;
     }
 });
 /*window.addEventListener("scroll", function() {
@@ -521,20 +544,3 @@ document.body.addEventListener('click', function(){
 
 Post.init();
 Video.init();
-
-//change the size of the video screen
-
-// screensize.addEventListener("click", openFullscreen);
-// function openFullscreen() {
-//   if (screensize.requestFullscreen) {
-//     video.requestFullscreen();
-//   } else if (screensize.mozRequestFullScreen) { /* Firefox */
-//     video.mozRequestFullScreen();
-//   } else if (screensize.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-//     video.webkitRequestFullscreen();
-//   } else if (screensize.msRequestFullscreen) { /* IE/Edge */
-//     video.msRequestFullscreen();
-//   }
-// }
-//comment click anime
-//reply click anime

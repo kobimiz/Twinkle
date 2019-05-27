@@ -8,7 +8,7 @@ class Comment {
     }
     public function displayComment($loggedUserId) {
         $comment = DB::query("select * from comments where id=".$this->id)->fetch_assoc();
-        $replies = DB::query("select * from replies where commentId=".$comment['id']." order by date desc");
+        $replies = DB::query("select * from replies where commentId=".$comment['id']." order by date desc, id desc");
         $commentingUser = DB::query("select username, profilePic from users where id=".$comment['userid'])->fetch_assoc();
         echo
         "<div class='newarea'>
