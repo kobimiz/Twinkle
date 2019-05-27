@@ -1,6 +1,6 @@
 /* replace the rule below with a proper content sizing function */
 .Vcon > video {
-    width: 700px;
+    width: 100%;
     max-height: 500px;
     background-color: black;
 }
@@ -36,13 +36,7 @@
     color:#001942;
 }
 
-@media only screen and (min-width: 701px ){
-    body{
-        margin:0;
-        padding:0;
-        font-family: Arial, Helvetica, sans-serif;
-    }
-
+@media only screen and (min-width: 700px ){
     .postcon{
         padding-bottom: 10px;
         margin-bottom: 10px;
@@ -563,12 +557,6 @@
 /*<<<< phones styles>>>*/
 
 @media only screen and (max-width: 750px){
-    body{
-        margin:0;
-        padding:0;
-        font-family: Arial, Helvetica, sans-serif;
-    }
-
     .postcon{
         padding-bottom: 10px;
         margin-bottom: 10px;
@@ -1075,7 +1063,7 @@
     }
     .replycont{
         font-size: 18px;
-        /* padding: 10px 35px; */
+        / padding: 10px 35px; /
         text-align: left;
     }
 }
