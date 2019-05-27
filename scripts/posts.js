@@ -232,12 +232,14 @@ PostComment.insertReply = function(comment) { // an ajax callback function
    // consider removing autocomplete attribute from input
    if(this.readyState === 4 && this.status === 200) {
         if(PostComment.activatedReplyForm.parentElement.querySelector(".viewMoreReplies") === null) { // has no replies
-            PostComment.activatedReplyForm.insertAdjacentHTML("afterend", "<span class='viewMoreReplies'>View replies</span>"); // add the view replies button
+            PostComment.activatedReplyForm.insertAdjacentHTML("afterend", "<span class='viewMoreReplies'>View replies</span>\
+                                                                            <div class='replies'></div>"); // add the view replies button
             PostComment.activatedReplyForm.nextElementSibling.addEventListener("click", PostComment.toggleReplies);
-            PostComment.toggleReplies.call(PostComment.activatedReplyForm.nextElementSibling);
+            PostComment.toggleReplies.call(PostComment.activatedReplyForm);
         }
         var res = this.responseText.split(','), // [username, profilePic]
             replies = PostComment.activatedReplyForm.nextElementSibling.nextElementSibling;
+        
         replies.insertAdjacentHTML("afterbegin",
         '<div class="replydiv"> \
             <div class="userD"> \
@@ -253,6 +255,7 @@ PostComment.insertReply = function(comment) { // an ajax callback function
                 <span class="comdelete">delete</span> \
             </div> \
         </div>');
+
         PostComment.activatedReplyForm.firstElementChild.value = ""; // reset input
         PostComment.activatedReplyForm.style.display = "none";
         PostComment.activatedReplyForm = null;
@@ -261,7 +264,7 @@ PostComment.insertReply = function(comment) { // an ajax callback function
             comment.replies[i].index += 1;
         comment.replies.push(new Reply(replies.children[0], 0, comment));
    }
-}
+};
 
 // todo: fix exploit where you can delete stuff thats isnt yours
 // consider making a general function
@@ -273,7 +276,6 @@ PostComment.prototype.delete = function() {
     else {
         var xmlhttp = new XMLHttpRequest(),
             formData = new FormData();
-        xmlhttp.onreadystatechange = function(){};
         formData.append("postIndex", this.owningPost.index);
         formData.append("commentIndex", this.index);
         
@@ -287,6 +289,9 @@ PostComment.prototype.delete = function() {
                 this.owningPost.comments[i].index -= 1;
         }
         this.commentElement.remove();
+        var commentsHeader = this.owningPost.commentForm.nextElementSibling.firstElementChild;
+        if(commentsHeader.nextElementSibling === null)
+            commentsHeader.remove();
     }
 };
 PostComment.prototype.submitReply = function(e) {
@@ -320,9 +325,6 @@ Reply.prototype.delete = function(e) {
     else {
         var xmlhttp = new XMLHttpRequest(),
             formData = new FormData();
-            xmlhttp.onreadystatechange = function(){
-                console.log(this.responseText);
-            };
         formData.append("postIndex", this.owningComment.owningPost.index);
         formData.append("commentIndex", this.owningComment.index);
         formData.append("replyIndex", this.index);
@@ -337,6 +339,9 @@ Reply.prototype.delete = function(e) {
                 this.owningComment.replies[i].index -= 1;
         }
         this.replyElement.remove();
+        var replies = this.owningComment.commentElement.querySelector(".replies");
+        if(!replies.hasChildNodes())
+            replies.previousElementSibling.remove();
     }
 };
 

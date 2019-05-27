@@ -14,6 +14,9 @@ if(isset($_POST["content"])) {
         date("Y-m-d H:i:s").
     "')");
 
+    array_splice($_SESSION['posts'][$_POST['postIndex']]->comments[$_POST['commentIndex']]->repliesIds, 0, 0, array(DB::insertId())); // insert a new post in the beggining
+
+
     // consider importing the profilePic function. 
     $picName = DB::query("select profilePic from users where username='".$username."'")->fetch_assoc()['profilePic'];
     echo $username.','.(($picName === "") ? "/iconList/"."user.png":"/uploads/".$picName);

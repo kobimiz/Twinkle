@@ -65,7 +65,6 @@ header{
     height:40px;
     transition: 0.35s;
     transition: opacity 0.15;
-    display: block !important;
 }
 #searchBar{
     outline: none;
