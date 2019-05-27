@@ -397,14 +397,14 @@ Video.prototype.togglePlay = function() {
         this.btn.classList.add("pause");
         this.btn.classList.remove("play");
         this.video.play();
-        this.pauseanime.classList.add("pauseanimeadd");
-        setTimeout(this.removePauseAnimeAdd.bind(this), 1000); // ...
+        this.playanime.classList.add("playanimeadd");
+        setTimeout(this.removePlayAnimeAdd.bind(this), 1000); // ...
     } else {
         this.btn.classList.add("play");
         this.btn.classList.remove("pause");
         this.video.pause();
-        this.playanime.classList.add("playanimeadd");
-        setTimeout(this.removePlayAnimeAdd.bind(this), 1000); // ...
+        this.pauseanime.classList.add("pauseanimeadd");
+        setTimeout(this.removePauseAnimeAdd.bind(this), 1000); // ...
     }
 };
 Video.prototype.removePauseAnimeAdd = function() {

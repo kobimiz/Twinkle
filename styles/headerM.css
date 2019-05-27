@@ -1,0 +1,108 @@
+header{
+    position: fixed;
+    z-index: 10;
+    bottom:0;
+    left: 0;
+    height:45px;
+    width: 100%;
+    box-sizing: border-box;
+}
+.absLogocon{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 2px;
+}
+.absLogo{
+    width: 40px;
+    height: 35px;
+}
+#navi{
+    height:45px;
+    width: 100%;
+    background-color:#001942;
+    transition:0.35s;
+}
+#navi>ul{
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+#navi>ul>li{
+    list-style-type: none;
+    margin: 0 auto;
+}
+#navi>ul>li>a{
+    text-decoration: none;
+    color: white;
+    font-size:30px;
+    display: block;
+}
+.usericon{
+    width:30px;
+    height:33px;
+    transition: 0.35s;
+    margin: 5px;
+}
+.notifi{
+    width:30px;
+    height:30px;
+    transition: 0.35s;
+    margin: 5px;
+}
+.note{
+    width:30px;
+    height:35px;
+    transition: 0.35s;
+    margin: 5px;
+}
+.searchIcon{
+    width: 35px;
+    height: 35px;
+    color: white;
+    margin: 5px;
+}
+.TwinkleLogo{
+    width: 40px;
+    height: 35px;
+    margin: 5px;
+}
+#searchBar{
+    outline: none;
+    padding: 5px;
+    border: none;
+    border-bottom: 2px solid white;
+    border-radius: 2px;
+    max-width: 35px;
+    height:30px;
+    font-size: 20px;
+    margin-top:5px;
+    transition: 1s;
+    display: none;
+}
+#sidenavbutton{
+    font-size: 30px;
+    font-weight: 550;
+    color: #fff;
+    cursor:pointer;
+    float: left;
+    padding: 0 15px;
+    transition: 0.15s;
+}
+.phone{
+    display: none !important;
+}
+.computer{
+    display: block;
+}
+.displayDis{
+    display: block;
+}
+@media screen and (max-width: 350px){
+    #searchBar{
+        max-width: 165px !important;
+    }
+    #sidenavbutton{
+        padding: 0 10px;
+    }
+}

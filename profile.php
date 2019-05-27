@@ -21,7 +21,8 @@ else if(($details = DB::query("SELECT * FROM `users` WHERE `username`='".$_GET['
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <link rel="stylesheet" href="styles/general.css" type="text/css">
-    <link rel="stylesheet" href="styles/header.css" type="text/css">
+    <link rel="stylesheet" href="styles/headerD.css" media="screen and (min-width: 650px)" type="text/css">
+    <link rel="stylesheet" href="styles/headerM.css" media="screen and (max-width: 649px)" type="text/css">
     <link rel="stylesheet" href="styles/profile.css" type="text/css">
     <link rel="stylesheet" href="styles/sidenav.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
@@ -48,6 +49,7 @@ else if(($details = DB::query("SELECT * FROM `users` WHERE `username`='".$_GET['
         ?>
     </main>
     <script src="scripts/sidenav.js"></script>
+    <script src="scripts/header.js"></script>
 </body>
 
 </html>
