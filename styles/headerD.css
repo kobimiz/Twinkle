@@ -54,7 +54,7 @@ header{
     transition: opacity 0.15;
     display: block !important;
 }
-.note{
+.postnote{
     width:35px;
     height:40px;
     transition: 0.35s;

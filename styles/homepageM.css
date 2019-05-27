@@ -1,3 +1,9 @@
+body{
+    margin:0;
+    padding:0;
+    padding-bottom: 60px;
+    font-family: Arial, Helvetica, sans-serif;
+}
 header{
     position: fixed;
     z-index: 10;
@@ -40,7 +46,7 @@ header{
     transition: 0.35s;
     margin: 5px;
 }
-.note{
+.navnote{
     width:30px;
     height:35px;
     transition: 0.35s;

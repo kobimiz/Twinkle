@@ -18,11 +18,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <link rel="stylesheet" href="styles/general.css">
     <link rel="stylesheet" media="screen and (min-width: 650px)" href="styles/homepageD.css">
     <link rel="stylesheet" media="screen and (max-width: 650px)" href="styles/homepageM.css">
-    <link rel="stylesheet" href="styles/sidenav.css">
-    <link rel="stylesheet" href="styles/posts.css">
+    <link rel="stylesheet" href="styles/sidenav.css" type="text/css">
+    <link rel="stylesheet" href="styles/UploadPost.css" type="text/css">
+    <link rel="stylesheet" href="styles/posts.css" type="text/css" >
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
     <link rel="icon" href="/iconList/TwinkleCon.png" type="image/png">
 
@@ -37,7 +37,7 @@
             <li class="computer"><a href="#"><img alt="searchIcon" src="/iconList/searchWhite.png" class="searchIcon"></a></li>
             <li class="displayDis iconset"><a href="#"><img alt="user" src="/iconList/userwhite.png" class="usericon"></a></li>
             <li class="displayDis iconset"><a href="#"><img alt="notifications" src="/iconList/FilledStar.png" class="notifi"></a></li>
-            <li class="displayDis iconset"><a href="#"><img alt="note" src="/iconList/notewhite.png" class="note"></a></li>
+            <li class="displayDis iconset"><a href="#"><img alt="note" src="/iconList/notewhite.png" class="navnote"></a></li>
             <li class="computer displayDis"><a href="#"><img alt="Logo" src="/iconList/TwinkleCon.png" class="TwinkleLogo"></a></li>
             <input name="searchbar" type="search" placeholder="Popularities..." id="searchBar"/>
         </ul>
@@ -57,16 +57,83 @@
     </ul>
     <span class="bord"></span>
 </div>
+<div class="Popcon">
+    <div class="Postpop">
+        <div class="texter">
+            <textarea rows="3" cols="50" placeholder="Express your thoughts..."></textarea>
+        </div>
+        <div class="postypes">
+            <div><span>POST</span></div>
+            <div><span>LIMITED</span></div>
+        </div>
+        <div class="filterchoice">
+            <input name="filter" type="text" placeholder="Filter Tag..." maxlength="30"/>
+            <div class="Tagdisplay">
+                <ul>
+                    <li class="Tag"><span>CooL</span><span id="delete">&#120;</span></li>
+                </ul>
+            </div>
+            <div class="drop">
+                <ul>
+                    <li onclick="setC(this)" >HUMOR<div class="markup"></div></li>
+                    <li onclick="setC(this)" >ART<div class="markup"></div></li>
+                    <li onclick="setC(this)" >SPORT<div class="markup"></div></li>
+                    <li onclick="setC(this)" >TECH<div class="markup"></div></li>
+                    <li onclick="setC(this)" >FOOD<div class="markup"></div></li>
+                    <li onclick="setC(this)" >NATURE<div class="markup"></div></li>
+                </ul>
+            </div>
+        </div>
+        <div class="uploadinfo">
+            <div class="watchsort">
+                <select>
+                    <option value="Global">Global</option>
+                    <option value="Private">Private </option>
+                </select>
+                <div>
+                    <input type="text" name="watchsorting" class="inputsort" placeholder="Block from..." />
+                    <div class="searchlist">
+                        <ul id="myul">
+                            <li><a href="#">Jeff Bezos</a></li>
+                            <li><a href="#">Bill Gates</a></li>
+                            <li><a href="#">Warren Buffett</a></li>
+                            <li><a href="#">Bernard Arnault</a></li>
+                            <li><a href="#">Mark Zuckerberg</a></li>
+                            <li><a href="#">Amancio ortega</a></li>
+                            <li><a href="#">Carlos Slim Helu</a></li>
+                            <li><a href="#">Charles Koch</a></li>
+                            <li><a href="#">David Koch</a></li>
+                            <li><a href="#">Larry Ellison</a></li>
+                            <li><a href="#">Kobe Mizrahi</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="uploadbutton" onclick="uptoLoad()">
+                <input class="upload" name="upload" type="file">
+                <span>image/video</span>
+            </div>
+
+            <div class="imageshow">
+                <div class="imagecon">
+                <img alt="image" src="/iconList/image.jpg" draggable="false" />
+                </div>
+                <div><span onclick="document.querySelector('.imageshow').style.display = 'none';">&#120;</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+
     <?php
         include_once("templates/sidenav.php");
     ?>
 
     <main>
-        <div id="uploadPost">
+        <!-- <div id="uploadPost">
             <h3>Share your thoughts.</h3>
             <textarea name="content" cols="100" rows="10" placeholder="Write your thoughts..."></textarea>
             <img src="" alt="Preview of the uploaded file" id="filePreview">
-            <!-- add preview for a video, consider making it an image of the first frame -->
+            add preview for a video, consider making it an image of the first frame
             <br>
             <br>
             <label for="fileUpload">Include an image/video</label>
@@ -76,6 +143,16 @@
             <input type="button" value="Post" id="post">
             <div id="progress">
                 <div id="bar">0%</div>
+            </div>
+        </div> -->
+        <div class="Placeholdercontainer" onclick="Postpop()">
+            <div class="Placeholderrole">
+                <div class="placeholder-img">
+                    <img src="/iconList/image.jpg" alt="some img">
+                </div>
+                <div class="placeholder-text">
+                    <span>Express your thoughts...</span>
+                </div>
             </div>
         </div>
         <div id="posts">
@@ -110,6 +187,7 @@
     <script src="scripts/homepage.js"></script>
     <script src="scripts/sidenav.js"></script>
     <script src="scripts/posts.js"></script>
+    <script src="scripts/UploadPost.js"></script>
 </body>
 
 </html>
