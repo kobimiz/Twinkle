@@ -9,32 +9,30 @@ var sidenavbutton = document.getElementById("sidenavbutton");
 window.addEventListener("scroll", function(){
     var currentYScroll = window.pageYOffset;
     
-    if((typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1) || (window.innerWidth < "650px")){
-        if(prevYScroll < currentYScroll){
-            document.getElementById("navi").style.padding = "5px 40px";
-            document.getElementById("navi").style.height = "45px";
-            document.querySelector(".usericon").style.visibility = "hidden";
-            document.querySelector(".usericon").style.opacity = "0";
-            document.querySelector(".notifi").style.visibility = "hidden";
-            document.querySelector(".notifi").style.opacity = "0";
-            document.querySelector(".note").style.visibility = "hidden";
-            document.querySelector(".note").style.opacity = "0";
-            document.querySelector("#sidenavbutton").style.fontSize = "27px";
-            document.querySelector(".Logofont").style.display = "none";
-            document.querySelector(".imgfont").style.marginRight = "110px";
-        }else{
-            document.getElementById("navi").style.padding = "10px 40px";
-            document.getElementById("navi").style.height = "60px";
-            document.querySelector(".usericon").style.visibility = "visible";
-            document.querySelector(".usericon").style.opacity = "1";
-            document.querySelector(".notifi").style.visibility = "visible";
-            document.querySelector(".notifi").style.opacity = "1";
-            document.querySelector(".note").style.visibility = "visible";
-            document.querySelector(".note").style.opacity = "1";
-            document.querySelector("#sidenavbutton").style.fontSize = "30px";
-            document.querySelector(".Logofont").style.display = "";
-            document.querySelector(".imgfont").style.marginRight = "0";
-        }
+    if(prevYScroll < currentYScroll){
+        document.getElementById("navi").style.padding = "5px 40px";
+        document.getElementById("navi").style.height = "45px";
+        document.querySelector(".usericon").style.visibility = "hidden";
+        document.querySelector(".usericon").style.opacity = "0";
+        document.querySelector(".notifi").style.visibility = "hidden";
+        document.querySelector(".notifi").style.opacity = "0";
+        document.querySelector(".navnote").style.visibility = "hidden";
+        document.querySelector(".navnote").style.opacity = "0";
+        document.querySelector("#sidenavbutton").style.fontSize = "27px";
+        document.querySelector(".Logofont").style.display = "none";
+        document.querySelector(".imgfont").style.marginRight = "110px";
+    }else{
+        document.getElementById("navi").style.padding = "10px 40px";
+        document.getElementById("navi").style.height = "60px";
+        document.querySelector(".usericon").style.visibility = "visible";
+        document.querySelector(".usericon").style.opacity = "1";
+        document.querySelector(".notifi").style.visibility = "visible";
+        document.querySelector(".notifi").style.opacity = "1";
+        document.querySelector(".navnote").style.visibility = "visible";
+        document.querySelector(".navnote").style.opacity = "1";
+        document.querySelector("#sidenavbutton").style.fontSize = "30px";
+        document.querySelector(".Logofont").style.display = "";
+        document.querySelector(".imgfont").style.marginRight = "0";
     }
 
     prevYScroll = currentYScroll;
