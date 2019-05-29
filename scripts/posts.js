@@ -1,9 +1,8 @@
 // consider adding onerror to all ajaxes
 // consider making a common function for that closure trick function
 // todo: move post upload to here
-// todo: add cancel button to deleting functionality (before clicking "are you sure")
-// todo: remove "view replies"\"view comments" if deleted and there are no more
 // Function.prototype.bind function polyfil. todo: test on old browsers
+// todo: add option to post a post via enter. consider making a global event listener for enter click
 if (!Function.prototype.bind) {
     Function.prototype.bind = function (context /* ...args */) {
       var fn = this;
@@ -54,6 +53,7 @@ function Post(postElement, index) {
     for(var i = 0; i < commentElements.length; i++) 
         this.comments.push(new PostComment(commentElements[i], i, this));
 }
+Post.activatedDeleteButton = null;
 Post.activatedOptions = null;
 Post.activatedCommentForm = null;
 Post.posts = [];
@@ -67,7 +67,7 @@ Post.init = function() {
 Post.insertComment = function(post) { // an ajax callback function
     // consider removing the typerep name from the input element but first check its style with vscode search
     // consider removing autocomplete attribute from input
-    if(this.readyState === 4 && this.status === 200) {
+    if(this.readyState === 4 && this.status === 200) {        
         var commentSection = Post.activatedCommentForm.nextElementSibling,
             res = this.responseText.split(','); // [username, profilePic]
         if(commentSection.childElementCount === 0)
@@ -103,7 +103,7 @@ Post.insertComment = function(post) { // an ajax callback function
     }
 };
 
-Post.prototype.rate = function(e) { // todo: fix possible exploit, fix stars moving aside when total star rating number gains more digits
+Post.prototype.rate = function(e) { // todo: fix stars moving aside when total star rating number gains more digits
     if (e.target.matches("img")) {
         var starRate = getChildIndex(e.target), // since there is a span element in e.target.parentElement, its child index is equal its star rate
             siblings = e.target.parentElement.children,
@@ -235,7 +235,6 @@ PostComment.insertReply = function(comment) { // an ajax callback function
             PostComment.activatedReplyForm.insertAdjacentHTML("afterend", "<span class='viewMoreReplies'>View replies</span>\
                                                                             <div class='replies'></div>"); // add the view replies button
             PostComment.activatedReplyForm.nextElementSibling.addEventListener("click", PostComment.toggleReplies);
-            PostComment.toggleReplies.call(PostComment.activatedReplyForm);
         }
         var res = this.responseText.split(','), // [username, profilePic]
             replies = PostComment.activatedReplyForm.nextElementSibling.nextElementSibling;
@@ -256,6 +255,10 @@ PostComment.insertReply = function(comment) { // an ajax callback function
             </div> \
         </div>');
 
+
+        if(PostComment.activatedReplyForm.nextElementSibling.nextElementSibling.style.display !== "block")
+            PostComment.toggleReplies.call(PostComment.activatedReplyForm.nextElementSibling);
+
         PostComment.activatedReplyForm.firstElementChild.value = ""; // reset input
         PostComment.activatedReplyForm.style.display = "none";
         PostComment.activatedReplyForm = null;
@@ -266,13 +269,17 @@ PostComment.insertReply = function(comment) { // an ajax callback function
    }
 };
 
-// todo: fix exploit where you can delete stuff thats isnt yours
 // consider making a general function
 // todo: add here and in delete reply error handeling (e.g. using onreadystatechange)
-PostComment.prototype.delete = function() {
+PostComment.prototype.delete = function(e) {
     var button = this.commentElement.querySelector(".comdelete");
-    if(button.innerHTML === "delete") // consider rethinking
+    if(button.innerHTML === "delete") { // consider rethinking
         button.innerHTML = "are you sure?";
+        if(Post.activatedDeleteButton !== null)
+            Post.activatedDeleteButton.innerHTML = "delete";
+        Post.activatedDeleteButton = e.target;
+        e.stopPropagation();
+    }
     else {
         var xmlhttp = new XMLHttpRequest(),
             formData = new FormData();
@@ -292,6 +299,8 @@ PostComment.prototype.delete = function() {
         var commentsHeader = this.owningPost.commentForm.nextElementSibling.firstElementChild;
         if(commentsHeader.nextElementSibling === null)
             commentsHeader.remove();
+
+        Post.activatedDeleteButton = null;
     }
 };
 PostComment.prototype.submitReply = function(e) {
@@ -320,8 +329,13 @@ function Reply(replyElement, index, owningComment) {
 }
 Reply.prototype.delete = function(e) {
     var button = e.target;
-    if(button.innerHTML === "delete") // consider rethinking
+    if(button.innerHTML === "delete") { // consider rethinking
         button.innerHTML = "are you sure?";
+        if(Post.activatedDeleteButton !== null)
+            Post.activatedDeleteButton.innerHTML = "delete";
+        Post.activatedDeleteButton = e.target;
+        e.stopPropagation();
+    }
     else {
         var xmlhttp = new XMLHttpRequest(),
             formData = new FormData();
@@ -340,14 +354,49 @@ Reply.prototype.delete = function(e) {
         }
         this.replyElement.remove();
         var replies = this.owningComment.commentElement.querySelector(".replies");
-        if(!replies.hasChildNodes())
+        if(!replies.hasChildNodes()) {
             replies.previousElementSibling.remove();
+            replies.remove();
+        }
+
+        Post.activatedDeleteButton = null;
     }
 };
 
 
+document.getElementById("posts").addEventListener("keydown", function(e) {
+    if(e.key === "Enter" || e.target.className == "submit") {
+        var postObject = Post.posts[getChildIndex(getOwningPost(document.activeElement))];
+        if(ownedByComment(document.activeElement)) {
+            var commentObject = postObject.comments[getChildIndex(getOwningComment(document.activeElement)) - 1];
+            commentObject.submitReply({target:document.activeElement});
+        } else
+            postObject.submitComment({target:document.activeElement});
+    }
+});
 
-
+function getOwningPost(element) {
+    while(true) {
+        if(element.className == "postcon")
+            return element;
+        element = element.parentElement;
+    }
+}
+function getOwningComment(element) {
+    while(true) {
+        if(element.className == "newarea")
+            return element;
+        element = element.parentElement;
+    }
+}
+function ownedByComment(element) { // assumes element is at least in postElemenet
+    while(element.className != "postcon") {
+        if(element.className == "newarea")
+            return true;
+        element = element.parentElement;
+    }
+    return false;
+}
 
 
 
@@ -523,6 +572,10 @@ document.body.addEventListener('click', function(){
     if(PostComment.activatedReplyForm !== null){
         PostComment.activatedReplyForm.style.display = "none";
         PostComment.activatedReplyForm = null;
+    }
+    if(Post.activatedDeleteButton !== null) {
+        Post.activatedDeleteButton.innerHTML = "delete";
+        Post.activatedDeleteButton = null;
     }
 });
 /*window.addEventListener("scroll", function() {
