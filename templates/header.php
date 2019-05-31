@@ -5,7 +5,7 @@
             <li class="computer"><a href="#"><img alt="searchIcon" src="/iconList/searchWhite.png" class="searchIcon"></a></li>
             <li class="displayDis iconset"><a href="#"><img alt="user" src="/iconList/userwhite.png" class="usericon"></a></li>
             <li class="displayDis iconset"><a href="#"><img alt="notifications" src="/iconList/FilledStar.png" class="notifi"></a></li>
-            <li class="displayDis iconset"><a href="#"><img alt="note" src="/iconList/notewhite.png" class="note"></a></li>
+            <li class="displayDis iconset"><a href="#"><img alt="note" src="/iconList/notewhite.png" class="navnote"></a></li>
             <li class="computer displayDis"><a href="#"><img alt="Logo" src="/iconList/TwinkleCon.png" class="TwinkleLogo"></a></li>
             <input name="searchbar" type="search" placeholder="Popularities..." id="searchBar" />
         </ul>
