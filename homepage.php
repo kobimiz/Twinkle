@@ -1,10 +1,10 @@
 <?php
-    session_start();
     require_once("classes/queries.php");
     require_once("classes/user.php");
     require_once("classes/posts.php");
     require_once("classes/comment.php");
     require_once("classes/reply.php");
+    session_start();
     DB::connect();
 
     if(!DB::isLoggedIn())
@@ -181,7 +181,6 @@
                     return ($picName === "") ? "/iconList/"."user.png":"/uploads/".$picName;
                 }
             ?>
-            <div id='showMore' style="background:red;display:none;">Show more</div>
         </div>
     </main>
     <script src="scripts/homepage.js"></script>

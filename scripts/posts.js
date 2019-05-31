@@ -52,6 +52,10 @@ function Post(postElement, index) {
     var commentElements = postElement.querySelectorAll(".newarea");
     for(var i = 0; i < commentElements.length; i++) 
         this.comments.push(new PostComment(commentElements[i], i, this));
+
+    var video = postElement.querySelector("video");
+    if(video !== null)
+        Video.videos.push(new Video(video.parentElement));
 }
 Post.activatedDeleteButton = null;
 Post.activatedOptions = null;
@@ -554,11 +558,6 @@ Video.prototype.videoEnd = function() {
     this.btn.classList.add("play");
     this.btn.classList.remove("pause");
 }
-Video.init = function() {
-    var videoElements = document.querySelectorAll(".video");
-    for(var i = 0; i < videoElements.length; i++)
-        Video.videos.push(new Video(videoElements[i].parentElement));
-};
 
 document.body.addEventListener('click', function(){
     if(Post.activatedCommentForm !== null){
@@ -578,27 +577,22 @@ document.body.addEventListener('click', function(){
         Post.activatedDeleteButton = null;
     }
 });
-/*window.addEventListener("scroll", function() {
-    if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
+window.addEventListener("scroll", function() {
+    if ((window.innerHeight + window.pageYOffset) + 300 >= document.body.offsetHeight) {
         var loadMorePosts = new XMLHttpRequest();
-        loadMorePosts.onloadstart = function() { document.getElementById("showMore").style.display = "block"; }; // todo: fix flickering
-        loadMorePosts.onloadend = function() { document.getElementById("showMore").style.display = "none"; };
         loadMorePosts.onreadystatechange = function() { // todo: add restraint
             if (this.readyState == 4 && this.status == 200) {
-                console.log(this.responseText);
-                var div = document.createElement("div");
-                div.innerHTML = "1234";
-                div.style.height = "400px";
-                document.querySelector("#posts").appendChild(div);
+                var posts = document.querySelector("#posts");
+                posts.insertAdjacentHTML("beforeend", this.responseText);
+                Post.posts.push(new Post(posts.querySelector(".postcon:last-of-type"),Post.posts.length));
             }
         };
-        console.log("bottom");
         var formData = new FormData();
         formData.append("lastPostIndex", document.getElementById("posts").childElementCount - 1);
         loadMorePosts.open("POST", "templates/load.php", true);
         loadMorePosts.send(formData);
     }
-});*/
+});
+// todo: add loadning posts when cant scroll
 
 Post.init();
-Video.init();
