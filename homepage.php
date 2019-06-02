@@ -1,10 +1,10 @@
 <?php
-    session_start();
     require_once("classes/queries.php");
     require_once("classes/user.php");
     require_once("classes/posts.php");
     require_once("classes/comment.php");
     require_once("classes/reply.php");
+    session_start();
     DB::connect();
 
     if(!DB::isLoggedIn())
@@ -177,12 +177,11 @@
                 // consider not storing totalStars for posts (benchmark?)
                 $_SESSION['posts'] = array();
                 $user = new User(DB::getLoggedUserInfo("id")["id"]);
-                $user->loadNextPosts(25);
+                $user->loadNextPosts(5);
                 function profilePic($picName) {
                     return ($picName === "") ? "/iconList/"."user.png":"/uploads/".$picName;
                 }
             ?>
-            <div id='showMore' style="background:red;display:none;">Show more</div>
         </div>
     </main>
     <script src="scripts/homepage.js"></script>

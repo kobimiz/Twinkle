@@ -23,8 +23,8 @@
     <div class="contain">
 		<h1 id="signintro">Sign up</h1>
 		<?php
-			$username = $password = $email = "";
-			$usernameErr = $passwordErr = $emailErr = "";
+			$username = $password = $email = $firstname = $lastname = "";
+			$usernameErr = $passwordErr = $emailErr = $firstnameErr = $lastnameErr = "";
 			function testInput($input) {
 				$input = trim($input);
 				$input = stripslashes($input);
@@ -63,11 +63,20 @@
 					elseif(DB::query("SELECT * FROM `users` WHERE `email` = '$email'")->num_rows == 1)
 							$emailErr = "Email is already in use";
 				}
+				if(empty($_POST['fname']))
+					$firstnameErr = "Please fill in a first name.";
+				else 
+					$firstname = htmlspecialchars($_POST['fname']);
+				if(empty($_POST['lname']))
+					$lastnameErr = "Please fill in a last name.";
+				else
+					$lastname = htmlspecialchars($_POST['lname']);
 			}
-			if($usernameErr == "" && $passwordErr == "" && $emailErr == "" && $_SERVER["REQUEST_METHOD"] == "POST") {
-				DB::query("INSERT INTO `users`(`username`, `password`, `email`, `creationDate`) VALUES ('$username', '".password_hash($password, PASSWORD_DEFAULT)."', '$email', '".date("Y-m-d")."')");
+			if($usernameErr == "" && $passwordErr == "" && $emailErr == "" && $firstnameErr == "" && $lastnameErr == "" && $_SERVER["REQUEST_METHOD"] == "POST") {
+				DB::query("INSERT INTO `users`(`username`, `password`, `firstname`, `lastname`, `email`, `creationDate`, profilePic) VALUES
+				('$username', '".password_hash($password, PASSWORD_DEFAULT)."', '$firstname', '$lastname', '$email', '".date("Y-m-d")."', '')");
 				echo "<div id='messege'>
-						<b>Registered successfully!</b><br/>
+						<b>Registered successfully! $firstname $lastname</b><br/>
 						<span class='details'>Email: $email</span><br/>
 						<span class='details'>Username: $username</span><br/>
 						<span class='details'>Password: $password</span><br/>
@@ -83,9 +92,11 @@
 					<div class='inputContainer'>
 					<input name='username' id='choosename' type='text' placeholder='Username' required autocomplete='off' maxlength='45' onkeyup='change()'><br>
 					<div id='count'> <span id='letternum'></span><span>/25</span></div></div><br />
-					<label for='fname'>First name</label> <label for='lname'>Last name</label> <br />
+					<label for='fname'>First name</label> <label for='lname'>Last name</label>
 					<input name='fname' id='fname' type='text' placeholder='First name...' required autocomplete='off' maxlength='45'>
+					<span class='error'>$firstnameErr</span><br/>
 					<input name='lname' id='lname' type='text' placeholder='Last name...' required autocomplete='off' maxlength='45'>
+					<span class='error'>$lastnameErr</span><br/>
 					<label for='choosepass'>Password</label><br/>
 					<span class='error'>$passwordErr</span><br/>
 					<div class='inputContainer'>

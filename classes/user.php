@@ -1,30 +1,27 @@
 <?php
 class User {
     private $id;
-    private $postsLoaded;
 
     function __construct($id) {
         $this->id = $id;
-        $this->postsLoaded = [];
     }
 
     function loadNextPosts($numberOfPosts) {
         // add privillages\friendship\tag name sorting\etc checking here in order to determine displayed posts.
         // consider adding a seperate function for this purpose
-        $posts = DB::query("select * from posts where date > ".$this->getLastPost()." order by date desc limit ".$numberOfPosts);
+        $posts = DB::query("select * from posts where date > '".$this->getLastPost()."' order by date asc limit ".$numberOfPosts);
         $loggedUserId = DB::getLoggedUserInfo("id")["id"];
         foreach($posts as $post) {
             $postObject = new Post($post['id']);
             array_push($_SESSION['posts'], $postObject); // consider rethinking
-            array_push($this->postsLoaded, $postObject);
             $postObject->displayPost($loggedUserId); // consider rethinking
         }
     }
 
     function getLastPost() { // todo: change how i determine last post
-        if(!end($this->postsLoaded)) // array is empty
-            return 0;
-        return DB::query("select date from posts where id=".end($this->postsLoaded)->id)->fetch_assoc()["date"];
+        if(empty($_SESSION['posts']))
+            return DB::queryScalar("select min(date) from posts");
+        return DB::queryScalar("select date from posts where id=".array_slice($_SESSION['posts'], -1)[0]->id);
     }
 }
 ?>
