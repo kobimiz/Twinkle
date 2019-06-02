@@ -226,17 +226,15 @@
         width: 12%;
         height: 100%;
     }
-
-    .screenicon{
+    .fullscreen{
         float:left;
-        width:24px;
-        height:24px;
-        border-radius: 15%;
-        border: 2px solid black;
         cursor: pointer;
         margin: 3%;
     }
-
+    .screenicon{
+        height:27px;
+        width: 27px;        
+    }
     .volume{
         float:right;
         cursor: pointer;
@@ -743,17 +741,15 @@
         width: 12%;
         height: 100%;
     }
-
-    .screenicon{
+    .fullscreen{
         float:left;
-        width:24px;
-        height:24px;
-        border-radius: 15%;
-        border: 2px solid black;
         cursor: pointer;
         margin: 3%;
     }
-
+    .screenicon{
+        height:27px;
+        width: 27px;        
+    }
     .volume{
         float:right;
         cursor: pointer;
@@ -1110,4 +1106,21 @@
         margin-bottom: 3px;
         -webkit-user-drag:none;
     }
+}
+/*classes for the full screen video!!!*/
+.VconF{
+    position: fixed !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: none !important;
+    z-index: 20;
+    top: 0;
+    left: 0;
+    max-width: unset !important;
+}
+.bodyF{
+    overflow-x: hidden;
+    overflow-y: hidden;
+    margin:0;
+    padding:0;
 }

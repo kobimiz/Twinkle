@@ -395,6 +395,11 @@ function Video(vConElement) {
     this.volume.addEventListener("click", this.toggleVolume.bind(this));
     vConElement.querySelector(".right").addEventListener("click", this.forward.bind(this));
     vConElement.querySelector(".left").addEventListener("click", this.backward.bind(this));
+    //this is a test
+    this.fullscreenicon = vConElement.querySelector(".fullscreen");
+    this.fullscreenicon.addEventListener("click", this.toggleFullScreen.bind(this));
+    this.Vcon = vConElement;
+    //this is a test
 }
 Video.videos = [];
 Video.prototype.togglePlay = function() {
@@ -505,6 +510,100 @@ Video.prototype.videoEnd = function() {
     this.btn.classList.add("play");
     this.btn.classList.remove("pause");
 }
+//this is a test
+console.log(Video.video)
+Video.prototype.toggleFullScreen = function(){
+    if ((document.fullScreenElement && document.fullScreenElement !== null) ||    
+    (!document.mozFullScreen && !document.webkitIsFullScreen)){
+            //change the css of the Vcon to full window size
+            this.Vcon.classList.add("VconF");
+            this.video.style.maxHeight = "unset";
+            this.video.style.height = "100%";
+            this.video.style.margin = "auto 0";
+            // this.video.style.background = "black";
+            document.body.classList.add("bodyF");
+        if (document.documentElement.requestFullScreen){
+            document.documentElement.requestFullScreen();
+        } else if (document.documentElement.mozRequestFullScreen){
+            document.documentElement.mozRequestFullScreen();
+        } else if (document.documentElement.webkitRequestFullScreen){
+            document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+        }
+    }else{
+            //change the css of the Vcon when canceling full size
+            this.Vcon.classList.remove("VconF");
+            this.video.style.height = "unset";
+            this.video.style.maxHeight = "500px";
+            document.body.classList.remove("bodyF");
+        if (document.cancelFullScreen){
+            document.cancelFullScreen();
+        }else if(document.mozCancelFullScreen){
+            document.mozCancelFullScreen();
+        }else if(document.webkitCancelFullScreen){
+            document.webkitCancelFullScreen();
+        }
+    }
+}
+//a variable of an array with all the Vcon and find the one with VconF
+var VcF = document.querySelectorAll(".Vcon");
+var VcFv = document.querySelectorAll(".Vcon>video");
+function VcEach(){
+    for(var i = 0; i < VcF.length; i++){
+        VcF[i].classList.remove("VconF");
+    }
+}
+function VcvEach(){
+    for(var i = 0; i < VcFv.length; i++){
+        VcFv[i].style.height = "unset";
+        VcFv[i].style.maxHeight = "500px";
+    }
+}
+//-----------
+function Escancel(e){
+    if(e.keyCode === 27){
+        console.log(VcF);
+        // if(globVcon.className == "Vcon VconF"){
+            // VcFv.style.height = "unset";
+            // VcFv.style.maxHeight = "500px";
+            // VcF.classList.remove("VconF");
+            VcF.forEach(VcEach);
+            VcF.forEach(VcvEach);
+            document.body.classList.remove("bodyF");
+        // }
+    }
+}
+document.onwebkitfullscreenchange = function() {
+    if(!document.fullscreen) {
+        // VcFv.style.height = "unset";
+        // VcFv.style.maxHeight = "500px";
+        // VcF.classList.remove("VconF");
+        VcF.forEach(VcEach);
+        VcF.forEach(VcvEach);
+        document.body.classList.remove("bodyF");
+    }
+};
+document.onfullscreenchange = function() {
+    if(!document.fullscreen) {
+        // VcFv.style.height = "unset";
+        // VcFv.style.maxHeight = "500px";
+        // VcF.classList.remove("VconF");
+        VcF.forEach(VcEach);
+        VcF.forEach(VcvEach);
+        document.body.classList.remove("bodyF");
+    }
+};
+document.onmozfullscreenchange = function() {
+    if(!document.fullscreen) {
+        // VcFv.style.height = "unset";
+        // VcFv.style.maxHeight = "500px";
+        // VcF.classList.remove("VconF");
+        VcF.forEach(VcEach);
+        VcF.forEach(VcvEach);
+        document.body.classList.remove("bodyF");
+    }
+};
+document.addEventListener("keydown", Escancel, true);
+//this is a test
 Video.init = function() {
     var videoElements = document.querySelectorAll(".video");
     for(var i = 0; i < videoElements.length; i++)

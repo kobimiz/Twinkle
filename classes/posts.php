@@ -62,7 +62,7 @@ class Post {
                         <div class='left'>&#x276E;</div>
                         <div class='extracon'>
                             <div class='volume'> <img alt='volume' src='/iconList/Volumeoff.png' class='volumeicon'> </div>
-                            
+                            <div class='fullscreen'><img alt='volume' src='/iconList/bigger.png' class='screenicon'> </div>
                         </div>
                         <div class='control'>
                             <button class='play-pause'></button>

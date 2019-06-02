@@ -21,7 +21,8 @@
     <link rel="stylesheet" media="screen and (min-width: 650px)" href="styles/homepageD.css">
     <link rel="stylesheet" media="screen and (max-width: 650px)" href="styles/homepageM.css">
     <link rel="stylesheet" href="styles/sidenav.css" type="text/css">
-    <link rel="stylesheet" href="styles/UploadPost.css" type="text/css">
+    <link rel="stylesheet" href="styles/UploadPostD.css" media="screen and (min-width: 600px)" type="text/css">
+    <link rel="stylesheet" href="styles/UploadPostm.css" media="screen and (max-width: 600px)" type="text/css">
     <link rel="stylesheet" href="styles/posts.css" type="text/css" >
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
     <link rel="icon" href="/iconList/TwinkleCon.png" type="image/png">
