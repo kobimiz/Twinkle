@@ -130,11 +130,11 @@
     ?>
 
     <main>
-        <!-- <div id="uploadPost">
+        <div id="uploadPost">
             <h3>Share your thoughts.</h3>
             <textarea name="content" cols="100" rows="10" placeholder="Write your thoughts..."></textarea>
             <img src="" alt="Preview of the uploaded file" id="filePreview">
-            add preview for a video, consider making it an image of the first frame
+            <!-- add preview for a video, consider making it an image of the first frame -->
             <br>
             <br>
             <label for="fileUpload">Include an image/video</label>
@@ -145,7 +145,7 @@
             <div id="progress">
                 <div id="bar">0%</div>
             </div>
-        </div> -->
+        </div>
         <div class="Placeholdercontainer" onclick="Postpop()">
             <div class="Placeholderrole">
                 <div class="placeholder-img">

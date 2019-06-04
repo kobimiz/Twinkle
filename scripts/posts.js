@@ -497,8 +497,8 @@ Video.prototype.manageBars = function() {
     this.closeBars = setTimeout(this.hideBars.bind(this), 2000);
 };
 Video.prototype.hideBars = function() {
-    this.bottomBar.style.bottom = "-40px";
-    this.topBar.style.top = "-40px";
+    this.bottomBar.style.bottom = "-50px";
+    this.topBar.style.top = "-50px";
 }
 Video.prototype.forward = function() {
     this.video.currentTime += 5;
@@ -563,7 +563,6 @@ Video.prototype.videoEnd = function() {
     this.btn.classList.add("play");
     this.btn.classList.remove("pause");
 }
-<<<<<<< HEAD
 //this is a test
 console.log(Video.video)
 Video.prototype.toggleFullScreen = function(){
@@ -663,8 +662,6 @@ Video.init = function() {
     for(var i = 0; i < videoElements.length; i++)
         Video.videos.push(new Video(videoElements[i].parentElement));
 };
-=======
->>>>>>> 1d83b13b2e38094711418f8ba6bc81d24cd8b5f7
 
 document.body.addEventListener('click', function(){
     if(Post.activatedCommentForm !== null){
