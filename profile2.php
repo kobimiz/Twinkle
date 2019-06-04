@@ -1,20 +1,42 @@
+<?php
+    require_once("classes/queries.php");
+    require_once("classes/user.php");
+    require_once("classes/posts.php");
+    require_once("classes/comment.php");
+    require_once("classes/reply.php");
+    session_start();
+    DB::connect();
+
+    if(!DB::isLoggedIn())
+        header("Location: signin.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles/general.css" type="text/css">
     <link rel="stylesheet" href="styles/ProfileM.css" media="screen and (max-width:750px)" type="text/css" />
     <link rel="stylesheet" href="styles/ProfileD.css" media="screen and (min-width:750px)" type="text/css" />
-    <link rel="stylesheet" href="Todelete.css" type="text/css" />
+    <link rel="stylesheet" href="styles/headerD.css" media="screen and (min-width: 650px)" type="text/css">
+    <link rel="stylesheet" href="styles/headerM.css" media="screen and (max-width: 649px)" type="text/css">
+    <link rel="stylesheet" href="styles/posts.css" type="text/css" >
+    <link rel="stylesheet" href="styles/sidenav.css">
     <link rel="icon" href="/iconList/TwinkleCon.png" type="image/png">
+
+    <style>
+    #postsCon {
+        display: inline-block;
+    }
+    </style>
     <title>First Name - Twinkle</title>
 </head>
 <body>
-<!--to delete---------
-include here a header and add a css as well
-to delete--------->
-
+<?php
+include_once("templates/header.php");
+include_once("templates/sidenav.php");
+?>
 <div class="Top-container">
     <div class="Tc-info">
         <div class="Free-speech phone"><span>This is a fucking free speech and you can say whatever the fuck you want to say
@@ -92,7 +114,7 @@ to delete--------->
 
 <main>
 
-<div class="leftSecCon">
+<div class="leftSecCon" style="display:inline-block;">
     <div class="postPrese">
         <ul>
 <!--the square of the post presentation-->
@@ -196,6 +218,19 @@ to delete--------->
     </div>
 </div>
 
+<div id="postsCon">
+<?php
+$userid = 2;
+$posts = DB::query("select id from posts where userid=$userid");
+foreach ($posts as $post) {
+    $postObject = new Post($post["id"]);
+    $postObject->displayPost($userid);
+}
+function profilePic($picName) {
+    return ($picName === "") ? "/iconList/"."user.png":"/uploads/".$picName;
+}
+?>
+</div>
 </main>
 
 </body>
