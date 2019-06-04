@@ -21,7 +21,8 @@
     <link rel="stylesheet" media="screen and (min-width: 650px)" href="styles/homepageD.css">
     <link rel="stylesheet" media="screen and (max-width: 650px)" href="styles/homepageM.css">
     <link rel="stylesheet" href="styles/sidenav.css" type="text/css">
-    <link rel="stylesheet" href="styles/UploadPost.css" type="text/css">
+    <link rel="stylesheet" href="styles/UploadPostD.css" media="screen and (min-width: 600px)" type="text/css">
+    <link rel="stylesheet" href="styles/UploadPostm.css" media="screen and (max-width: 600px)" type="text/css">
     <link rel="stylesheet" href="styles/posts.css" type="text/css" >
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
     <link rel="icon" href="/iconList/TwinkleCon.png" type="image/png">
@@ -129,11 +130,11 @@
     ?>
 
     <main>
-        <!-- <div id="uploadPost">
+        <div id="uploadPost">
             <h3>Share your thoughts.</h3>
             <textarea name="content" cols="100" rows="10" placeholder="Write your thoughts..."></textarea>
             <img src="" alt="Preview of the uploaded file" id="filePreview">
-            add preview for a video, consider making it an image of the first frame
+            <!-- add preview for a video, consider making it an image of the first frame -->
             <br>
             <br>
             <label for="fileUpload">Include an image/video</label>
@@ -144,7 +145,7 @@
             <div id="progress">
                 <div id="bar">0%</div>
             </div>
-        </div> -->
+        </div>
         <div class="Placeholdercontainer" onclick="Postpop()">
             <div class="Placeholderrole">
                 <div class="placeholder-img">
