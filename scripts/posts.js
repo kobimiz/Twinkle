@@ -205,13 +205,6 @@ function PostComment(commentElement, index, owningPost) {
 }
 PostComment.activatedReplyForm = null;
 
-function indexOfCommentArray(comments, replyForm) {
-    for (var i = 0; i < comments.length; i++) {
-        if(comments[i].replyForm === replyForm)
-            return i;
-    }
-    return -1;
-}
 PostComment.toggleReplies = function() {
     if(this.nextElementSibling.style.display === "block")
         this.nextElementSibling.style.display = "none";
@@ -401,8 +394,6 @@ function ownedByComment(element) { // assumes element is at least in postElemene
     }
     return false;
 }
-
-
 
 // consider making my own event system- one that takes advantage of multiple elements that have the same function for events (same events or consider even other)
 // todo: add video pause on leaving the screen on scroll\playing another video
