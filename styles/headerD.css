@@ -1,6 +1,9 @@
+*{
+    box-sizing: border-box;
+}
 header{
     position: fixed;
-    z-index: 10;
+    z-index: 11;
     top:0;
     left: 0;
     height:60px;

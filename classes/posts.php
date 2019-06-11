@@ -61,7 +61,7 @@ class Post {
                     <div class='bottombar'>
                         <div class='left'>&#x276E;</div>
                         <div class='extracon'>
-                            <div class='volume'> <img alt='volume' src='/iconList/Volumeoff.png' class='volumeicon'> </div>
+                            <div class='volume'> <img alt='volume' src='/iconList/Volumeon.png' class='volumeicon'> <span class='volumeoff'></span> </div>
                             <div class='fullscreen'><img alt='volume' src='/iconList/bigger.png' class='screenicon'> </div>
                         </div>
                         <div class='control'>

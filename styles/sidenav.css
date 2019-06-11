@@ -20,21 +20,21 @@
   left: 0;
   background-color: #fff;
   overflow-x: hidden;
-  transition: 0.5s;
+  transition: 0.4s;
   animation-name: sidecontent;
   animation-duration: 0.4s;
   -webkit-animation-name: sidecontent;
   -webkit-animation-duration: 0.4s;
 }
 
-@keyframes sidecontent{
+/* @keyframes sidecontent{
   from {width:0; opacity: 0}
     to {width:100px; opacity: 1}
 }
 @-webkit-keyframes sidecontent{
   from {width:0; opacity: 0}
     to {width:100px; opacity: 1}
-}
+} */
 
 .btn1{
   padding: 8px 12px 8px 32px;

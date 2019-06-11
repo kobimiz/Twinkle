@@ -440,6 +440,7 @@ function Video(vConElement) {
     vConElement.querySelector(".right").addEventListener("click", this.forward.bind(this));
     vConElement.querySelector(".left").addEventListener("click", this.backward.bind(this));
     //this is a test
+    this.volumeoff = vConElement.querySelector(".volumeoff");
     this.fullscreenicon = vConElement.querySelector(".fullscreen");
     this.fullscreenicon.addEventListener("click", this.toggleFullScreen.bind(this));
     this.Vcon = vConElement;
@@ -536,16 +537,13 @@ Video.prototype.mouseMove = function (e) {
 };
 Video.prototype.toggleVolume = function(){
     if(!this.volumecheck) {
-        this.volume.src = "/iconList/Volumeon.png";
-        this.volume.style.width = "22px";
-        this.volume.style.height = "20px";
+        console.log(this.volumeoff);
+        this.volumeoff.style.width = "30px";
         this.video.muted = true;
         this.volumecheck = true;
 
     } else {
-        this.volume.src = "/iconList/Volumeoff.png";
-        this.volume.style.width = "30px";
-        this.volume.style.height = "35px";
+        this.volumeoff.style.width = "0px";
         this.video.muted = false;
         this.volumecheck = false;
     }

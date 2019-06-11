@@ -42,7 +42,7 @@ searchIcon.addEventListener("touchstart", function(){
 
     if(displayDis[1].style.display == ""){
         for(var i=1; i < displayDis.length; i++){
-            displayDis[i].setAttribute("style", "display: none;");
+            displayDis[i].setAttribute("style", "display: none !important;");
         }
         // searchInp.setAttribute("style", "display: block; max-width: 350px;");
         searchInp.style.display = "block";

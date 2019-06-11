@@ -16,7 +16,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="styles/general.css" type="text/css">
     <link rel="stylesheet" href="styles/ProfileM.css" media="screen and (max-width:750px)" type="text/css" />
     <link rel="stylesheet" href="styles/ProfileD.css" media="screen and (min-width:750px)" type="text/css" />
     <link rel="stylesheet" href="styles/headerD.css" media="screen and (min-width: 650px)" type="text/css">
@@ -24,12 +23,6 @@
     <link rel="stylesheet" href="styles/posts.css" type="text/css" >
     <link rel="stylesheet" href="styles/sidenav.css">
     <link rel="icon" href="/iconList/TwinkleCon.png" type="image/png">
-
-    <style>
-    #postsCon {
-        display: inline-block;
-    }
-    </style>
     <title>First Name - Twinkle</title>
 </head>
 <body>
@@ -114,7 +107,7 @@ include_once("templates/sidenav.php");
 
 <main>
 
-<div class="leftSecCon" style="display:inline-block;">
+<div class="leftSecCon">
     <div class="postPrese">
         <ul>
 <!--the square of the post presentation-->
@@ -233,5 +226,8 @@ function profilePic($picName) {
 </div>
 </main>
 
+
+    <script src="scripts/sidenav.js"></script>
+    <script src="scripts/header.js"></script>
 </body>
 </html>

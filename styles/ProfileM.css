@@ -176,6 +176,13 @@ body{
         font-size: 23px;
     }
 }
+/*css for when to header pops down*/
+@media screen and (max-width: 650px){
+    body{
+        margin-top: unset;
+        margin-bottom: 60px;
+    }
+}
 /*The main's css style*/
 main{
     width: 100%;
@@ -184,27 +191,22 @@ main{
     width: 100%;
 }
 .postPrese{
-    position: relative;
-}
-.postPrese::before, .postPrese::after{
-    content: '';
-    display: table;
+    display: block;
 }
 .postPrese>ul{
-    display: block;
+    display: grid;
+    grid-template-columns: 33.3% 33.3% 33.3%;
+    grid-template-rows: 50% 50%;
     padding: 0;
     margin: 0;
     width: 100%;
     align-items: center;
 }
-.postPrese::after{
-    clear: both;
-}
 .postPrese>ul>li{
     list-style-type: none;
     display: inline-table;
     position: inherit;
-    margin: 5px;
+    margin: 5px auto;
 }
 .postPreview{
     width:100px;

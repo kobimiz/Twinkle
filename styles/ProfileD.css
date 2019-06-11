@@ -1,3 +1,4 @@
+
 body{
     margin:0;
     margin-top:70px;
@@ -237,22 +238,17 @@ main{
 }
 .leftSecCon{
     width: 230px;
+    box-sizing: unset;
 }
 .postPrese{
-    position: relative;
-}
-.postPrese::before, .postPrese::after{
-    content: '';
-    display: table;
+    display: block;
+    box-sizing: unset;
 }
 .postPrese>ul{
     display: block;
     padding: 0;
     margin: 0;
     width: 100%;
-}
-.postPrese::after{
-    clear: both;
 }
 .postPrese>ul>li{
     list-style-type: none;
