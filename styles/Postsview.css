@@ -1,0 +1,137 @@
+.set-blur{
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
+}
+
+.Viewer{
+    position: fixed;
+    left:0;
+    top:0;
+    z-index:999;
+    width:100vw;
+    height:100vh;
+    background-color: rgba(220, 220, 220, 0.055);
+    display:none;
+}
+.poper{
+    background-color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 300px ;
+    max-height: 500px;
+    overflow: hidden;
+    border-radius: 10px;
+    border: 1px solid rgb(236, 236, 236);
+}
+.topFilt{
+    text-align: center;
+    display: flex;
+}
+.Backarrow{
+    display: inline-block;
+    font-weight: 530;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 10px 15px;
+    cursor: pointer;
+    box-sizing: border-box;
+    width: 20%;
+    display: none;
+}
+.mainSpan{
+    display: inline-block;
+    font-weight: 530;
+    font-family: Arial, Helvetica, sans-serif;
+    text-transform: uppercase;
+    padding: 10px 15px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    width:100%;
+    box-sizing: border-box;
+}
+/* .topFilt>span:hover{
+    background-color: rgb(247, 247, 247);
+} */
+/*css for the non animation display*/
+.strlist{
+    display: none;
+}
+.strlist>ul{
+    padding:0;
+    margin:0;
+}
+.strlist>ul>li{
+    list-style-type: none;
+    display: flex;
+    padding: 10px 5px;
+    cursor: pointer;
+}
+.strlist>ul>li:hover{
+    background-color: rgb(247, 247, 247);
+}
+.gage>img{
+    width: 95px;
+    height: 40px;
+    float: left;
+}
+.gage>div{
+    width: 100%;
+}
+.gage>div>span{
+    font-size: 20px;
+    margin: 5px;
+    float: right;
+}
+/*-------------------------*/
+/*css for the animation display*/
+/* .strlistAnim{
+    display: none;
+} */
+.strlistAnim>ul{
+    padding: 0;
+    margin:0;
+}
+.strlistAnim>ul>li{
+    list-style-type: none;
+    display: flex;
+    padding: 10px 5px;
+    cursor: pointer;
+}
+.strlistAnim>ul>li:hover{
+    background-color: rgb(247, 247, 247);
+}
+.Load>img{
+    width: 25px;
+    height: 25px;
+    float: left;
+    margin: 1px;
+}
+.Load>div{
+    width: 100%;
+    padding: 5px;
+    display: flex;
+    vertical-align: super;
+}
+.loadbar{
+    background-color:rgb(235, 119, 12);
+    height: 5px;
+    width: 85%;
+    margin: auto 4px;
+    animation: reload 1s;
+    -webkit-animation: reload 1s;
+}
+@keyframes reload{
+    from{width:0;}
+    to{width:85%;}
+}
+@-webkit-keyframes reload{
+    from{width:0;}
+    to{width:85%;}
+}
+.Load>div>span{
+    font-size: 20px;
+}

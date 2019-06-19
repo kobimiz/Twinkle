@@ -26,11 +26,14 @@
     <link rel="stylesheet" href="styles/posts.css" type="text/css" >
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
     <link rel="icon" href="/iconList/TwinkleCon.png" type="image/png">
-
+    <link rel="stylesheet" href="styles/Postsview.css" type="text/css"/>
     <title>Home page Twinkle</title>
 </head>
 
 <body>
+<?php
+    include_once("templates/Postsview.php");
+?>
 <header>
     <nav id="navi">
         <ul>
@@ -188,6 +191,7 @@
     <script src="scripts/sidenav.js"></script>
     <script src="scripts/posts.js"></script>
     <script src="scripts/UploadPost.js"></script>
+    <script type="text/javascript" src="scripts/Postsview.js" ></script>
 </body>
 
 </html>

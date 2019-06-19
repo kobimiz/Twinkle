@@ -7,7 +7,7 @@ if (!Function.prototype.bind) {
     Function.prototype.bind = function (context /* ...args */) {
       var fn = this;
       var args = Array.prototype.slice.call(arguments, 1);
-  
+
       if (typeof(fn) !== 'function') {
         throw new TypeError('Function.prototype.bind - context must be a valid function');
       }
@@ -36,6 +36,9 @@ function getChildIndex(element) {
 // todo: benchmark using event listeners w\ prototype or with event argument
 // todo: ask if one can rate oneself
 function Post(postElement, index) {
+    //test
+    this.postElement = postElement;
+    //test
     // consider rethinking
     this.index = index;
     this.comments = [];
@@ -553,10 +556,12 @@ Video.prototype.videoEnd = function() {
     this.btn.classList.remove("pause");
 }
 //this is a test
-console.log(Video.video)
+var ActiveVideo = null;
+
 Video.prototype.toggleFullScreen = function(){
     if ((document.fullScreenElement && document.fullScreenElement !== null) ||    
     (!document.mozFullScreen && !document.webkitIsFullScreen)){
+        ActiveVideo = this;
             //change the css of the Vcon to full window size
             this.Vcon.classList.add("VconF");
             this.video.style.maxHeight = "unset";
@@ -572,6 +577,7 @@ Video.prototype.toggleFullScreen = function(){
             document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
         }
     }else{
+        ActiveVideo = null;
             //change the css of the Vcon when canceling full size
             this.Vcon.classList.remove("VconF");
             this.video.style.height = "unset";
@@ -589,61 +595,36 @@ Video.prototype.toggleFullScreen = function(){
 //a variable of an array with all the Vcon and find the one with VconF
 var VcF = document.querySelectorAll(".Vcon");
 var VcFv = document.querySelectorAll(".Vcon>video");
-function VcEach(){
-    for(var i = 0; i < VcF.length; i++){
-        VcF[i].classList.remove("VconF");
-    }
-}
-function VcvEach(){
-    for(var i = 0; i < VcFv.length; i++){
-        VcFv[i].style.height = "unset";
-        VcFv[i].style.maxHeight = "500px";
-    }
-}
+// function VcEach(){
+//     for(var i = 0; i < VcF.length; i++){
+//         VcF[i].classList.remove("VconF");
+//     }
+// }
+// function VcvEach(){
+//     for(var i = 0; i < VcFv.length; i++){
+//         VcFv[i].style.height = "unset";
+//         VcFv[i].style.maxHeight = "500px";
+//     }
+// }
 //-----------
 function Escancel(e){
     if(e.keyCode === 27){
-        console.log(VcF);
-        // if(globVcon.className == "Vcon VconF"){
-            // VcFv.style.height = "unset";
-            // VcFv.style.maxHeight = "500px";
-            // VcF.classList.remove("VconF");
-            VcF.forEach(VcEach);
-            VcF.forEach(VcvEach);
-            document.body.classList.remove("bodyF");
-        // }
+            // VcF.forEach(VcEach);
+            // VcF.forEach(VcvEach);
+            // document.body.classList.remove("bodyF");
+        if(ActiveVideo != null){
+            console.log(ActiveVideo.postElement);
+            ActiveVideo.toggleFullScreen();
+            ActiveVideo.postElement.querySelector(".video").style.height = "unset";
+            ActiveVideo.postElement.querySelector(".video").style.maxHeight = "500px";
+            ActiveVideo.postElement.querySelector(".VconF").classList.remove("VconF");
+            ActiveVideo = null;
+        }
     }
 }
-document.onwebkitfullscreenchange = function() {
-    if(!document.fullscreen) {
-        // VcFv.style.height = "unset";
-        // VcFv.style.maxHeight = "500px";
-        // VcF.classList.remove("VconF");
-        VcF.forEach(VcEach);
-        VcF.forEach(VcvEach);
-        document.body.classList.remove("bodyF");
-    }
-};
-document.onfullscreenchange = function() {
-    if(!document.fullscreen) {
-        // VcFv.style.height = "unset";
-        // VcFv.style.maxHeight = "500px";
-        // VcF.classList.remove("VconF");
-        VcF.forEach(VcEach);
-        VcF.forEach(VcvEach);
-        document.body.classList.remove("bodyF");
-    }
-};
-document.onmozfullscreenchange = function() {
-    if(!document.fullscreen) {
-        // VcFv.style.height = "unset";
-        // VcFv.style.maxHeight = "500px";
-        // VcF.classList.remove("VconF");
-        VcF.forEach(VcEach);
-        VcF.forEach(VcvEach);
-        document.body.classList.remove("bodyF");
-    }
-};
+document.onwebkitfullscreenchange = Escancel;
+document.onfullscreenchange = Escancel;
+document.onmozfullscreenchange = Escancel;
 document.addEventListener("keydown", Escancel, true);
 //this is a test
 Video.init = function() {
