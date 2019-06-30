@@ -95,7 +95,7 @@ body{
 .contain>form input:not([type="submit"]):focus{
     background-color:white;
 }
-.contain>form input:not([type="submit"]):valid, .contain>form input[type="email"]{
+.contain>form input:not([type="submit"]):valid{
     background-color:white;
 }
 #fname{

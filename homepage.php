@@ -125,6 +125,9 @@
                 <div><span onclick="document.querySelector('.imageshow').style.display = 'none';">&#120;</span></div>
             </div>
         </div>
+        <div class="DeclareBtn">
+            <button type="submit" class="declareBtn">DECLARE</button>
+        </div>
     </div>
 </div>
 

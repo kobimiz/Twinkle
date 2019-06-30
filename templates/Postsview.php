@@ -1,3 +1,10 @@
+<?php
+    require_once("classes/queries.php");
+    DB::connect();
+
+    $sql = "SELECT `userID` from `postsstars` where `postID` = 60 and `stars` = 5";
+?>
+
 <div class="Viewer">
     <div class="poper">
         <div class="topFilt">
