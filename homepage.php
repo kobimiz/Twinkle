@@ -9,6 +9,7 @@
 
     if(!DB::isLoggedIn())
         header("Location: signin.php");
+    $user = new User(DB::getLoggedUserInfo("id")["id"]);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -111,17 +112,18 @@
                 </div>
             </div>
             <div class="uploadbutton" onclick="uptoLoad()">
-                <input class="upload" name="upload" type="file">
+                <input id="fileUpload" class="upload" name="fileUpload" type="file">
                 <span>image/video</span>
             </div>
 
             <div class="imageshow">
                 <div class="imagecon">
-                <img alt="image" src="/iconList/image.jpg" draggable="false" />
+                <img alt="Preview of the uploaded file" src="//:0" draggable="false" id="filePreview" />
                 </div>
-                <div><span onclick="document.querySelector('.imageshow').style.display = 'none';">&#120;</span></div>
+                <div><span id="closeImg">&#120;</span></div>
             </div>
         </div>
+        <span id="errorMessage"></span>
     </div>
 </div>
 
@@ -133,23 +135,17 @@
         <div id="uploadPost">
             <h3>Share your thoughts.</h3>
             <textarea name="content" cols="100" rows="10" placeholder="Write your thoughts..."></textarea>
-            <img src="" alt="Preview of the uploaded file" id="filePreview">
             <!-- add preview for a video, consider making it an image of the first frame -->
             <br>
             <br>
-            <label for="fileUpload">Include an image/video</label>
-            <input type="file" id="fileUpload" name="fileUpload">
-            <span id="errorMessage"></span>
             <br>
             <input type="button" value="Post" id="post">
-            <div id="progress">
-                <div id="bar">0%</div>
-            </div>
         </div>
+
         <div class="Placeholdercontainer" onclick="Postpop()">
             <div class="Placeholderrole">
                 <div class="placeholder-img">
-                    <img src="/iconList/image.jpg" alt="some img">
+                    <img src="<?php echo profilePic(DB::getLoggedUserInfo("profilePic")["profilePic"]);?>" alt="some img">
                 </div>
                 <div class="placeholder-text">
                     <span>Express your thoughts...</span>
@@ -158,6 +154,9 @@
         </div>
         <div id="posts">
             <?php
+                // video
+                // red line orange juice
+
                 // https://stackoverflow.com/questions/1370951/what-is-phpsessid
                 // after looking at that ^^^ change all session occurances to match new cookie setup
                 // todo: tell yehuda to add new table (loginTokens) and change all tables' storage engine to innoDB & and relations
@@ -176,7 +175,6 @@
                 // consider making a load function that makes an ajax call for a more modular approch. note: it will be in js, using ajax and load.php
                 // consider not storing totalStars for posts (benchmark?)
                 $_SESSION['posts'] = array();
-                $user = new User(DB::getLoggedUserInfo("id")["id"]);
                 $user->loadNextPosts(5);
                 function profilePic($picName) {
                     return ($picName === "") ? "/iconList/"."user.png":"/uploads/".$picName;
@@ -184,6 +182,10 @@
             ?>
         </div>
     </main>
+
+    <div id="progress">
+        <div id="bar">0%</div>
+    </div>
     <script src="scripts/homepage.js"></script>
     <script src="scripts/sidenav.js"></script>
     <script src="scripts/posts.js"></script>
