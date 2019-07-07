@@ -14,7 +14,7 @@ body{
     margin:0 6%;
     /* border-bottom: 1px solid rgb(201, 201, 201); */
     border: 1px solid rgb(201, 201, 201);
-    max-width: 1100px;
+    max-width: 1400px;
 }
 .Free-speech{
     background-color: white;
@@ -90,7 +90,7 @@ body{
     background-color:white;
     width:80%;
     border-bottom: 1px solid rgb(201, 201, 201);
-    max-width: 1100px;
+    max-width: 1400px;
     display: flex;
     position: relative;
     margin: 0 6%;
@@ -313,6 +313,7 @@ main{
     margin-left: 5px;
 }
 .square{
+    width: 100%;
     background-color:white;
     border-radius: 10px;
     margin: 5px;
