@@ -224,6 +224,15 @@ function profilePic($picName) {
 }
 ?>
 </div>
+<div class="DisplayFilt">
+    <div class="square">
+        <ul>
+            <li>a</li>
+            <li>b</li>
+            <li>c</li>
+        </ul>
+    </div>
+</div>
 </main>
 
 
