@@ -446,6 +446,7 @@ function Video(vConElement) {
     this.fullscreenicon = vConElement.querySelector(".fullscreen");
     this.fullscreenicon.addEventListener("click", this.toggleFullScreen.bind(this));
     this.Vcon = vConElement;
+    this.video.addEventListener("dblclick", this.clickFullScreen.bind(this));
     //this is a test
 }
 Video.videos = [];
@@ -555,6 +556,41 @@ Video.prototype.videoEnd = function() {
 }
 //this is a test
 var activeVideo = null;
+Video.prototype.clickFullScreen = function(){
+    if (activeVideo === null){
+        if (document.documentElement.requestFullScreen){
+            document.documentElement.requestFullScreen();
+        } else if (document.documentElement.mozRequestFullScreen){
+            document.documentElement.mozRequestFullScreen();
+        } else if (document.documentElement.webkitRequestFullScreen){
+            document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+        } else if (document.documentElement.msRequestFullScreen){
+            document.documentElement.msRequestFullScreen();
+        }
+        activeVideo = this;
+        //change the css of the Vcon to full window size
+        this.Vcon.classList.add("VconF");
+        this.video.style.maxHeight = "unset";
+        this.video.style.height = "100%";
+        document.body.classList.add("bodyF");
+    }else {
+        activeVideo = null;
+        //change the css of the Vcon when canceling full size
+        this.Vcon.classList.remove("VconF");
+        this.video.style.height = "unset";
+        this.video.style.maxHeight = "500px";
+        document.body.classList.remove("bodyF");
+        if (document.cancelFullScreen){
+            document.cancelFullScreen();
+        }else if(document.mozCancelFullScreen){
+            document.mozCancelFullScreen();
+        }else if(document.webkitCancelFullScreen){
+            document.webkitCancelFullScreen();
+        }else if(document.msCancelFullScreen){
+            document.msCancelFullScreen();
+        }
+    }
+}
 Video.prototype.toggleFullScreen = function(){
     if (activeVideo === null){
         if (document.documentElement.requestFullScreen){

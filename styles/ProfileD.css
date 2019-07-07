@@ -235,12 +235,17 @@ body{
 main{
     width: 70%;
     margin: 2% 6% 1% 6%;
+    display: grid;
+    grid-template-columns: 30% 60% 10%;
 }
 .leftSecCon{
     width: 230px;
     box-sizing: unset;
 }
 .postPrese{
+    position: -webkit-sticky;
+    position: sticky;
+    top: 65px;
     display: block;
     box-sizing: unset;
 }
@@ -307,6 +312,29 @@ main{
     font-family: sans-serif;
     margin-left: 5px;
 }
+.square{
+    background-color:white;
+    border-radius: 10px;
+    margin: 5px;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 65px;
+}
+.square>ul{
+    margin: 0;
+    padding: 0;
+}
+.square>ul>li{
+    padding: 15px 0;
+    /* margin: 10px 0; */
+    text-align: center;
+    list-style-type: none;
+    cursor: pointer;
+}
+.square>ul>li:hover{
+    background-color: rgb(240, 240, 240);
+}
+
 @media screen and (max-width: 800px){
     .postPreview{
         width: 80px;
