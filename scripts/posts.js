@@ -7,7 +7,7 @@ if (!Function.prototype.bind) {
     Function.prototype.bind = function (context /* ...args */) {
       var fn = this;
       var args = Array.prototype.slice.call(arguments, 1);
-  
+
       if (typeof(fn) !== 'function') {
         throw new TypeError('Function.prototype.bind - context must be a valid function');
       }
@@ -37,10 +37,11 @@ function getChildIndex(element) {
 // todo: ask if one can rate oneself
 function Post(postElement, index) {
     // consider rethinking
+    this.postCon = postElement;
+
     this.index = index;
     this.comments = [];
     this.commentForm = postElement.querySelector(".comform");
-    this.options = postElement.querySelector(".optionscon");
     this.commentForm.addEventListener("click", stopPropagation);
     this.commentForm.querySelector(".submit").addEventListener("click", this.submitComment.bind(this));
     postElement.querySelector(".optionicon").addEventListener("click", this.toggleOptions.bind(this));
@@ -169,14 +170,15 @@ Post.prototype.toggleComment = function(e) {
 };
 // consider rethinking
 Post.prototype.toggleOptions = function(e) {
-    if(this.options !== Post.activatedOptions) { // current options arrow not displayed
+    var options = this.postCon.querySelector(".optionscon");
+    if(options !== Post.activatedOptions) { // current options arrow not displayed
         if(Post.activatedOptions !== null) // hide last options arrow
             Post.activatedOptions.style.display = "none";
-        this.options.style.display = "block"; // display current options arrow
-        Post.activatedOptions = this.options;
+        options.style.display = "block"; // display current options arrow
+        Post.activatedOptions = options;
         e.stopPropagation();
     } else { // current options arrow already displayed
-        this.options.style.display = "none";
+        options.style.display = "none";
         Post.activatedOptions = null;
     }
 };
@@ -537,7 +539,6 @@ Video.prototype.mouseMove = function (e) {
 };
 Video.prototype.toggleVolume = function(){
     if(!this.volumecheck) {
-        console.log(this.volumeoff);
         this.volumeoff.style.width = "30px";
         this.video.muted = true;
         this.volumecheck = true;
@@ -562,6 +563,8 @@ Video.prototype.toggleFullScreen = function(){
             document.documentElement.mozRequestFullScreen();
         } else if (document.documentElement.webkitRequestFullScreen){
             document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+        } else if (document.documentElement.msRequestFullScreen){
+            document.documentElement.msRequestFullScreen();
         }
         activeVideo = this;
         //change the css of the Vcon to full window size
@@ -582,6 +585,8 @@ Video.prototype.toggleFullScreen = function(){
             document.mozCancelFullScreen();
         }else if(document.webkitCancelFullScreen){
             document.webkitCancelFullScreen();
+        }else if(document.msCancelFullScreen){
+            document.msCancelFullScreen();
         }
     }
 }

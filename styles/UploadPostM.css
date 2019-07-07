@@ -149,6 +149,7 @@ body{
     display: block;
     width: 100%;
     height: 100%;
+    max-height: 700px;
     object-fit: cover;
     object-position: center;
 }
@@ -159,7 +160,6 @@ body{
     transform: translate(20%, 50%);
     font-size: 20px;
     color: white;
-    cursor: pointer;
     background-color: rgba(0, 0, 0, 0.664);
     border-radius: 50%;
     padding: 2px 7px;
@@ -293,23 +293,62 @@ body{
     -ms-user-select: none;
     user-select: none;
 }
+.declareBtn{
+    color: white;
+    margin:0;
+    font-weight: 550;
+    font-size: 22px;
+    letter-spacing: 3px;
+    width: 100%;
+    padding: 15px 15px;
+    border:1px solid rgb(207, 207, 207);
+    background: #001942;
+    background-image: linear-gradient(#072f6e, #001942 50%);
+}
+.declareBtn:active{
+    background: #06214d;
+    background-image: linear-gradient(#214a8d, #0a2653 -50%);
+}
 @media screen and (max-width: 400px){
     .placeholder-text > span{
         font-size: 17px;
     }
 }
-@media screen and (max-width: 430px){
+@media screen and (max-width: 530px){
+    .uploadbutton > span{
+        top: -40%;
+        font-size: 35px;
+        transform: translateX(-50%);
+        left: 50%;
+    }
+    .searchlist>ul>li>a{
+        font-size: 25px;
+    }
+    .drop>ul>li{
+        font-size: 30px;
+    }
+    .Tag>span{
+        font-size: 30px;
+    }
+    .postypes>div>span{
+        font-size: 30px;
+    }
     .filterchoice>input{
+        padding: 15px;
+        font-size: 30px;
         width: 100%;
     }
     .watchsort{
+        width: 100%;
         clear: both;
     }
     .watchsort > select{
-        width: 100vw;
+        width: 100%;
+        font-size: 30px;
         letter-spacing: 2px;
     }
     .inputsort{
+        font-size: 25px;
         margin: 2% 4%;
         width: 95%;
     }
@@ -319,11 +358,21 @@ body{
         margin-top: 5%;
     }
     .imageshow{
-        width: 90%;
+        width: 100%;
+        padding: 10px 0;
     }
     .imagecon{
         width: 100%;
-        height: 350px;
+        height: 100%;
+        overflow: hidden;
+    }
+    .texter>textarea{
+        font-size: 30px
+    }
+    .imageshow > div > span{
+        font-size: 50px;
+        padding: 10px 15px;
+        margin: 0;
     }
     
 }

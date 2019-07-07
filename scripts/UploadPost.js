@@ -66,6 +66,7 @@ function setC(x){
 function uptoLoad(){
 	document.querySelector(".upload").click();
 }
+
 function selectChange(){
 	if(sortselect.value == "Private"){
 		inputsort.style.display = "block";

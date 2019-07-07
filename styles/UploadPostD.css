@@ -15,6 +15,7 @@
     height:100vh;
     background-color: rgba(22, 22, 22, 0.4);
     display:none;
+    overflow: auto
 }
 
 .Postpop{
@@ -310,4 +311,22 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+.declareBtn{
+    color: white;
+    margin:0;
+    font-weight: 550;
+    font-size: 18px;
+    letter-spacing: 3px;
+    width: 100%;
+    padding: 10px 15px;
+    border:1px solid rgb(207, 207, 207);
+    background: #001942;
+    background-image: linear-gradient(#072f6e, #001942 50%);
+    cursor: pointer;
+}
+.declareBtn:active{
+    background: #06214d;
+    background-image: linear-gradient(#214a8d, #0a2653 -50%);
 }

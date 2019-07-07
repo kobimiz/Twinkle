@@ -266,7 +266,6 @@ label[for="fileUpload"]:hover {
 
 #errorMessage {
     visibility: hidden;
-    border-left: 1px solid gray;
     padding-left: 5px;
 }
 #closeImg {

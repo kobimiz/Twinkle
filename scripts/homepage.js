@@ -91,7 +91,7 @@ searchIcon.addEventListener("touchstart", function(){
 });
 
 
-
+// todo: fix bug when uploading two of more posts and commenting and replying (order)
 fileInput.addEventListener("change", function (e) { // todo: add remove file upload, fix bug
     if(this.files.length > 0) {
         var fileExtension = this.files[0].name.split('.').pop().toLowerCase();
@@ -114,7 +114,7 @@ fileInput.addEventListener("change", function (e) { // todo: add remove file upl
     }
 });
 
-document.getElementById("post").addEventListener("click", function() {
+document.querySelector(".declareBtn").addEventListener("click", function() {
     if(fileInput.files.length > 0) {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
@@ -244,23 +244,21 @@ document.getElementById("post").addEventListener("click", function() {
     
         var formData = new FormData();
         formData.append("file", fileInput.files[0], fileInput.files[0].name); // todo: check how php knows the file (might cause a problem once we go live)
-        console.log(fileInput.files);
         
         formData.append("content", textarea.value);
         xmlhttp.open("POST", "templates/uploadPost.php", true);
-        //xmlhttp.send(formData);
+        xmlhttp.send(formData);
         filePreview.src = "";
         filePreview.style.display = "none";
         textarea.value = "";
+
+        // hide modal
+        modal.style.display = "none";
+        document.getElementsByTagName("main")[0].classList.remove("set-blur");
+        closeImg.style.display = 'none';
     } else {
         errorMessage.style.visibility = "visible";
         errorMessage.innerHTML = "No image/video? Shall we share as a note instead?";
-    }
-});
-
-textarea.addEventListener("keyup", function(e) {
-    if(e.key === "Enter") {
-        document.getElementById("post").click();
     }
 });
 
@@ -329,7 +327,7 @@ function addCategory() {
         this.dispatchEvent(new KeyboardEvent("keyup", { keyCode:13 }));
 }
 
-document.querySelector('.imageshow').addEventListener("click", function() {
+document.querySelector('#closeImg').addEventListener("click", function() {
     closeImg.style.display = 'none';
     fileInput.value = "";
     filePreview.style.display = "none";

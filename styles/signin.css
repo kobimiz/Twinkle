@@ -73,6 +73,7 @@ body{
     padding: 10px;
 }
 #loginsec>form{
+    padding-top: 10px;
     height:100%;
     width: 80%;
     margin: auto;

@@ -214,7 +214,7 @@
 .extracon{
     position: absolute;
     left: 12%;
-    width: 12%;
+    width: 85px;
     height: 100%;
 }
 .fullscreen{
@@ -364,6 +364,8 @@
 }
 /* bottom data*/
 .bottomdata{
+    box-sizing: border-box;
+    padding: 5px;
     width:100%;
 }
 /*all five stars*/
@@ -384,11 +386,16 @@
 .Avgdata{
     display: inline-block;
     float:right;
-    margin:0 20px;
+    margin:0 5px;
+    padding: 1px 15px;
+    cursor: pointer;
+}
+.Avgdata:hover{
+    background-color: rgb(238, 238, 238);
 }
 .UserAm{
-    width:40px;
-    height:40px;
+    width:35px;
+    height:35px;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -551,6 +558,9 @@ input[name="typerep"]{
 }
 /*<<<< phones styles>>>*/
 @media only screen and (max-width: 600px){
+    .Avgdata:active{
+        background-color: rgb(238, 238, 238);
+    }
     .comset > span:active{
         color:#001942;
     }
