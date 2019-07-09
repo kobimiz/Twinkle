@@ -18,10 +18,8 @@ if (!Function.prototype.bind) {
     };
 }
 
-function stopPropagation(e) { e.stopPropagation(); }
-function getDate() {
-    var today = new Date();
-    return today.getFullYear() + "-" + String(today.getMonth() + 1).padStart(2, '0') + "-" + String(today.getDate()).padStart(2, '0');
+function stopPropagation(e) {
+    e.stopPropagation();
 }
 function getChildIndex(element) {
     var siblings = element.parentElement.children;
@@ -31,23 +29,20 @@ function getChildIndex(element) {
     return -1;
 }
 
-// consider not storing variables inside
 // todo: improve event listeners system
 // todo: benchmark using event listeners w\ prototype or with event argument
 // todo: ask if one can rate oneself
 function Post(postElement, index) {
-    // consider rethinking
-    this.postCon = postElement;
-
-    this.index = index;
+    this.postCon  = postElement;
+    this.index    = index;
     this.comments = [];
-    this.commentForm = postElement.querySelector(".comform");
-    this.commentForm.addEventListener("click", stopPropagation);
-    this.commentForm.querySelector(".submit").addEventListener("click", this.submitComment.bind(this));
+
+    postElement.querySelector(".comform"   ).addEventListener("click", stopPropagation              );
+    postElement.querySelector(".optionscon").addEventListener("click", stopPropagation              ); // consider making one event listener
+    postElement.querySelector(".submit"    ).addEventListener("click", this.submitComment.bind(this));
     postElement.querySelector(".optionicon").addEventListener("click", this.toggleOptions.bind(this));
-    postElement.querySelector(".starrate").addEventListener("click", this.rate.bind(this));
-    postElement.querySelector(".optionscon").addEventListener("click", stopPropagation);
-    postElement.querySelector(".act1").addEventListener("click", this.toggleComment.bind(this));
+    postElement.querySelector(".starrate"  ).addEventListener("click", this.rate.bind(this)         );
+    postElement.querySelector(".act1"      ).addEventListener("click", this.toggleComment.bind(this));
 
     // init comments
     var commentElements = postElement.querySelectorAll(".newarea");
@@ -59,52 +54,30 @@ function Post(postElement, index) {
         Video.videos.push(new Video(video.parentElement));
 }
 Post.activatedDeleteButton = null;
-Post.activatedOptions = null;
-Post.activatedCommentForm = null;
-Post.posts = [];
+Post.activatedOptions      = null;
+Post.activatedCommentForm  = null;
+Post.posts                 = [];
 
-// consider making get[Blank] one function (possibly use inheritance), or\and user Post.posts array
 Post.init = function() {
     var postElements = document.querySelectorAll(".postcon");
     for(var i = 0; i < postElements.length; i++)
         Post.posts.push(new Post(postElements[i], i));
 };
 Post.insertComment = function(post) { // an ajax callback function
-    // consider removing the typerep name from the input element but first check its style with vscode search
-    // consider removing autocomplete attribute from input
     if(this.readyState === 4 && this.status === 200) {        
-        var commentSection = Post.activatedCommentForm.nextElementSibling,
-            res = this.responseText.split(','); // [username, profilePic]
+        var commentSection = post.postCon.querySelector(".comments");
+
         if(commentSection.childElementCount === 0)
             commentSection.insertAdjacentHTML("afterbegin", "<h2>Comments</h2>");
-        commentSection.firstElementChild.insertAdjacentHTML("afterend",
-        '<div class="newarea"> \
-            <div class="commentsarea"> \
-            <div class="userD"> \
-                <a href="profile.php?user=' + res[0] + '" class="userN"> \
-                    <img alt="Profile photo" src="' + res[1] + '" class="selfimg">' +
-                    res[0] +
-                '</a> \
-                <span class="commdate">' + getDate() + '</span> \
-            </div> \
-            <div class="commentcont">' + Post.activatedCommentForm.firstElementChild.value + '</div> \
-            <div class="comset"> \
-                <span class="comreply">reply</span> <span class="comnote">note</span> \
-                <span class="comdelete">delete</span> \
-            </div> \
-            </div> \
-            <div class="replyform"> \
-                <input name="typerep" type="text" placeholder="Reply..." autocomplete="off"> \
-                <button class="submit">&gt;</button> \
-            </div> \
-        </div>');
+        commentSection.firstElementChild.insertAdjacentHTML("afterend", this.responseText);
+
         Post.activatedCommentForm.firstElementChild.value = ""; // reset input
         Post.activatedCommentForm.style.display = "none";
         Post.activatedCommentForm = null;
 
         for (var i = 0; i < post.comments.length; i++)
             post.comments[i].index += 1;
-        post.comments.push(new PostComment(commentSection.children[1], 0, post));
+        post.comments.push(new PostComment(commentSection.querySelector(".newarea"), 0, post)); // new comment is first
     }
 };
 
@@ -114,7 +87,7 @@ Post.prototype.rate = function(e) { // todo: fix stars moving aside when total s
             siblings = e.target.parentElement.children,
             xmlhttp = new XMLHttpRequest(),
             formData = new FormData(),
-            userNum = e.target.parentElement.nextElementSibling.children[1],
+            userNum = this.postCon.querySelector(".usernum"),
             index = this.index;
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
@@ -156,19 +129,19 @@ Post.prototype.submitComment = function(e) { // todo: fix comment & reply order 
     }
 };
 Post.prototype.toggleComment = function(e) {
-    if(this.commentForm !== Post.activatedCommentForm) { // current comment not displayed
+    var commentForm = this.postCon.querySelector(".comform");
+    if(commentForm !== Post.activatedCommentForm) { // current comment not displayed
         if(Post.activatedCommentForm !== null) // hide last comment
             Post.activatedCommentForm.style.display = "none";
-        this.commentForm.style.display = "block"; // display current comment
-        this.commentForm.firstElementChild.focus(); // focus on input
-        Post.activatedCommentForm = this.commentForm;
+        commentForm.style.display = "block"; // display current comment
+        commentForm.firstElementChild.focus(); // focus on input
+        Post.activatedCommentForm = commentForm;
         e.stopPropagation();
     } else { // current comment already displayed
-        this.commentForm.style.display = "none";
+        commentForm.style.display = "none";
         Post.activatedCommentForm = null;
     }
 };
-// consider rethinking
 Post.prototype.toggleOptions = function(e) {
     var options = this.postCon.querySelector(".optionscon");
     if(options !== Post.activatedOptions) { // current options arrow not displayed
@@ -185,13 +158,13 @@ Post.prototype.toggleOptions = function(e) {
 
 function PostComment(commentElement, index, owningPost) {
     this.commentElement = commentElement;
-    this.index = index;
-    this.owningPost = owningPost;
-    this.replies = [];
-    this.replyForm = commentElement.querySelector(".replyform");
-    this.replyForm.querySelector(".submit").addEventListener("click", this.submitReply.bind(this));
-    commentElement.querySelector(".comreply").addEventListener("click", PostComment.toggleReplyForm.bind(this)); // reply button
-    commentElement.querySelector(".replyform").addEventListener("click", stopPropagation);
+    this.index          = index;
+    this.owningPost     = owningPost;
+    this.replies        = [];
+
+    commentElement.querySelector(".submit"   ).addEventListener("click", this.submitReply.bind(this)           );
+    commentElement.querySelector(".comreply" ).addEventListener("click", PostComment.toggleReplyForm.bind(this)); // reply button
+    commentElement.querySelector(".replyform").addEventListener("click", stopPropagation                       );
 
     var comedelete = commentElement.querySelector(".comdelete");
     var viewMoreReplies = commentElement.querySelector(".viewMoreReplies");
@@ -214,46 +187,28 @@ PostComment.toggleReplies = function() {
         this.nextElementSibling.style.display = "block";
 };
 PostComment.toggleReplyForm = function(e) {
-    if(this.replyForm !== PostComment.activatedReplyForm) { // current comment not displayed
+    var replyForm = this.commentElement.querySelector(".replyform");
+    if(replyForm !== PostComment.activatedReplyForm) { // current comment not displayed
         if(PostComment.activatedReplyForm !== null) // hide last comment
             PostComment.activatedReplyForm.style.display = "none";
-        this.replyForm.style.display = "block"; // display current comment
-        this.replyForm.firstElementChild.focus(); // focus on input
-        PostComment.activatedReplyForm = this.replyForm;
+        replyForm.style.display = "block"; // display current comment
+        replyForm.firstElementChild.focus(); // focus on input
+        PostComment.activatedReplyForm = replyForm;
         e.stopPropagation();
     } else { // current comment already displayed
-        this.replyForm.style.display = "none";
+        replyForm.style.display = "none";
         PostComment.activatedReplyForm = null;
     }
 };
 PostComment.insertReply = function(comment) { // an ajax callback function
-    // consider removing the typerep name from the input element but first check its style with vscode search
-   // consider removing autocomplete attribute from input
    if(this.readyState === 4 && this.status === 200) {
         if(PostComment.activatedReplyForm.parentElement.querySelector(".viewMoreReplies") === null) { // has no replies
             PostComment.activatedReplyForm.insertAdjacentHTML("afterend", "<span class='viewMoreReplies'>View replies</span>\
                                                                             <div class='replies'></div>"); // add the view replies button
             PostComment.activatedReplyForm.nextElementSibling.addEventListener("click", PostComment.toggleReplies);
         }
-        var res = this.responseText.split(','), // [username, profilePic]
-            replies = PostComment.activatedReplyForm.nextElementSibling.nextElementSibling;
-        
-        replies.insertAdjacentHTML("afterbegin",
-        '<div class="replydiv"> \
-            <div class="userD"> \
-                <a href="profile.php?user="' + res[0]  + '" class="userN"> \
-                    <img src="' + res[1] + '" alt="Profile photo" class="selfimg">' + 
-                    res[0] +
-                '</a> \
-                <span class="commdate">' + getDate() + '</span> \
-            </div> \
-            <div class="replycont">' + PostComment.activatedReplyForm.firstElementChild.value + '</div> \
-            <div class="comset"> \
-                <span class="comnote">note</span> \
-                <span class="comdelete">delete</span> \
-            </div> \
-        </div>');
 
+        comment.commentElement.querySelector(".replies").insertAdjacentHTML("afterbegin", this.responseText);
 
         if(PostComment.activatedReplyForm.nextElementSibling.nextElementSibling.style.display !== "block")
             PostComment.toggleReplies.call(PostComment.activatedReplyForm.nextElementSibling);
@@ -264,7 +219,7 @@ PostComment.insertReply = function(comment) { // an ajax callback function
 
         for (var i = 0; i < comment.replies.length; i++)
             comment.replies[i].index += 1;
-        comment.replies.push(new Reply(replies.children[0], 0, comment));
+        comment.replies.push(new Reply(comment.commentElement.querySelector(".replydiv"), 0, comment));
    }
 };
 
@@ -321,8 +276,8 @@ function Reply(replyElement, index, owningComment) {
     this.replyElement = replyElement;
     this.index = index;
     this.owningComment = owningComment;
+
     var repdelete = replyElement.querySelector(".comdelete");
-    
     if(repdelete !== null)
         repdelete.addEventListener("click", this.delete.bind(this));
 }
@@ -670,7 +625,7 @@ window.addEventListener("scroll", function() {
         var loadMorePosts = new XMLHttpRequest();
         loadMorePosts.onreadystatechange = function() { // todo: add restraint
             if (this.readyState == 4 && this.status == 200) {
-                var posts = document.querySelector("#posts");
+                var posts = document.getElementById("posts");
                 posts.insertAdjacentHTML("beforeend", this.responseText);
                 Post.posts.push(new Post(posts.querySelector(".postcon:last-of-type"),Post.posts.length));
             }

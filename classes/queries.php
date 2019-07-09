@@ -2,6 +2,8 @@
 class DB {
     // consider redesigning
     private static $connection;
+    
+    /* Connects to a the server, and to the database. Done only once in the head of the file. */
     public static function connect() {
         if(!isset(self::$connection)) {
             self::$connection = new mysqli('localhost', 'root', '', 'twinkle');
@@ -9,27 +11,33 @@ class DB {
         }
     }
 
+    /* Executes a query to the database, and returns the result if there is any as, mysqli_result object. https://www.php.net/manual/en/class.mysqli-result.php */
     public static function query($query) {
         return self::$connection->query($query);
     }
     
+    /* For selection queries. Returns only the first result as string. */
     public static function queryScalar($query) {
         return self::$connection->query($query)->fetch_array()[0];
     }
 
+    /* Checks if a there is a user with specific username and password. Returns true/false. */
     public static function userExists($username, $password) {
         $res = self::query("SELECT `username`, `password` FROM `users` WHERE `username` = '$username'")->fetch_assoc();
         return !($res === NULL || !password_verify($password, $res['password']));
     }
 
+    /* Returns a string that describes the sql error that occured after a function call. */
     public static function error() {
         return self::$connection->error;
     }
 
+    /* Returns the auto generated id used in the latest query. */
     public static function insertId() {
         return self::$connection->insert_id;
     }
 
+    /* Checks if a user is logged in (via cookies). Returns true/false. */
     public static function isLoggedIn() {
         if(isset($_COOKIE['SNID'])) {
             $res = self::query("select userid from loginTokens where token='".sha1($_COOKIE['SNID'])."'");
@@ -50,9 +58,14 @@ class DB {
         return false;
     }
 
+    /* Selects fields of current logged in user as mysqli_result. fields variable example: "id, username" */
     public static function getLoggedUserInfo($fields) {
         $userid = self::queryScalar("select userid from loginTokens where token='".sha1($_COOKIE['SNID'])."'");
         return self::query("select $fields from users where id=$userid")->fetch_assoc();
+    }
+
+    public static function profilePic($picName) {
+        return ($picName === "") ? "/iconList/user.png":"/uploads/".$picName;
     }
 }
 ?>
