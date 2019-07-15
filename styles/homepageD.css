@@ -259,3 +259,19 @@ label[for="fileUpload"]:hover {
     margin: 5px;
     font-size: 18px;
 }
+
+#progress {
+    display: none;
+}
+
+#errorMessage {
+    visibility: hidden;
+    padding-left: 5px;
+}
+#closeImg {
+    display: none;
+}
+
+#filePreview {
+    display: none;
+}

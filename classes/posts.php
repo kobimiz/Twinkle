@@ -127,7 +127,7 @@ class Post {
 
                 <div class='comments'>";
                     // highly consider coming up with a new way to insure comments are selected as planned
-                    $postComments = DB::query("select * from comments where postId=".$post['id']." order by date desc, id desc limit 2");
+                    $postComments = DB::query("select id from comments where postId=".$post['id']." order by date desc, id desc limit 2");
                     if($postComments->num_rows > 0)
                         echo "<h2>Comments</h2>";
                         

@@ -10,12 +10,14 @@ class Comment {
         $comment = DB::query("select * from comments where id=".$this->id)->fetch_assoc();
         $replies = DB::query("select * from replies where commentId=".$comment['id']." order by date desc, id desc");
         $commentingUser = DB::query("select username, profilePic from users where id=".$comment['userid'])->fetch_assoc();
+        // consider removing the typerep name from the input element but first check its style with vscode search
+        // consider removing autocomplete attribute from input
         echo
         "<div class='newarea'>
             <div class='commentsarea'>
                 <div class='userD'>
                     <a href='profile.php?user=".htmlspecialchars($commentingUser["username"])."' class='userN'>
-                        <img alt='Profile photo' src='".profilePic($commentingUser["profilePic"])."' class='selfimg'/>"
+                        <img alt='Profile photo' src='".DB::profilePic($commentingUser["profilePic"])."' class='selfimg'/>"
                         .$commentingUser["username"].
                     "</a>
                     <span class='commdate'>".$comment['date']."</span>
@@ -49,5 +51,6 @@ class Comment {
         </div>";
     }
 }
+
 
 ?>

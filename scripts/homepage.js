@@ -13,6 +13,7 @@ var searchIcon = document.querySelector(".searchIcon");
 var sidenavbutton = document.getElementById("sidenavbutton");
 var searchInp = document.getElementById("searchBar");
 var displayDis = document.querySelectorAll("#navi>ul>li");
+var textarea = document.querySelector("textarea");
 
 // todo: think of ways to compress files
 // todo: asynchronous image loading
@@ -90,17 +91,18 @@ searchIcon.addEventListener("touchstart", function(){
 });
 
 
-
+// todo: fix bug when uploading two of more posts and commenting and replying (order)
 fileInput.addEventListener("change", function (e) { // todo: add remove file upload, fix bug
     if(this.files.length > 0) {
         var fileExtension = this.files[0].name.split('.').pop().toLowerCase();
         if (acceptetFileTypes.indexOf(fileExtension) !== -1) {
-            errorMessage.style.display = "none";
+            errorMessage.style.visibility = "hidden";
+            closeImg.style.display = 'inline';
             filePreview.style.display = "inline";
             reader.readAsDataURL(this.files[0]);
         }
         else {
-            errorMessage.style.display = "inline";
+            errorMessage.style.visibility = "visible";
             errorMessage.innerHTML = "File format is not supported. <a href='helpCenter/fileUploadingQA.php'>For further information please click here.</a>";
             filePreview.style.display = "none";
             filePreview.src = "";
@@ -112,7 +114,7 @@ fileInput.addEventListener("change", function (e) { // todo: add remove file upl
     }
 });
 
-document.getElementById("post").addEventListener("click", function() {
+document.querySelector(".declareBtn").addEventListener("click", function() {
     if(fileInput.files.length > 0) {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
@@ -122,7 +124,7 @@ document.getElementById("post").addEventListener("click", function() {
                 if(res[0] === "success") {
                     var media,
                         posts = document.getElementById("posts");
-                    errorMessage.style.display = "none";
+                    errorMessage.style.visibility = "hidden";
                     if(videosFileTypes.indexOf(res[2].substring(res[2].indexOf(".") + 1,res[2].length)) === -1) // file extention is an image's
                         media = "<img src='uploads/" + res[2] + "' alt='posted image'>";
                     else {
@@ -224,13 +226,13 @@ document.getElementById("post").addEventListener("click", function() {
                         Post.posts[i].index += 1;
                 }
                 else if(res[0] === "error") {
-                    errorMessage.style.display = "inline";
+                    errorMessage.style.visibility = "visible";
                     errorMessage.innerHTML = "An unknown error has occured. Please try again, or contact us if the problem presists.";
                 } else if(res[0] === "invalid type") {
-                    errorMessage.style.display = "inline";
+                    errorMessage.style.visibility = "visible";
                     errorMessage.innerHTML = "File format is not supported. <a href='helpCenter/fileUploadingQA.php'>For further information please click here.</a>";
                 } else { // file too big
-                    errorMessage.style.display = "inline";
+                    errorMessage.style.visibility = "visible";
                     errorMessage.innerHTML = "The uploaded file is too large. <a href='helpCenter/fileUploadingQA.php#largeFile'>For further information, please click here.</a>";
                 }
             }
@@ -240,17 +242,22 @@ document.getElementById("post").addEventListener("click", function() {
         xmlhttp.onloadend = reader.onloadend;
         xmlhttp.onprogress = reader.onprogress;
     
-        var formData = new FormData(),
-            textarea = document.getElementsByTagName("textarea")[0];
+        var formData = new FormData();
         formData.append("file", fileInput.files[0], fileInput.files[0].name); // todo: check how php knows the file (might cause a problem once we go live)
+        
         formData.append("content", textarea.value);
         xmlhttp.open("POST", "templates/uploadPost.php", true);
         xmlhttp.send(formData);
         filePreview.src = "";
         filePreview.style.display = "none";
         textarea.value = "";
+
+        // hide modal
+        modal.style.display = "none";
+        document.getElementsByTagName("main")[0].classList.remove("set-blur");
+        closeImg.style.display = 'none';
     } else {
-        errorMessage.style.display = "inline";
+        errorMessage.style.visibility = "visible";
         errorMessage.innerHTML = "No image/video? Shall we share as a note instead?";
     }
 });
@@ -319,3 +326,9 @@ function addCategory() {
     else
         this.dispatchEvent(new KeyboardEvent("keyup", { keyCode:13 }));
 }
+
+document.querySelector('#closeImg').addEventListener("click", function() {
+    closeImg.style.display = 'none';
+    fileInput.value = "";
+    filePreview.style.display = "none";
+});
