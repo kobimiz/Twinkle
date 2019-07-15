@@ -122,6 +122,7 @@ Post.prototype.submitComment = function(e) { // todo: fix comment & reply order 
             formData = new FormData();
         xmlhttp.onreadystatechange = Post.insertComment.bind(xmlhttp, this);
         formData.append("content", val);
+        console.log("post index:" + this.index);
         formData.append("postIndex", this.index);
         
         xmlhttp.open("POST", "templates/comment.php", true);
@@ -250,7 +251,7 @@ PostComment.prototype.delete = function(e) {
                 this.owningPost.comments[i].index -= 1;
         }
         this.commentElement.remove();
-        var commentsHeader = this.owningPost.commentForm.nextElementSibling.firstElementChild;
+        var commentsHeader = this.owningPost.postCon.getElementsByTagName("h2")[0];
         if(commentsHeader.nextElementSibling === null)
             commentsHeader.remove();
 
@@ -264,6 +265,9 @@ PostComment.prototype.submitReply = function(e) {
             formData = new FormData();
         xmlhttp.onreadystatechange = PostComment.insertReply.bind(xmlhttp, this);
         formData.append("content", val);
+        console.log("post index" + this.owningPost.index);
+        console.log("comment index" + this.index);
+        
         formData.append("commentIndex", this.index);
         formData.append("postIndex", this.owningPost.index);
         xmlhttp.open("POST", "templates/reply.php", true);

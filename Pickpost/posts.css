@@ -8,14 +8,14 @@ body{
     width:100%;
     max-width:600px;
     position: relative;
-    overflow: hidden;
+    /* overflow: hidden; */
     display:flex;
 }
 .Vcon{
     width:50%;
     min-height: 350px;
     max-width: 600px;
-    overflow:hidden;
+    overflow: hidden;
     border: 2px solid black;
 }
 /* #VconLeft{
@@ -30,14 +30,17 @@ body{
 }
 .Vcon > img{
     display: block;
-    width: auto;
-    height: 100%;
-    max-width: 600px;
-    max-height: 500px;
+    /* width: auto; */
+    /* height: 100%; */
+    /* max-width: 600px; */
+    /* max-height: 500px; */
     background-color: black;
     cursor: pointer;
     transition: 0.3s;
-    margin-left: -50%;
+    /* margin-left: -50%; */
+
+    /* THIS IS A TEST */
+    /* width: 100%; */
 }
 .Vcon > img:hover{
     transform: scale(1.009);

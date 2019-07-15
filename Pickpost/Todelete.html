@@ -7,6 +7,22 @@
     <link rel="stylesheet" href="posts.css" type="text/css">
     <title>Document</title>
 </head>
+<style>
+    .Vcon {
+        /* border-bottom: 2px solid salmon; */
+        position: relative;
+        transition: 1s;
+        right: 0px;
+        clip-path: inset(0px);
+        transform-origin: 100% 50%;
+    }
+    .Vcon > img {
+        width: 100%;
+    }
+    .SizerLeft, .SizerRight {
+        transition: 1.2s;
+    }
+</style>
 <body>
 
 <div class="postcon">
@@ -132,5 +148,34 @@
 
 
 <script src="Pickposts.js"></script>
+<script>
+    "use strict"
+
+    var sizerLeft = document.querySelector(".SizerLeft");
+    let clicked = false;
+    sizerLeft.addEventListener("click", function() {
+        let img1 = document.getElementById("VconLeft");
+        let img2 = document.getElementById("VconRight");
+            
+        if(clicked) {
+            clicked = false;
+            img1.style.clipPath = "inset(0px 0px 0px 0px)";
+            // img2.style.width = "50%";
+            // img2.style.right = "0px";
+            this.style.transform = "scaleX(1)";
+            img2.style.transform = "scaleX(1)";
+        } else {
+            clicked = true;
+            img1.style.clipPath = "inset(0px 100% 0px 0px)";
+            // img2.style.right = "50%";
+            // img2.style.width = "100%";
+            console.log(this.style.transform);
+            
+            this.style.transform = "scaleX(0.5)";
+            img2.style.transform = "scaleX(2)";
+        }
+    });
+    
+</script>
 </body>
 </html>
