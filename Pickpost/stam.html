@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        img {
+            height: 500px;
+            width: 502px;
+            border-bottom: 2px solid salmon;
+            position: relative;
+            transition: 1s;
+            right: 0px;
+            clip-path: inset(0px);
+        }
+    </style>
+</head>
+<body>
+    <img src="/Pickpost/autumn-leaves.jpg" id="img1">
+    <img src="/Pickpost/donut.jpg" id="img2">
+
+    <br>
+    <br>
+    <button>Yo</button>
+
+    <script>
+        "use strict"
+
+        let clicked = false;
+        document.querySelector("button").addEventListener('click', function() {
+            let img1 = document.getElementById("img1");
+            let img2 = document.getElementById("img2");
+
+            if(clicked) {
+                clicked = false;
+                img1.style.clipPath = "inset(0px 0px 0px 0px)";
+                img2.style.width = "502px";
+                img2.style.right = "0px";
+            } else {
+                clicked = true;
+                img1.style.clipPath = "inset(0px 100% 0px 0px)";
+                img2.style.width = "1004px";
+                img2.style.right = "502px";
+            }
+        });
+    </script>
+</body>
+</html>
