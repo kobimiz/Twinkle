@@ -7,22 +7,6 @@
     <link rel="stylesheet" href="posts.css" type="text/css">
     <title>Document</title>
 </head>
-<style>
-    .Vcon {
-        /* border-bottom: 2px solid salmon; */
-        position: relative;
-        transition: 1s;
-        right: 0px;
-        clip-path: inset(0px);
-        transform-origin: 100% 50%;
-    }
-    .Vcon > img {
-        width: 100%;
-    }
-    .SizerLeft, .SizerRight {
-        transition: 1.2s;
-    }
-</style>
 <body>
 
 <div class="postcon">
@@ -41,12 +25,12 @@
                 </div>
 
                 <div class="ChooseCon">
+                          <span class="SizerLeft"><img src="/Pickpost/Pickinlarge.png" alt="Image size" style="width:20px;height:20px;"></span>
+                          <span class="SizerRight"><img src="/Pickpost/Pickinlarge.png" alt="Image size" style="width:20px;height:20px;"></span>
                     <div class="Vcon" id="VconLeft">
-                        <span class="SizerRight"><img src="/Pickpost/Pickinlarge.png" alt="Image size" style="width:20px;height:20px;"></span>
                         <img src="donut.jpg" alt="posted image">
                     </div>
                     <div class="Vcon" id="VconRight">
-                        <span class="SizerLeft"><img src="/Pickpost/Pickinlarge.png" alt="Image size"style="width:20px;height:20px;"></span>
                         <img src="autumn-leaves.jpg" alt="posted image">
                     </div>
                 </div>
@@ -152,29 +136,70 @@
     "use strict"
 
     var sizerLeft = document.querySelector(".SizerLeft");
-    let clicked = false;
+    var sizerRight = document.querySelector(".SizerRight");
+    var PreText = document.querySelector(".PreText");
+    var AvgdataDis = document.querySelector(".Avgdata");
+    let clickedLeft = false;
+    let clickedRight = false;
     sizerLeft.addEventListener("click", function() {
-        let img1 = document.getElementById("VconLeft");
-        let img2 = document.getElementById("VconRight");
+        let VconLeft = document.getElementById("VconLeft");
+        let VconRight = document.getElementById("VconRight");
+        var img = document.querySelectorAll(".Vcon > img");
             
-        if(clicked) {
-            clicked = false;
-            img1.style.clipPath = "inset(0px 0px 0px 0px)";
-            // img2.style.width = "50%";
-            // img2.style.right = "0px";
-            this.style.transform = "scaleX(1)";
-            img2.style.transform = "scaleX(1)";
-        } else {
-            clicked = true;
-            img1.style.clipPath = "inset(0px 100% 0px 0px)";
-            // img2.style.right = "50%";
-            // img2.style.width = "100%";
-            console.log(this.style.transform);
-            
-            this.style.transform = "scaleX(0.5)";
-            img2.style.transform = "scaleX(2)";
-        }
-    });
+    //     if(clickedLeft) {
+    //         clickedLeft = false;
+    //         VconLeft.style.clipPath = "inset(0px 0px 0px 0px)";
+    //         VconRight.style.transform = "scaleX(1)";
+    //         img[1].style.width = "120%";
+    //         img[1].style.height = "120%";
+    //         img[1].style.transform = "translate(-10%, -10%)";
+    //         sizerRight.style.display = "";
+    //         PreText.style.clipPath = "inset(0px)";
+    //         AvgdataDis.style.display = "none";
+    //     } else {
+    //         clickedLeft = true;
+    //         VconLeft.style.clipPath = "inset(0px 100% 0px 0px)";
+    //         VconRight.style.transform = "scaleX(2)";
+    //         img[1].style.width = "100%";
+    //         img[1].style.height = "100%";
+    //         img[1].style.transform = "unset";
+    //         sizerRight.style.display = "none";
+    //         PreText.style.clipPath = "inset(0px 100% 0px 0px)";
+    //         setTimeout(function(){
+    //             AvgdataDis.style.display = "block";
+    //         },1000);
+    //     }
+    // });
+    
+    // sizerRight.addEventListener("click", function() {
+    //     let VconRight = document.getElementById("VconRight");
+    //     let VconLeft = document.getElementById("VconLeft");
+    //     var img = document.querySelectorAll(".Vcon > img");
+        
+    //     if(clickedRight) {
+    //         clickedRight = false;
+    //         VconRight.style.clipPath = "inset(0px 0px 0px 0px)";
+    //         VconLeft.style.transform = "scaleX(1)";
+    //         img[0].style.width = "120%";
+    //         img[0].style.height = "120%";
+    //         img[0].style.transform = "translate(-10%, -10%)";
+    //         sizerLeft.style.display = "";
+    //         PreText.style.clipPath = "inset(0px)";
+    //         AvgdataDis.style.display = "none";
+    //     } else {
+    //         clickedRight  = true;
+    //         VconRight.style.clipPath = "inset(0px 0px 0px 100%)";
+    //         VconLeft.style.transform = "scaleX(2)";
+    //         img[0].style.width = "100%";
+    //         img[0].style.height = "100%";
+    //         img[0].style.transform = "unset";
+    //         sizerLeft.style.display = "none";
+    //         PreText.style.clipPath = "inset(0px 0px 0px 100%)";
+    //         setTimeout(function(){
+    //             AvgdataDis.style.display = "block";
+    //         },1000);
+    //     }
+    // });
     
 </script>
 </body>
