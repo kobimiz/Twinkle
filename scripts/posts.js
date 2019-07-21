@@ -122,7 +122,6 @@ Post.prototype.submitComment = function(e) { // todo: fix comment & reply order 
             formData = new FormData();
         xmlhttp.onreadystatechange = Post.insertComment.bind(xmlhttp, this);
         formData.append("content", val);
-        console.log("post index:" + this.index);
         formData.append("postIndex", this.index);
         
         xmlhttp.open("POST", "templates/comment.php", true);
@@ -162,7 +161,7 @@ function PostComment(commentElement, index, owningPost) {
     this.index          = index;
     this.owningPost     = owningPost;
     this.replies        = [];
-
+    
     commentElement.querySelector(".submit"   ).addEventListener("click", this.submitReply.bind(this)           );
     commentElement.querySelector(".comreply" ).addEventListener("click", PostComment.toggleReplyForm.bind(this)); // reply button
     commentElement.querySelector(".replyform").addEventListener("click", stopPropagation                       );
@@ -265,8 +264,6 @@ PostComment.prototype.submitReply = function(e) {
             formData = new FormData();
         xmlhttp.onreadystatechange = PostComment.insertReply.bind(xmlhttp, this);
         formData.append("content", val);
-        console.log("post index" + this.owningPost.index);
-        console.log("comment index" + this.index);
         
         formData.append("commentIndex", this.index);
         formData.append("postIndex", this.owningPost.index);
@@ -323,10 +320,10 @@ Reply.prototype.delete = function(e) {
 
 
 document.getElementById("posts").addEventListener("keydown", function(e) {
-    if(e.key === "Enter" || e.target.className == "submit") {
-        var postObject = Post.posts[getChildIndex(getOwningPost(document.activeElement))];
+    if(e.key === "Enter") {
+        var postObject = getPostByIndex(getChildIndex(getOwningPost(document.activeElement)));
         if(ownedByComment(document.activeElement)) {
-            var commentObject = postObject.comments[getChildIndex(getOwningComment(document.activeElement)) - 1];
+            var commentObject = getPostCommentByIndex(postObject.index, getChildIndex(getOwningComment(document.activeElement)) - 1);
             commentObject.submitReply({target:document.activeElement});
         } else
             postObject.submitComment({target:document.activeElement});
@@ -355,7 +352,18 @@ function ownedByComment(element) { // assumes element is at least in postElemene
     }
     return false;
 }
-
+function getPostCommentByIndex(postIndex, commentIndex) {
+    var length = Post.posts[postIndex].comments.length;
+    for (var i = 0; i < length; i++)
+        if(Post.posts[postIndex].comments[i].index === commentIndex)
+            return Post.posts[postIndex].comments[i];
+}
+function getPostByIndex(postIndex) {
+    var length = Post.posts.length;
+    for (var i = 0; i < length; i++)
+        if(Post.posts[i].index === postIndex)
+            return Post.posts[i];
+}
 // consider making my own event system- one that takes advantage of multiple elements that have the same function for events (same events or consider even other)
 // todo: add video pause on leaving the screen on scroll\playing another video
 // consider rethiking bind function idea (efficiancy wise)
