@@ -28,7 +28,7 @@
                           <span class="SizerLeft"><img src="/Pickpost/Pickinlarge.png" alt="Image size" style="width:20px;height:20px;"></span>
                           <span class="SizerRight"><img src="/Pickpost/Pickinlarge.png" alt="Image size" style="width:20px;height:20px;"></span>
                     <div class="Vcon" id="VconLeft">
-                        <img src="donut.jpg" alt="posted image">
+                        <img src="s.jpeg" alt="posted image">
                     </div>
                     <div class="Vcon" id="VconRight">
                         <img src="autumn-leaves.jpg" alt="posted image">
@@ -146,60 +146,60 @@
         let VconRight = document.getElementById("VconRight");
         var img = document.querySelectorAll(".Vcon > img");
             
-    //     if(clickedLeft) {
-    //         clickedLeft = false;
-    //         VconLeft.style.clipPath = "inset(0px 0px 0px 0px)";
-    //         VconRight.style.transform = "scaleX(1)";
-    //         img[1].style.width = "120%";
-    //         img[1].style.height = "120%";
-    //         img[1].style.transform = "translate(-10%, -10%)";
-    //         sizerRight.style.display = "";
-    //         PreText.style.clipPath = "inset(0px)";
-    //         AvgdataDis.style.display = "none";
-    //     } else {
-    //         clickedLeft = true;
-    //         VconLeft.style.clipPath = "inset(0px 100% 0px 0px)";
-    //         VconRight.style.transform = "scaleX(2)";
-    //         img[1].style.width = "100%";
-    //         img[1].style.height = "100%";
-    //         img[1].style.transform = "unset";
-    //         sizerRight.style.display = "none";
-    //         PreText.style.clipPath = "inset(0px 100% 0px 0px)";
-    //         setTimeout(function(){
-    //             AvgdataDis.style.display = "block";
-    //         },1000);
-    //     }
-    // });
+        if(clickedLeft) {
+            clickedLeft = false;
+            VconLeft.style.clipPath = "inset(0px 0px 0px 0px)";
+            VconRight.style.transform = "scaleX(1)";
+            img[1].style.width = "120%";
+            img[1].style.height = "120%";
+            img[1].style.transform = "translate(-10%, -10%)";
+            sizerRight.style.display = "";
+            PreText.style.clipPath = "inset(0px)";
+            AvgdataDis.style.display = "none";
+        } else {
+            clickedLeft = true;
+            VconLeft.style.clipPath = "inset(0px 100% 0px 0px)";
+            VconRight.style.transform = "scaleX(2)";
+            img[1].style.width = "100%";
+            img[1].style.height = "100%";
+            img[1].style.transform = "unset";
+            sizerRight.style.display = "none";
+            PreText.style.clipPath = "inset(0px 100% 0px 0px)";
+            setTimeout(function(){
+                AvgdataDis.style.display = "block";
+            },1000);
+        }
+    });
     
-    // sizerRight.addEventListener("click", function() {
-    //     let VconRight = document.getElementById("VconRight");
-    //     let VconLeft = document.getElementById("VconLeft");
-    //     var img = document.querySelectorAll(".Vcon > img");
+    sizerRight.addEventListener("click", function() {
+        let VconRight = document.getElementById("VconRight");
+        let VconLeft = document.getElementById("VconLeft");
+        var img = document.querySelectorAll(".Vcon > img");
         
-    //     if(clickedRight) {
-    //         clickedRight = false;
-    //         VconRight.style.clipPath = "inset(0px 0px 0px 0px)";
-    //         VconLeft.style.transform = "scaleX(1)";
-    //         img[0].style.width = "120%";
-    //         img[0].style.height = "120%";
-    //         img[0].style.transform = "translate(-10%, -10%)";
-    //         sizerLeft.style.display = "";
-    //         PreText.style.clipPath = "inset(0px)";
-    //         AvgdataDis.style.display = "none";
-    //     } else {
-    //         clickedRight  = true;
-    //         VconRight.style.clipPath = "inset(0px 0px 0px 100%)";
-    //         VconLeft.style.transform = "scaleX(2)";
-    //         img[0].style.width = "100%";
-    //         img[0].style.height = "100%";
-    //         img[0].style.transform = "unset";
-    //         sizerLeft.style.display = "none";
-    //         PreText.style.clipPath = "inset(0px 0px 0px 100%)";
-    //         setTimeout(function(){
-    //             AvgdataDis.style.display = "block";
-    //         },1000);
-    //     }
-    // });
+        if(clickedRight) {
+            clickedRight = false;
+            VconRight.style.clipPath = "inset(0px 0px 0px 0px)";
+            VconLeft.style.transform = "scaleX(1)";
+            img[0].style.width = "120%";
+            img[0].style.height = "120%";
+            img[0].style.transform = "translate(-10%, -10%)";
+            sizerLeft.style.display = "";
+            PreText.style.clipPath = "inset(0px)";
+            AvgdataDis.style.display = "none";
+        } else {
+            clickedRight  = true;
+            VconRight.style.clipPath = "inset(0px 0px 0px 100%)";
+            VconLeft.style.transform = "scaleX(2)";
+            img[0].style.width = "100%";
+            img[0].style.height = "100%";
+            img[0].style.transform = "unset";
+            sizerLeft.style.display = "none";
+            PreText.style.clipPath = "inset(0px 0px 0px 100%)";
+            setTimeout(function(){
+                AvgdataDis.style.display = "block";
+            },1000);
+        }
+    });
     
 </script>
 </body>

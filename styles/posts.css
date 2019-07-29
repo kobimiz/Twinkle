@@ -29,6 +29,7 @@
 }
 .replies {
     display: none;
+    background:white;
 }
 .comset > span {
     color:rgb(145, 145, 145);
@@ -465,6 +466,10 @@
 }
 .commentsarea{
     width:100%;
+    margin-bottom: 10px;
+}
+.newarea { /* THIS IS A TEST */
+    background: #efefef;
     margin-bottom: 10px;
 }
 .userD{

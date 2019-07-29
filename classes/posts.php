@@ -27,7 +27,7 @@ class Post {
                             <ul>";
                         if($postingUserId === $loggedUserId)
                             echo
-                                "<li>delete</li>";
+                                "<li class='deletepost'>delete</li>";
                         else {
                             echo
                                 "<li><a href='#'>Report</a></li>
@@ -90,7 +90,7 @@ class Post {
 
                 <div class='contentData'>
                     <div class='postowner'>
-                        <img alt='User profile photo' src='".profilePic($postingUserInfo['profilePic'])."' class='ownerphoto'>
+                        <img alt='User profile photo' src='".DB::profilePic($postingUserInfo['profilePic'])."' class='ownerphoto'>
                         <a class='ownerfullname' href=profile.php?user=".$postingUserInfo['username'].">".$postingUserInfo['username']."</a>
                     </div>
 

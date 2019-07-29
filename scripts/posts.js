@@ -44,6 +44,10 @@ function Post(postElement, index) {
     postElement.querySelector(".starrate"  ).addEventListener("click", this.rate.bind(this)         );
     postElement.querySelector(".act1"      ).addEventListener("click", this.toggleComment.bind(this));
 
+    var delButton = postElement.querySelector(".deletepost");
+    if(delButton !== null)
+        delButton.addEventListener("click", this.delete.bind(this));
+
     // init comments
     var commentElements = postElement.querySelectorAll(".newarea");
     for(var i = 0; i < commentElements.length; i++) 
@@ -53,7 +57,7 @@ function Post(postElement, index) {
     if(video !== null)
         Video.videos.push(new Video(video.parentElement));
 }
-Post.activatedDeleteButton = null;
+Post.activeDeleteButton    = null;
 Post.activatedOptions      = null;
 Post.activatedCommentForm  = null;
 Post.posts                 = [];
@@ -80,23 +84,21 @@ Post.insertComment = function(post) { // an ajax callback function
         post.comments.push(new PostComment(commentSection.querySelector(".newarea"), 0, post)); // new comment is first
     }
 };
-
 Post.prototype.rate = function(e) { // todo: fix stars moving aside when total star rating number gains more digits
     if (e.target.matches("img")) {
         var starRate = getChildIndex(e.target), // since there is a span element in e.target.parentElement, its child index is equal its star rate
             siblings = e.target.parentElement.children,
             xmlhttp = new XMLHttpRequest(),
             formData = new FormData(),
-            userNum = this.postCon.querySelector(".usernum"),
-            index = this.index;
+            userNum = this.postCon.querySelector(".usernum");
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 var stats = this.responseText.split("\n");
-                document.getElementsByClassName("avgstardata")[index].textContent = stats[0];
-                document.getElementsByClassName("stars")[index].textContent = stats[1];
+                document.getElementsByClassName("avgstardata")[this.index].textContent = stats[0];
+                document.getElementsByClassName("stars")[this.index].textContent = stats[1];
             }
         }
-        formData.append("postIndex", index);
+        formData.append("postIndex", Post.posts.length - this.index - 1);
         if (siblings[starRate].src.indexOf("FilledStar.png") !== -1 && (!siblings[starRate + 1] || siblings[starRate + 1].src.indexOf("RateStar.svg") !== -1)) { // pressed again on same star - cancel
             formData.append("starRating", 0);
             for (var i = 1; i < 6; i++)
@@ -122,7 +124,7 @@ Post.prototype.submitComment = function(e) { // todo: fix comment & reply order 
             formData = new FormData();
         xmlhttp.onreadystatechange = Post.insertComment.bind(xmlhttp, this);
         formData.append("content", val);
-        formData.append("postIndex", this.index);
+        formData.append("postIndex", Post.posts.length - this.index - 1);
         
         xmlhttp.open("POST", "templates/comment.php", true);
         xmlhttp.send(formData);
@@ -155,6 +157,35 @@ Post.prototype.toggleOptions = function(e) {
         Post.activatedOptions = null;
     }
 };
+// todo: consider adding callbacks to all delete functions
+Post.prototype.delete        = function( ) {
+    var deletepost = this.postCon.querySelector(".deletepost");
+    if(deletepost.innerHTML === "delete") {
+        deletepost.innerHTML = "are you sure?";
+        Post.activeDeleteButton = deletepost;
+    }
+    else {
+        var xmlhttp = new XMLHttpRequest(),
+            formData = new FormData();
+        xmlhttp.onreadystatechange = function(){
+            if(this.readyState === 4 && this.status === 200) 
+                document.write(this.responseText);
+        };
+        formData.append("postIndex", Post.posts.length - this.index - 1);
+        
+        xmlhttp.open("POST", "templates/delete.php", true);
+        xmlhttp.send(formData);
+
+        this.postCon.remove();
+        for (var i = 0; i < Post.posts.length; i++) {
+            if(Post.posts[i].index === this.index)
+                Post.posts.splice(i--, 1);
+            else if(Post.posts[i].index > this.index)
+                Post.posts[i].index -= 1;
+        }
+        Post.activeDeleteButton = null;
+    }
+};
 
 function PostComment(commentElement, index, owningPost) {
     this.commentElement = commentElement;
@@ -178,6 +209,7 @@ function PostComment(commentElement, index, owningPost) {
     for(var i = 0; i < replyElements.length; i++)
         this.replies.push(new Reply(replyElements[i], i, this));
 }
+PostComment.activeDeleteButton = null;
 PostComment.activatedReplyForm = null;
 
 PostComment.toggleReplies = function() {
@@ -229,15 +261,15 @@ PostComment.prototype.delete = function(e) {
     var button = this.commentElement.querySelector(".comdelete");
     if(button.innerHTML === "delete") { // consider rethinking
         button.innerHTML = "are you sure?";
-        if(Post.activatedDeleteButton !== null)
-            Post.activatedDeleteButton.innerHTML = "delete";
-        Post.activatedDeleteButton = e.target;
+        if(PostComment.activeDeleteButton !== null)
+            PostComment.activeDeleteButton.innerHTML = "delete";
+        PostComment.activeDeleteButton = e.target;
         e.stopPropagation();
     }
     else {
         var xmlhttp = new XMLHttpRequest(),
             formData = new FormData();
-        formData.append("postIndex", this.owningPost.index);
+        formData.append("postIndex", Post.posts.length - this.owningPost.index);
         formData.append("commentIndex", this.index);
         
         xmlhttp.open("POST", "templates/delete.php", true);
@@ -254,7 +286,7 @@ PostComment.prototype.delete = function(e) {
         if(commentsHeader.nextElementSibling === null)
             commentsHeader.remove();
 
-        Post.activatedDeleteButton = null;
+        PostComment.activeDeleteButton = null;
     }
 };
 PostComment.prototype.submitReply = function(e) {
@@ -266,7 +298,7 @@ PostComment.prototype.submitReply = function(e) {
         formData.append("content", val);
         
         formData.append("commentIndex", this.index);
-        formData.append("postIndex", this.owningPost.index);
+        formData.append("postIndex", Post.posts.length - this.owningPost.index);
         xmlhttp.open("POST", "templates/reply.php", true);
         xmlhttp.send(formData);
     }
@@ -286,18 +318,17 @@ Reply.prototype.delete = function(e) {
     var button = e.target;
     if(button.innerHTML === "delete") { // consider rethinking
         button.innerHTML = "are you sure?";
-        if(Post.activatedDeleteButton !== null)
-            Post.activatedDeleteButton.innerHTML = "delete";
-        Post.activatedDeleteButton = e.target;
+        if(PostComment.activeDeleteButton !== null)
+            PostComment.activeDeleteButton.innerHTML = "delete";
+        PostComment.activeDeleteButton = e.target;
         e.stopPropagation();
     }
     else {
         var xmlhttp = new XMLHttpRequest(),
             formData = new FormData();
-        formData.append("postIndex", this.owningComment.owningPost.index);
+        formData.append("postIndex", Post.posts.length - this.owningComment.owningPost.index);
         formData.append("commentIndex", this.owningComment.index);
         formData.append("replyIndex", this.index);
-        
         xmlhttp.open("POST", "templates/delete.php", true);
         xmlhttp.send(formData);
 
@@ -314,7 +345,7 @@ Reply.prototype.delete = function(e) {
             replies.remove();
         }
 
-        Post.activatedDeleteButton = null;
+        PostComment.activeDeleteButton = null;
     }
 };
 
@@ -627,9 +658,13 @@ document.body.addEventListener('click', function(){
         PostComment.activatedReplyForm.style.display = "none";
         PostComment.activatedReplyForm = null;
     }
-    if(Post.activatedDeleteButton !== null) {
-        Post.activatedDeleteButton.innerHTML = "delete";
-        Post.activatedDeleteButton = null;
+    if(Post.activeDeleteButton !== null) {
+        Post.activeDeleteButton.innerHTML = "delete";
+        Post.activeDeleteButton = null;
+    }
+    if(PostComment.activeDeleteButton !== null) {
+        PostComment.activeDeleteButton.innerHTML = "delete";
+        PostComment.activeDeleteButton = null;
     }
 });
 window.addEventListener("scroll", function() {

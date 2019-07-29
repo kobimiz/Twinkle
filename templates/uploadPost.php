@@ -22,7 +22,7 @@
         if(array_search($fileType, $arr) === false)
             echo "invalid type,";
         else if($_FILES["file"]["size"] > 20000000) // file size greater than 20mb
-            echo "too big,";
+            echo "too big";
         else if(!move_uploaded_file($_FILES["file"]["tmp_name"], $target_file))
             echo "error";
         else {
@@ -32,17 +32,15 @@
                 "', '".addslashes($_POST['content']).
                 "', '".$_FILES["file"]["name"].
                 "', '0')");
-            echo "success,";
-
-            array_splice($_SESSION['posts'], 0, 0, array(new Post(DB::insertId()))); // insert a new post in the beggining
+            $post = new Post(DB::insertId());
+            array_push($_SESSION['posts'], $post);
+            $post->displayPost(DB::getLoggedUserInfo("id")["id"]);
         }
     } else if(isset($username)) // todo: handle file serving (so i can get rid of this)
         header('Location: /../homepage.php');
     else
         header('Location: /../signin.php');
 
-    $picName = DB::query("select profilePic from users where username='".$username."'")->fetch_assoc()['profilePic'];
-    echo $username.",".$_FILES["file"]["name"].",".$_POST['content'].",".(($picName === "") ? "/iconList/"."user.png":"/uploads/".$picName);
     function randomizeName() { // 10 lowercase letters/digits characters long
         $name = "";
         for ($i=0; $i < 10; $i++) {

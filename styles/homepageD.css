@@ -261,7 +261,10 @@ label[for="fileUpload"]:hover {
 }
 
 #progress {
-    display: none;
+    background: yellow;
+    visibility: hidden;
+    position: fixed;
+    top: 97%;
 }
 
 #errorMessage {

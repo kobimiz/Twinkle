@@ -33,6 +33,9 @@
 
 <body>
 <?php
+    /* NOTE: $_SESSION['post'] is ordered from earliest to latest      */
+    /* NOTE: Post.posts[item].index is ordered from latest to earliest */
+    /* consider making both ordered the same                           */
     include_once("templates/Postsview.php");
 ?>
 <header>
@@ -132,61 +135,57 @@
         </div>
     </div>
 </div>
+<?php
+    include_once("templates/sidenav.php");
+?>
 
-    <?php
-        include_once("templates/sidenav.php");
-    ?>
-
-    <main>
-        <div class="Placeholdercontainer" onclick="Postpop()">
-            <div class="Placeholderrole">
-                <div class="placeholder-img">
-                    <img src="<?php echo profilePic(DB::getLoggedUserInfo("profilePic")["profilePic"]);?>" alt="some img">
-                </div>
-                <div class="placeholder-text">
-                    <span>Express your thoughts...</span>
-                </div>
+<main>
+    <div class="Placeholdercontainer" onclick="Postpop()">
+        <div class="Placeholderrole">
+            <div class="placeholder-img">
+                <img src="<?php echo profilePic(DB::getLoggedUserInfo("profilePic")["profilePic"]);?>" alt="some img">
+            </div>
+            <div class="placeholder-text">
+                <span>Express your thoughts...</span>
             </div>
         </div>
-        <div id="posts">
-            <?php
-                // video
-                // red line orange juice
-
-                // https://stackoverflow.com/questions/1370951/what-is-phpsessid
-                // after looking at that ^^^ change all session occurances to match new cookie setup
-                // todo: tell yehuda to add new table (loginTokens) and change all tables' storage engine to innoDB & and relations
-                // todo: check w\ yehuda if a record (e.g. comment) should be deleted if parent is deleted (e.g. post)
-                // todo: add error checking (i.e. exceptions)
-                // todo: change fetch_assoc methods to queryScalar if needed through out this project
-                // todo: change authentication way (and add first & last name) to tokens, and change session variable stored about username aswell (also for security purposes)
-                // todo: fix bug crash when uploading a video (possibly by size or thumbnail)
-                // todo: add preview of uploading videos
-                // todo: tell yehuda about swapping volume icons in on\off modes
-                // todo: auto logout after a time period
-                // todo: rename all xId (id case insensitive) to xi and update in code
-                // consider changing posts table's userid to username for it is unique as well
-                // consider distinguishing between images and videos when stored
-                // consider changing post label for reply\comment forms to actualy sumbit buttons
-                // consider making a load function that makes an ajax call for a more modular approch. note: it will be in js, using ajax and load.php
-                // consider not storing totalStars for posts (benchmark?)
-                $_SESSION['posts'] = array();
-                $user->loadNextPosts(5);
-                function profilePic($picName) {
-                    return ($picName === "") ? "/iconList/"."user.png":"/uploads/".$picName;
-                }
-            ?>
-        </div>
-    </main>
-
-    <div id="progress">
-        <div id="bar">0%</div>
     </div>
-    <script src="scripts/homepage.js"></script>
-    <script src="scripts/sidenav.js"></script>
-    <script src="scripts/posts.js"></script>
-    <script src="scripts/UploadPost.js"></script>
-    <script type="text/javascript" src="scripts/Postsview.js" ></script>
+    <div id="posts">
+        <?php
+            // video
+            // red line orange juice
+
+            // https://stackoverflow.com/questions/1370951/what-is-phpsessid
+            // after looking at that ^^^ change all session occurances to match new cookie setup
+            // todo: add error checking (i.e. exceptions)
+            // todo: change fetch_assoc methods to queryScalar if needed through out this project
+            // todo: change authentication way (and add first & last name) to tokens, and change session variable stored about username aswell (also for security purposes)
+            // todo: fix bug crash when uploading a video (possibly by size or thumbnail)
+            // todo: add preview of uploading videos
+            // todo: auto logout after a time period
+            // todo: rename all xId (id case insensitive) to xi and update in code
+            // consider changing posts table's userid to username for it is unique as well
+            // consider distinguishing between images and videos when stored
+            // consider changing post label for reply\comment forms to actualy sumbit buttons
+            // consider making a load function that makes an ajax call for a more modular approch. note: it will be in js, using ajax and load.php
+            // consider not storing totalStars for posts (benchmark?)
+            $_SESSION['posts'] = array();
+            $user->loadNextPosts(5);
+            function profilePic($picName) {
+                return ($picName === "") ? "/iconList/"."user.png":"/uploads/".$picName;
+            }
+        ?>
+    </div>
+</main>
+
+<div id="progress">
+    <div id="bar">0%</div>
+</div>
+<script src="scripts/homepage.js"></script>
+<script src="scripts/sidenav.js"></script>
+<script src="scripts/posts.js"></script>
+<script src="scripts/UploadPost.js"></script>
+<script type="text/javascript" src="scripts/Postsview.js" ></script>
 </body>
 
 </html>

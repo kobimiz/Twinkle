@@ -64,6 +64,7 @@ class DB {
         return self::query("select $fields from users where id=$userid")->fetch_assoc();
     }
 
+    /* Returns the path for a profile pic with image name $picName */
     public static function profilePic($picName) {
         return ($picName === "") ? "/iconList/user.png":"/uploads/".$picName;
     }

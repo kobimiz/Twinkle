@@ -61,8 +61,8 @@ function Post(postElement, index) {
     if(video !== null)
         Video.videos.push(new Video(video.parentElement));
 }
-Post.activatedDeleteButton = null;
-Post.activatedOptions = null;
+Post.actvDltCmtBtn        = null;
+Post.activatedOptions     = null;
 Post.activatedCommentForm = null;
 Post.posts = [];
 
@@ -276,9 +276,9 @@ PostComment.prototype.delete = function(e) {
     var button = this.commentElement.querySelector(".comdelete");
     if(button.innerHTML === "delete") { // consider rethinking
         button.innerHTML = "are you sure?";
-        if(Post.activatedDeleteButton !== null)
-            Post.activatedDeleteButton.innerHTML = "delete";
-        Post.activatedDeleteButton = e.target;
+        if(Post.actvDltCmtBtn !== null)
+            Post.actvDltCmtBtn.innerHTML = "delete";
+        Post.actvDltCmtBtn = e.target;
         e.stopPropagation();
     }
     else {
@@ -301,7 +301,7 @@ PostComment.prototype.delete = function(e) {
         if(commentsHeader.nextElementSibling === null)
             commentsHeader.remove();
 
-        Post.activatedDeleteButton = null;
+        Post.actvDltCmtBtn = null;
     }
 };
 PostComment.prototype.submitReply = function(e) {
@@ -332,9 +332,9 @@ Reply.prototype.delete = function(e) {
     var button = e.target;
     if(button.innerHTML === "delete") { // consider rethinking
         button.innerHTML = "are you sure?";
-        if(Post.activatedDeleteButton !== null)
-            Post.activatedDeleteButton.innerHTML = "delete";
-        Post.activatedDeleteButton = e.target;
+        if(Post.actvDltCmtBtn !== null)
+            Post.actvDltCmtBtn.innerHTML = "delete";
+        Post.actvDltCmtBtn = e.target;
         e.stopPropagation();
     }
     else {
@@ -360,7 +360,7 @@ Reply.prototype.delete = function(e) {
             replies.remove();
         }
 
-        Post.activatedDeleteButton = null;
+        Post.actvDltCmtBtn = null;
     }
 };
 
@@ -542,7 +542,6 @@ Video.prototype.mouseMove = function (e) {
 };
 Video.prototype.toggleVolume = function(){
     if(!this.volumecheck) {
-        console.log(this.volumeoff);
         this.volumeoff.style.width = "30px";
         this.video.muted = true;
         this.volumecheck = true;
@@ -678,9 +677,9 @@ document.body.addEventListener('click', function(){
         PostComment.activatedReplyForm.style.display = "none";
         PostComment.activatedReplyForm = null;
     }
-    if(Post.activatedDeleteButton !== null) {
-        Post.activatedDeleteButton.innerHTML = "delete";
-        Post.activatedDeleteButton = null;
+    if(Post.actvDltCmtBtn !== null) {
+        Post.actvDltCmtBtn.innerHTML = "delete";
+        Post.actvDltCmtBtn = null;
     }
 });
 window.addEventListener("scroll", function() {
