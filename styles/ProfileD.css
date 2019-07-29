@@ -62,9 +62,12 @@ body{
 .linepos{
     list-style-type: none;
     text-align: center;
-    margin: 20px 20px;
+    padding: 20px 20px;
     letter-spacing: 2px;
     cursor: pointer;
+}
+.linepos:hover{
+    background-color: rgb(240, 240, 240);
 }
 .firstline-cont{
     font-size:1.5em;

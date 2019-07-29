@@ -25,8 +25,8 @@
                 </div>
 
                 <div class="ChooseCon">
-                          <span class="SizerLeft"><img src="/Pickpost/Pickinlarge.png" alt="Image size" style="width:20px;height:20px;"></span>
                           <span class="SizerRight"><img src="/Pickpost/Pickinlarge.png" alt="Image size" style="width:20px;height:20px;"></span>
+                          <span class="SizerLeft"><img src="/Pickpost/Pickinlarge.png" alt="Image size" style="width:20px;height:20px;"></span>
                     <div class="Vcon" id="VconLeft">
                         <img src="donut.jpg" alt="posted image">
                     </div>
@@ -139,12 +139,13 @@
     var sizerRight = document.querySelector(".SizerRight");
     var PreText = document.querySelector(".PreText");
     var AvgdataDis = document.querySelector(".Avgdata");
+    var choosecon = document.querySelector(".ChooseCon");
     let clickedLeft = false;
     let clickedRight = false;
-    sizerLeft.addEventListener("click", function() {
-        let VconLeft = document.getElementById("VconLeft");
-        let VconRight = document.getElementById("VconRight");
-        var img = document.querySelectorAll(".Vcon > img");
+    // sizerLeft.addEventListener("click", function() {
+    //     let VconLeft = document.getElementById("VconLeft");
+    //     let VconRight = document.getElementById("VconRight");
+    //     var img = document.querySelectorAll(".Vcon > img");
             
     //     if(clickedLeft) {
     //         clickedLeft = false;
@@ -200,6 +201,53 @@
     //         },1000);
     //     }
     // });
+
+
+        sizerLeft.addEventListener("click", function() {
+            var VconRight = document.getElementById("VconRight");
+            var VconLeft = document.getElementById("VconLeft");
+                if(clickedLeft){
+                    clickedLeft = false;
+                    VconLeft.style.width = "50%";
+                    VconRight.style.width = "50%";
+                    sizerRight.style.display = "";
+                    PreText.style.clipPath = "inset(0px)";
+                    AvgdataDis.style.display = "none";
+                    VconRight.style.border = "2px solid black";
+                }else{
+                    clickedLeft = true;
+                    VconLeft.style.width = "100%";
+                    VconRight.style.width = "0px";
+                    sizerRight.style.display = "none";
+                PreText.style.clipPath = "inset(0px 0px 0px 100%)";
+                    setTimeout(function(){
+                        AvgdataDis.style.display = "block";
+                    },1000);
+                    VconRight.style.border = "none";
+                }
+        });
+        
+        sizerRight.addEventListener("click", function() {
+            if(clickedRight){
+                clickedRight = false;
+                VconRight.style.width = "50%";
+                VconLeft.style.width = "50%";
+                sizerLeft.style.display = "";
+                PreText.style.clipPath = "inset(0px)";
+                AvgdataDis.style.display = "none";
+                VconLeft.style.border = "2px solid black";
+            }else{
+                clickedRight = true;
+                VconRight.style.width = "100%";
+                VconLeft.style.width = "0px";
+                sizerLeft.style.display = "none";
+                PreText.style.clipPath = "inset(0px 100% 0px 0px)";
+                setTimeout(function(){
+                    if(clickedRight == true) AvgdataDis.style.display = "block";
+                },1000);
+                VconLeft.style.border = "none";
+            }
+    });
     
 </script>
 </body>
