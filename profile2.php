@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="styles/ProfileM.css" media="screen and (max-width:750px)" type="text/css" />
     <link rel="stylesheet" href="styles/ProfileD.css" media="screen and (min-width:750px)" type="text/css" />
     <link rel="stylesheet" href="styles/headerD.css" media="screen and (min-width: 650px)" type="text/css">
-    <link rel="stylesheet" href="styles/headerM.css" media="screen and (max-width: 649px)" type="text/css">
+    <link rel="stylesheet" href="styles/headerM.css" media="screen and (max-width: 650px)" type="text/css">
     <link rel="stylesheet" href="styles/posts.css" type="text/css" >
     <link rel="stylesheet" href="styles/sidenav.css">
     <link rel="icon" href="/iconList/TwinkleCon.png" type="image/png">
@@ -227,9 +227,9 @@ function profilePic($picName) {
 <div class="DisplayFilt">
     <div class="square">
         <ul>
-            <li>a</li>
-            <li>b</li>
-            <li>c</li>
+            <li><img src="iconList/mixed.png" alt="mixed" style="width: 60px; height:60px;"></li>
+            <li><img src="iconList/posts.png" alt="posts"style="width: 50px; height:50px;"></li>
+            <li><img src="iconList/noteS.png" alt="notes"style="width: 50px; height:50px;"></li>
         </ul>
     </div>
 </div>

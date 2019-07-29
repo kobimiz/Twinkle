@@ -57,6 +57,9 @@ body{
     margin: 20px 20px;
     letter-spacing: 2px;
 }
+.linepos:active{
+    background-color: rgb(240, 240, 240);
+}
 .firstline-cont{
     font-size:1.5em;
 }
@@ -206,14 +209,14 @@ main{
     list-style-type: none;
     display: inline-table;
     position: inherit;
-    margin: 5px auto;
+    margin: 5px;
 }
 .postPreview{
-    width:100px;
-    height:100px;
+    width:100%;
+    height:100%;
     background-color: black;
     overflow: hidden;
-    border-radius: 10%;
+    border-radius: 5%;
     cursor: pointer;
     position: relative;
     /* margin: 5px; */
@@ -225,12 +228,13 @@ main{
     object-position: center;
 }
 .PreviewimgCon>img{
-    width: 100px;
-    height: auto;
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
 }
 .bc-cover{
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    height: 100%;
     z-index: 10;
     position: absolute;
     top: 0;
