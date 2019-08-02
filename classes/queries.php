@@ -45,10 +45,10 @@ class DB {
                 $userid = $res->fetch_array()[0];
                 if(!isset($_COOKIE['SNID_'])) { // it has been 3 to 7 days since user logged in
                     $token = bin2hex(openssl_random_pseudo_bytes(64, $cstrong));
-                    DB::query("insert into loginTokens (token, userid) values ('".sha1($token)."', ".$userid.")");
-                    DB::query("delete from loginTokens where token='".sha1($_COOKIE['SNID'])."'");
                     setcookie("SNID", $token, time() + 60 * 60 * 24 * 7, '/', NULL, NULL,  TRUE);
                     setcookie("SNID_", '1', time() + 60 * 60 * 24 * 3, '/', NULL, NULL,  TRUE);
+                    DB::query("insert into loginTokens (token, userid) values ('".sha1($token)."', ".$userid.")");
+                    DB::query("delete from loginTokens where token='".sha1($_COOKIE['SNID'])."'");
                 }
                 if(self::queryScalar("select count(*) from loginTokens where userid=".$userid) > 5) // max 5 devices allowed logged in at any given time
                     DB::query("delete from loginTokens where userid=".$userid." limit 1"); // logout of 1 device
