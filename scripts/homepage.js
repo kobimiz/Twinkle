@@ -97,6 +97,7 @@ fileInput.addEventListener("change", function (e) { // todo: add remove file upl
         var fileExtension = this.files[0].name.split('.').pop().toLowerCase();
         if (acceptetFileTypes.indexOf(fileExtension) !== -1) {
             errorMessage.style.visibility = "hidden";
+            document.querySelector(".imageshow").style.display = "block";
             closeImg.style.display = 'inline';
             filePreview.style.display = "inline";
             reader.readAsDataURL(this.files[0]);
@@ -238,4 +239,5 @@ document.querySelector('#closeImg').addEventListener("click", function() {
     closeImg.style.display = 'none';
     fileInput.value = "";
     filePreview.style.display = "none";
+    document.querySelector(".imageshow").style.display = "none";
 });
