@@ -34,39 +34,41 @@ reader.onprogress = function(e) {
         bar.textContent = percentage+'%';
     }
 };
-window.addEventListener("scroll", function(){
-    var currentYScroll = window.pageYOffset;
-
-    if(prevYScroll < currentYScroll){
-        document.getElementById("navi").style.padding = "5px 40px";
-        document.getElementById("filtering").style.top = "45px";
-        document.getElementById("navi").style.height = "45px";
-        document.querySelector(".usericon").style.visibility = "hidden";
-        document.querySelector(".usericon").style.opacity = "0";
-        document.querySelector(".notifi").style.visibility = "hidden";
-        document.querySelector(".notifi").style.opacity = "0";
-        document.querySelector(".navnote").style.visibility = "hidden";
-        document.querySelector(".navnote").style.opacity = "0";
-        document.querySelector("#sidenavbutton").style.fontSize = "27px";
-        document.querySelector(".Logofont").style.display = "none";
-        document.querySelector(".imgfont").style.marginRight = "110px";
-    }else{
-        document.getElementById("navi").style.padding = "10px 40px";
-        document.getElementById("filtering").style.top = "60px";
-        document.getElementById("navi").style.height = "60px";
-        document.querySelector(".usericon").style.visibility = "visible";
-        document.querySelector(".usericon").style.opacity = "1";
-        document.querySelector(".notifi").style.visibility = "visible";
-        document.querySelector(".notifi").style.opacity = "1";
-        document.querySelector(".navnote").style.visibility = "visible";
-        document.querySelector(".navnote").style.opacity = "1";
-        document.querySelector("#sidenavbutton").style.fontSize = "30px";
-        document.querySelector(".Logofont").style.display = "";
-        document.querySelector(".imgfont").style.marginRight = "0";
-    }
-
-    prevYScroll = currentYScroll;
-});
+if(window.innerWidth >= 651){
+    window.addEventListener("scroll", function(){
+        var currentYScroll = window.pageYOffset;
+    
+        if(prevYScroll < currentYScroll){
+            document.getElementById("navi").style.padding = "5px 40px";
+            document.getElementById("filtering").style.top = "45px";
+            document.getElementById("navi").style.height = "45px";
+            document.querySelector(".usericon").style.visibility = "hidden";
+            document.querySelector(".usericon").style.opacity = "0";
+            document.querySelector(".notifi").style.visibility = "hidden";
+            document.querySelector(".notifi").style.opacity = "0";
+            document.querySelector(".navnote").style.visibility = "hidden";
+            document.querySelector(".navnote").style.opacity = "0";
+            document.querySelector("#sidenavbutton").style.fontSize = "27px";
+            document.querySelector(".Logofont").style.display = "none";
+            document.querySelector(".imgfont").style.marginRight = "110px";
+        }else{
+            document.getElementById("navi").style.padding = "10px 40px";
+            document.getElementById("filtering").style.top = "60px";
+            document.getElementById("navi").style.height = "60px";
+            document.querySelector(".usericon").style.visibility = "visible";
+            document.querySelector(".usericon").style.opacity = "1";
+            document.querySelector(".notifi").style.visibility = "visible";
+            document.querySelector(".notifi").style.opacity = "1";
+            document.querySelector(".navnote").style.visibility = "visible";
+            document.querySelector(".navnote").style.opacity = "1";
+            document.querySelector("#sidenavbutton").style.fontSize = "30px";
+            document.querySelector(".Logofont").style.display = "";
+            document.querySelector(".imgfont").style.marginRight = "0";
+        }
+    
+        prevYScroll = currentYScroll;
+    });
+}
 
 searchIcon.addEventListener("touchstart", function(){
     // var Inplength = window.innerWidth - searchIcon.width - sidenavbutton.clientWidth + "px";
@@ -97,6 +99,7 @@ fileInput.addEventListener("change", function (e) { // todo: add remove file upl
         var fileExtension = this.files[0].name.split('.').pop().toLowerCase();
         if (acceptetFileTypes.indexOf(fileExtension) !== -1) {
             errorMessage.style.visibility = "hidden";
+            document.querySelector(".imageshow").style.display = "block";
             closeImg.style.display = 'inline';
             filePreview.style.display = "inline";
             reader.readAsDataURL(this.files[0]);
@@ -238,4 +241,5 @@ document.querySelector('#closeImg').addEventListener("click", function() {
     closeImg.style.display = 'none';
     fileInput.value = "";
     filePreview.style.display = "none";
+    document.querySelector(".imageshow").style.display = "none";
 });

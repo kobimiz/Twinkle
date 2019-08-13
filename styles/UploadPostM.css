@@ -133,6 +133,7 @@ body{
     font-size: 18px;
 }
 .imageshow{
+    display: none;
     position: relative;
     width: 30%;
     outline: none;
@@ -140,8 +141,8 @@ body{
     padding: 10px;
 }
 .imagecon{
-    width: 150px;
-    height: 150px;
+    width: 250px;
+    height: 250px;
     margin: 0;
     padding: 0;
 }
@@ -294,6 +295,8 @@ body{
     user-select: none;
 }
 .declareBtn{
+    position: fixed;
+    bottom: 0;
     color: white;
     margin:0;
     font-weight: 550;

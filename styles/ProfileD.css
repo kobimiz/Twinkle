@@ -4,7 +4,7 @@ body{
     margin-top:70px;
     padding:0;
     background-color:rgb(236, 236, 236);
-    overflow: scroll;
+    overflow: auto;
 }
 .Tc-info{
     display:grid;
@@ -128,6 +128,7 @@ body{
     background: white;
     width: 130px;
     height: 130px;
+    cursor: pointer;
     border-top: 1px solid rgb(201, 201, 201);
     border-left: 1px solid rgb(201, 201, 201);
     border-right: 1px solid rgb(201, 201, 201);
@@ -151,10 +152,22 @@ body{
     border-radius: 20%;
     margin: 5px auto;
 }
+#Userpp{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    cursor: pointer;
+    opacity: 0;
+}
 .message-button{
     float: right;
     margin: auto 0;
-    padding: 10px;
+    padding: 15px 10px;
     border-radius: 50%;
     overflow: hidden;
     vertical-align: middle;

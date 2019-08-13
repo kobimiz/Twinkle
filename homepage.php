@@ -18,14 +18,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
+    <meta name="theme-color" content="#001942">
     <link rel="stylesheet" media="screen and (min-width: 650px)" href="styles/homepageD.css">
     <link rel="stylesheet" media="screen and (max-width: 650px)" href="styles/homepageM.css">
     <link rel="stylesheet" href="styles/sidenav.css" type="text/css">
     <link rel="stylesheet" href="styles/UploadPostD.css" media="screen and (min-width: 600px)" type="text/css">
     <link rel="stylesheet" href="styles/UploadPostm.css" media="screen and (max-width: 600px)" type="text/css">
     <link rel="stylesheet" href="styles/posts.css" type="text/css" >
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
     <link rel="icon" href="/iconList/TwinkleCon.png" type="image/png">
     <link rel="stylesheet" href="styles/Postsview.css" type="text/css"/>
     <title>Home page Twinkle</title>
@@ -42,7 +41,7 @@
     <nav id="navi">
         <ul>
         <span id="sidenavbutton" onclick="openNav()">&#9776;</span>
-            <li class="computer"><a href="#"><img alt="searchIcon" src="/iconList/searchWhite.png" class="searchIcon"></a></li>
+            <li class="computer"><a><img alt="searchIcon" src="/iconList/searchWhite.png" class="searchIcon"></a></li>
             <li class="displayDis iconset"><a href="#"><img alt="user" src="/iconList/userwhite.png" class="usericon"></a></li>
             <li class="displayDis iconset"><a href="#"><img alt="notifications" src="/iconList/FilledStar.png" class="notifi"></a></li>
             <li class="displayDis iconset"><a href="#"><img alt="note" src="/iconList/notewhite.png" class="navnote"></a></li>

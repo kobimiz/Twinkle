@@ -1,4 +1,9 @@
+html, body{
+    overflow: auto;
+}
 body{
+    min-height: 100%;
+    margin: 0;
     padding:0;
     overflow: hidden;
     background-color: #f5f5f8;
@@ -37,7 +42,6 @@ body{
 /* Note: organize different devices' media queries */
 #loginsec{
     margin: 20px auto;
-    height: 27em;
     display: block;
     align-items: center;
     background-color: white;
@@ -52,25 +56,23 @@ body{
 #passwordContainer #password {
     border:none;
 }
-@media only screen and (min-width: 768px) {
-    #logo {
-        right: 20%;
-    }
-    #loginsec {
-        width: 40em;
-    }
-    #loginsec>form{
-        width: 60%;
-    }
+.topcolor{
+    width: 100%;
+    background-color: #001942;
+    overflow: hidden;
 }
-#loginsec>#intro{
+#intro{
+    display: inline-block;
     text-align: left;
     font-size: 40px;
     color: white;
     font-weight: 600;
-    background-color: #001942;
     margin:0;
     padding: 10px;
+}
+.TwinkleL{
+    float:right;
+    display:none;
 }
 #loginsec>form{
     padding-top: 10px;
@@ -223,4 +225,38 @@ body{
     top: 38%;
     left: 60%;
     display:none;
+}
+.error{
+    color: red;
+}
+@media only screen and (min-width: 768px) {
+    #logo {
+        right: 20%;
+    }
+    #loginsec {
+        width: 40em;
+    }
+    #loginsec>form{
+        width: 60%;
+    }
+}
+@media only screen and (max-width:600px){
+    body{
+        background-color: white
+    }
+    #logo{
+        display:none;
+    }
+    .TwinkleL{
+        display: block;
+    }
+    #loginsec{
+        margin: 0;
+    }
+    #loginsec{
+        border-radius: 0;
+    }
+    #loginsec>form{
+        margin: 10% auto;
+    }
 }

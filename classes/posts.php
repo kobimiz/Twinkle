@@ -19,7 +19,7 @@ class Post {
         "<div class='postcon'>
             <div class='contentcon'>  
                 <div class='topdata'>
-                    <span class='fas fa-star avgstar'></span>
+                    <span class='avgstar'><img src='iconList/FilledStar.png' alt='Star' style='width:30px; height:30px;'></span>
                     <span class='avgstardata'>".round(DB::queryScalar("select avg(stars) from postsstars where postID = ".$this->id), 1)."</span>
                     <span class='optionicon'><img alt='options' src='/iconList/ArrowDown.png' style='width:22px; height:15px;' class='more'></span>
                     <div class='topoptions'>
@@ -91,7 +91,7 @@ class Post {
                 <div class='contentData'>
                     <div class='postowner'>
                         <img alt='User profile photo' src='".DB::profilePic($postingUserInfo['profilePic'])."' class='ownerphoto'>
-                        <a class='ownerfullname' href=profile.php?user=".$postingUserInfo['username'].">".$postingUserInfo['username']."</a>
+                        <a class='ownerfullname' href=profile2.php?user=".$postingUserInfo['username'].">".$postingUserInfo['username']."</a>
                     </div>
 
                     <div class='date'>".$post['date']."</div>

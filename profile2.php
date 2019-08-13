@@ -87,6 +87,7 @@ include_once("templates/sidenav.php");
         </div>
         <div class="profilepic">
             <div>
+                <input type="file" name="profilepic" id ="Userpp">
                 <img src="iconList/image.jpg" alt="Profile" style="width:100%; height:auto;">
             </div>
         </div>
