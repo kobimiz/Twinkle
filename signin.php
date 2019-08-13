@@ -22,7 +22,7 @@
                 }
                 header("Location: homepage.php");
             } else
-                $loginErr = "Invalid username and password combination";
+                $loginErr = "Incorrect username or password";
         }
     }
 ?>
@@ -33,11 +33,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="theme-color" content="#001942">
     <link rel="icon" href="/iconList/TwinkleCon.png" type="image/png">
     <link rel="stylesheet" href="styles/signin.css" type="text/css">
     <link rel="stylesheet" href="styles/general.css" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
-
     <title>Sign in to Twinkle</title>
 </head>
 
@@ -45,7 +45,10 @@
     <div id="logo"><img src="/iconList/TwinkleR.png" style="width:65px; height:65px;" alt="Twinkle logo" class="Tlogo" > winkle</div>
 
     <section id="loginsec">
-        <h1 id="intro">Sign in</h1>
+        <div class="topcolor">
+            <h1 id="intro">Sign in</h1>
+            <img src="/iconList/TwinkleR.png" style="width: 65px; height: 65px;" alt="Twinkle logo" class="TwinkleL">
+        </div>
         <form method='post' name='login'>
             <label for='username'>Username</label><br>
             <input name='username' id='username' type='text' placeholder='Username' required autocomplete='off' maxlength='30'><br>
@@ -58,6 +61,11 @@
                 <input type='checkbox' id='remember'> <span>Remember me</span>
                 <span id='checkin'></span>
             </label>
+            <?php
+            if($loginErr != ''){
+                echo "<span class='error'>$loginErr</span><br/>"; 
+            }
+                ?>
             <input name='login' type='submit' value='Login' id='login'><br>
             <div id='resetpass'>
                 <a href='#'>Forgot password?</a>
@@ -66,7 +74,6 @@
                 <a href='signup.php'>Sign up</a>
             </div>
             <br />
-            <?php echo "<span class='error'>$loginErr</span><br/>"; ?>
         </form>
     </section>
     <script src="scripts/signin.js"></script>

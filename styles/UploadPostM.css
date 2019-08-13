@@ -295,7 +295,7 @@ body{
     user-select: none;
 }
 .declareBtn{
-    position: absolute;
+    position: fixed;
     bottom: 0;
     color: white;
     margin:0;

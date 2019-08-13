@@ -8,7 +8,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="theme-color" content="#001942" >
     <link rel="icon" href="/iconList/TwinkleCon.png" type="image/png">
     <link rel="stylesheet" href="styles/signup.css" type="text/css">
 
@@ -21,10 +22,13 @@
     </div>
 
     <div class="contain">
-		<h1 id="signintro">Sign up</h1>
+		<div class="topcolor">
+			<h1 id="signintro">Sign up</h1>
+			<img src="/iconList/TwinkleR.png" style="width: 65px; height: 65px;" alt="Twinkle logo" class="TwinkleL">
+		</div>
 		<?php
 			$username = $password = $email = $firstname = $lastname = "";
-			$usernameErr = $passwordErr = $emailErr = $firstnameErr = $lastnameErr = "";
+			$usernameErr = $passwordErr = $emailErr = $firstnameErr = $lastnameErr = $flnameErr = "";
 			function testInput($input) {
 				$input = trim($input);
 				$input = stripslashes($input);
@@ -33,77 +37,97 @@
 			}
 			if($_SERVER["REQUEST_METHOD"] == "POST") {
 				if(empty($_POST['username']))
-					$usernameErr = "Please fill in a username";
+					$usernameErr = "<span class='error'>Please fill in a username</span>";
 				else {
 					$username = htmlspecialchars($_POST['username']);
 					if(!preg_match("/^[a-zA-Z0-9]*$/",$username))
-						$usernameErr = "Only letters and numbers allowed";
+						$usernameErr = "<span class='error'>Only letters and numbers allowed</span>";
 					elseif(strlen($username) < 4 || strlen($username) >= 25)
-						$usernameErr = "Username must be between 4-25 characters";
+						$usernameErr = "<span class='error'>Username must be between 4-25 characters</span>";
 					elseif(DB::query("SELECT * FROM `users` WHERE `username` = '$username'")->num_rows == 1)
-							$usernameErr = "Username already taken";
+							$usernameErr = "<span class='error'>Username already taken</span>";
 				}
 				if(empty($_POST['password']))
-					$passwordErr = "Please fill in a password";
+					$passwordErr = "<span class='error'>Please fill in a password</span>";
 				else {
 					$password = htmlspecialchars($_POST['password']);
 					if(!preg_match("/^[a-zA-Z0-9]*$/",$password))
-						$passwordErr = "Only letters and numbers allowed";
+						$passwordErr = "<span class='error'>Only letters and numbers allowed</span>";
 					elseif(strlen($password) < 6 || strlen($password) >= 25)
-						$passwordErr = "Password must be between 6-25 characters";
+						$passwordErr = "<span class='error'>Password must be between 6-25 characters</span>";
 				}
 				if(empty($_POST['email']))
-					$emailErr = "Please fill in an email address";
+					$emailErr = "<span class='error'>Please fill in an email address</span>";
 				else {
 					$email = testInput($_POST['email']);
 					if(!filter_var($email, FILTER_VALIDATE_EMAIL))
-						$emailErr = "Please enter a valid email address";
+						$emailErr = "<span class='error'>Please enter a valid email address</span>";
 					elseif(strlen($email) >= 40)
-						$passwordErr = "Email mustn't be over 40 characters";
+						$passwordErr = "<span class='error'>Email mustn't be over 40 characters</span>";
 					elseif(DB::query("SELECT * FROM `users` WHERE `email` = '$email'")->num_rows == 1)
-							$emailErr = "Email is already in use";
+							$emailErr = "<span class='error'>Email is already in use</span>";
 				}
 				if(empty($_POST['fname']))
-					$firstnameErr = "Please fill in a first name.";
-				else 
+					$flnameErr = "<span class='error'>Please fill in your full name</span>";
+				else{
 					$firstname = htmlspecialchars($_POST['fname']);
+					if(!preg_match("/(^[a-zA-Z]+$|^[א-ת]+$)/",$firstname))
+						$flnameErr = "<span class='error'>First or last name must contain only letters</span>";
+					elseif(strlen($firstname) >= 25)
+						$flnameErr = "<span class='error'>First or last name cannot contain more than 25 characters</span>";
+				}
 				if(empty($_POST['lname']))
-					$lastnameErr = "Please fill in a last name.";
-				else
+					$flnameErr = "<span class='error'>Please fill in your full name</span>";
+				else{
 					$lastname = htmlspecialchars($_POST['lname']);
+					if(!preg_match("/(^[a-zA-Z]+$|^[א-ת]+$)/",$lastname))
+					$flnameErr = "<span class='error'>First or last name must contain only letters</span>";
+				elseif(strlen($lastname) >= 25)
+					$flnameErr = "<span class='error'>First or last name cannot contain more than 25 characters</span>";
+				}
 			}
 			if($usernameErr == "" && $passwordErr == "" && $emailErr == "" && $firstnameErr == "" && $lastnameErr == "" && $_SERVER["REQUEST_METHOD"] == "POST") {
 				DB::query("INSERT INTO `users`(`username`, `password`, `firstname`, `lastname`, `email`, `creationDate`, profilePic) VALUES
 				('$username', '".password_hash($password, PASSWORD_DEFAULT)."', '$firstname', '$lastname', '$email', '".date("Y-m-d")."', '')");
-				echo "<div id='messege'>
-						<b>Registered successfully! $firstname $lastname</b><br/>
-						<span class='details'>Email: $email</span><br/>
-						<span class='details'>Username: $username</span><br/>
-						<span class='details'>Password: $password</span><br/>
-						<a href='signin.php'>Sign in</a>
-						</div>";
+				echo "<div id='message'>
+						<ul>
+						<li>
+							<span>Registered successfully! &#10003;</span>
+						</li>
+						<li>
+							<a href='signin.php'>Login</a>
+						</li>
+						</ul>
+					</div>";
 			} else {
 				echo "<form method='POST' name='register' action='signup.php'>
 					<label for='email'>Email</label><br/>
-					<span class='error'>$emailErr</span><br/>
-					<input name='email' type='email' id='email' placeholder='Email..' autocomplete='off' required maxlength='60'><br />
+					$emailErr
+					<input name='email' type='email' id='email' placeholder='Email..' autocomplete='off' required maxlength='60' value='$email'><br />
 					<label for='choosename'>Username</label><br/>
-					<span class='error'>$usernameErr</span><br/>
+					$usernameErr
 					<div class='inputContainer'>
-					<input name='username' id='choosename' type='text' placeholder='Username' required autocomplete='off' maxlength='45' onkeyup='change()'><br>
+					<input name='username' id='choosename' type='text' placeholder='Username...' required autocomplete='off' maxlength='45' onkeyup='change()' value='$username'><br>
 					<div id='count'> <span id='letternum'></span><span>/25</span></div></div><br />
-					<label for='fname'>First name</label> <label for='lname'>Last name</label>
-					<input name='fname' id='fname' type='text' placeholder='First name...' required autocomplete='off' maxlength='45'>
-					<span class='error'>$firstnameErr</span><br/>
-					<input name='lname' id='lname' type='text' placeholder='Last name...' required autocomplete='off' maxlength='45'>
-					<span class='error'>$lastnameErr</span><br/>
+					<div class='labelcon'>
+						<div class='firstncon'>
+						<label for='fname'>First name</label><br/>
+						<input name='fname' id='fname' type='text' placeholder='First name...' required autocomplete='off' maxlength='45' value='$firstname'>
+						</div>
+						<div>
+						<label for='lname'>Last name</label><br/>
+						<input name='lname' id='lname' type='text' placeholder='Last name...' required autocomplete='off' maxlength='45' value='$lastname'>
+						</div>	
+					</div>
+					$flnameErr
 					<label for='choosepass'>Password</label><br/>
-					<span class='error'>$passwordErr</span><br/>
+					$passwordErr
 					<div class='inputContainer'>
-					<input name='password' id='choosepass' type='password' placeholder='Password' required onkeyup='WshowPass()' maxlength='25'>
+					<input name='password' id='choosepass' type='password' placeholder='Password' required onkeyup='WshowPass()' maxlength='25' value='$password'>
 					<img src='iconList/eye-solid.svg' id='Wshowpass' onclick='Wchangepass()'></div>
 					<input type='submit' name='register' value='Sign up' id='register'>
-					<a href='/signin.php' class='login'>Log in</a>
+					<a href='/signin.php' class='login'>Login</a>
+					<br/>
 					</form>";
 			}
 		?>

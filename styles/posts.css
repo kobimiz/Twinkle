@@ -315,10 +315,9 @@
     line-height: 40px;
 }
 .topdata>.avgstar{
-    color:#f2b01e;
-    font-size:28px;
-    padding:5px 10px 5px 30px;
     -webkit-user-drag:none;
+    margin: 5px 0 0 15px;
+    display: inline-block;
 }
 .topdata>.avgstardata{
     font-size:25px;
@@ -470,8 +469,8 @@
     width:100%;
     margin-bottom: 10px;
 }
-.newarea { /* THIS IS A TEST */
-    background: #efefef;
+.newarea {
+    /* background: #efefef; */
     margin-bottom: 10px;
 }
 .userD{
@@ -506,12 +505,17 @@
 }
 input[name="typecom"]{
     outline:none;
-    border: 0.5px solid black;
-    border-radius: 6px;
+    border: none;
+    border-bottom: 2px solid #3939ff;
+    border-radius: 6px 6px 0 0;
     padding:10px 15px;
     margin: 9px 0 9px 14px;
     width:80%;
     font-size: 18px;
+    background-color: rgb(248, 248, 248);
+}
+input[name="typecom"]:focus{
+    background-color: rgb(249, 249, 249);
 }
 .submit{
     outline: none;
@@ -519,13 +523,13 @@ input[name="typecom"]{
     vertical-align: middle;
     cursor: pointer;
     padding: 5px;
-    border-radius: 20%;
+    /* border-radius: 20%; */
     border: 0px;
-    background: white;
+    box-sizing: border-box;
+    background: unset;
 }
 .submit:hover{
     color:rgb(34, 140, 238);
-    background-color: rgb(236, 236, 236);
 }
 .replyform{
     margin-left:5px;
@@ -533,12 +537,17 @@ input[name="typecom"]{
 }
 input[name="typerep"]{
     outline:none;
-    border: 0.5px solid black;
-    border-radius: 6px;
+    border: none;
+    border-bottom: 2px solid #3939ff;
+    border-radius: 6px 6px 0 0;
     padding:5px 15px;
     margin: 1% 0;
     width:60%;
     font-size: 18px;
+    background-color: rgb(248, 248, 248);
+}
+input[name="typerep"]:focus{
+    background-color: rgb(249, 249, 249);
 }
 .replydiv{
     padding:5px 5px 5px 35px;

@@ -1,7 +1,8 @@
 body{
     margin:0;
     padding:0;
-    padding-bottom: 60px;
+    padding-top: 40px !important;
+    padding-bottom: 60px !important;
     font-family: Arial, Helvetica, sans-serif;
 }
 header{
@@ -101,4 +102,49 @@ header{
     #sidenavbutton{
         padding: 0 10px;
     }
+}
+#filtering{
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+    width: 100%;
+    height:40px;
+    border-bottom: 1px solid rgb(226, 226, 226);
+    transition: 0.35s;
+}
+#filtering>ul{
+    display: flex;
+    margin: 0;
+    padding: 0;
+    margin: auto;
+}
+#filtering>ul>li{
+    list-style-type: none;
+    height:100%;
+    line-height: 40px;
+}
+#filtering>ul>li>a{
+    text-decoration: none;
+    color: black;
+    font-size:20px;
+    display: block;
+    padding: 0 25px;
+    letter-spacing: 2px;
+    border-right:1px solid rgb(226, 226, 226);
+    transition: 0.3s;
+}
+#filtering>ul>li>a:active{
+    background-color: rgb(226, 226, 226);
+}
+.bord{
+    transition: all 0.4s;
+    border-bottom: 3px solid #001942;
+    position: fixed;
+    top:0;
+    left:0;
+    display: block;
+    box-sizing: border-box;
+    pointer-events: none;
 }
