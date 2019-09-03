@@ -127,10 +127,10 @@ Post.prototype.rate = function(e) { // todo: fix stars moving aside when total s
             }
         }
         formData.append("postIndex", index);
-        if (siblings[starRate].src.indexOf("FilledStar.png") !== -1 && (!siblings[starRate + 1] || siblings[starRate + 1].src.indexOf("RateStar.svg") !== -1)) { // pressed again on same star - cancel
+        if (siblings[starRate].src.indexOf("FilledStar.png") !== -1 && (!siblings[starRate + 1] || siblings[starRate + 1].src.indexOf("Star.png") !== -1)) { // pressed again on same star - cancel
             formData.append("starRating", 0);
             for (var i = 1; i < 6; i++)
-                siblings[i].src = "/iconList/RateStar.svg";
+                siblings[i].src = "/iconList/Star.png";
             userNum.innerHTML = parseInt(userNum.innerHTML) - 1;
         } else {
             if(siblings[1].src.indexOf("FilledStar.png") === -1) // not clicked on before
@@ -138,7 +138,7 @@ Post.prototype.rate = function(e) { // todo: fix stars moving aside when total s
             for (var i = 1; i <= starRate; i++)
                 siblings[i].src = "/iconList/FilledStar.png";
             for (var i = starRate + 1; i < 6; i++)
-                siblings[i].src = "/iconList/RateStar.svg";
+                siblings[i].src = "/iconList/Star.png";
             formData.append("starRating", starRate);
         }
         xmlhttp.open("POST", "templates/rate.php", true);
