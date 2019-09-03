@@ -79,7 +79,7 @@ class Post {
                         for ($i=0; $i < $stars; $i++)
                             echo "<img alt='star' src='/iconList/FilledStar.png' class='star'>";
                         for ($i=$stars; $i < 5; $i++)
-                            echo "<img alt='star' src='/iconList/RateStar.svg' class='star'>";
+                            echo "<img alt='star' src='/iconList/Star.png' class='star'>";
                     echo
                     "</div>
                     <div class='Avgdata'>

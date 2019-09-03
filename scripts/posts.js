@@ -3,6 +3,34 @@
 // todo: move post upload to here
 // Function.prototype.bind function polyfil. todo: test on old browsers
 // todo: add option to post a post via enter. consider making a global event listener for enter click
+
+//this is a test
+var mobcheck;
+
+// function detectmob() { 
+//     if( navigator.userAgent.match(/Android/i)
+//     || navigator.userAgent.match(/webOS/i)
+//     || navigator.userAgent.match(/iPhone/i)
+//     || navigator.userAgent.match(/iPad/i)
+//     || navigator.userAgent.match(/iPod/i)
+//     || navigator.userAgent.match(/BlackBerry/i)
+//     || navigator.userAgent.match(/Windows Phone/i)
+//     ){
+//         mobcheck = true;
+//     }
+//     else {
+//         mobcheck = false;
+//     }
+// }
+var isMobile = /iPhone|iPad|iPod|Android|BlackBerry|Windows Phone/i.test(navigator.userAgent);
+if (isMobile) {
+      mobcheck = true;
+} else {
+    mobcheck = false;
+}
+
+//this is a test
+
 if (!Function.prototype.bind) {
     Function.prototype.bind = function (context /* ...args */) {
       var fn = this;
@@ -100,10 +128,10 @@ Post.prototype.rate = function(e) { // todo: fix stars moving aside when total s
             }
         }
         formData.append("postIndex", Post.posts.length - this.index - 1);
-        if (siblings[starRate].src.indexOf("FilledStar.png") !== -1 && (!siblings[starRate + 1] || siblings[starRate + 1].src.indexOf("RateStar.svg") !== -1)) { // pressed again on same star - cancel
+        if (siblings[starRate].src.indexOf("FilledStar.png") !== -1 && (!siblings[starRate + 1] || siblings[starRate + 1].src.indexOf("Star.png") !== -1)) { // pressed again on same star - cancel
             formData.append("starRating", 0);
             for (var i = 1; i < 6; i++)
-                siblings[i].src = "/iconList/RateStar.svg";
+                siblings[i].src = "/iconList/Star.png";
             userNum.innerHTML = parseInt(userNum.innerHTML) - 1;
         } else {
             if(siblings[1].src.indexOf("FilledStar.png") === -1) // not clicked on before
@@ -111,7 +139,7 @@ Post.prototype.rate = function(e) { // todo: fix stars moving aside when total s
             for (var i = 1; i <= starRate; i++)
                 siblings[i].src = "/iconList/FilledStar.png";
             for (var i = starRate + 1; i < 6; i++)
-                siblings[i].src = "/iconList/RateStar.svg";
+                siblings[i].src = "/iconList/Star.png";
             formData.append("starRating", starRate);
         }
         xmlhttp.open("POST", "templates/rate.php", true);
@@ -421,7 +449,7 @@ function Video(vConElement) {
     this.scrolLeft;
     this.pausedBeforeJump = true;
     // consider making a variable for bound functions for efficiency
-    this.video.addEventListener("click", this.togglePlay.bind(this));
+    this.video.addEventListener("click", this.togglePlayMbl.bind(this));
     this.video.addEventListener("timeupdate", this.timeUpdate.bind(this));
     this.video.addEventListener("mousemove", this.manageBars.bind(this));
     this.video.addEventListener("mouseleave", this.hideBars.bind(this));
@@ -436,7 +464,7 @@ function Video(vConElement) {
     this.videoJump.addEventListener("mouseleave", this.raiseMouse.bind(this));
     this.videoJump.addEventListener("mousedown", this.mouseDown.bind(this));
     this.videoJump.addEventListener("mouseup", this.mouseUp.bind(this));
-    this.btn.addEventListener("click", this.togglePlay.bind(this));
+    this.btn.addEventListener("click", this.togglePlayBtn.bind(this));
     this.volume.addEventListener("click", this.toggleVolume.bind(this));
     vConElement.querySelector(".right").addEventListener("click", this.forward.bind(this));
     vConElement.querySelector(".left").addEventListener("click", this.backward.bind(this));
@@ -446,24 +474,97 @@ function Video(vConElement) {
     this.fullscreenicon.addEventListener("click", this.toggleFullScreen.bind(this));
     this.Vcon = vConElement;
     this.video.addEventListener("dblclick", this.clickFullScreen.bind(this));
+    this.playanime.addEventListener("click", this.HitStartVideo.bind(this));
+    this.pauseanime.addEventListener("click", this.HitStartVideo.bind(this));
     //this is a test
 }
 Video.videos = [];
-Video.prototype.togglePlay = function() {
+Video.prototype.togglePlayBtn = function() {
     if (this.video.paused) {
         this.btn.classList.add("pause");
         this.btn.classList.remove("play");
         this.video.play();
-        this.playanime.classList.add("playanimeadd");
-        setTimeout(this.removePlayAnimeAdd.bind(this), 1000); // ...
+        if(mobcheck){
+            this.playanime.style.visibility = "hidden";
+            this.playanime.style.opacity = "0";
+            this.pauseanime.style.visibility = "visible";
+            this.pauseanime.style.opacity = "1";
+        }else{
+            this.playanime.classList.add("playanimeadd");
+            setTimeout(this.removePlayAnimeAdd.bind(this), 1000); // ...
+        }
     } else {
         this.btn.classList.add("play");
         this.btn.classList.remove("pause");
         this.video.pause();
-        this.pauseanime.classList.add("pauseanimeadd");
-        setTimeout(this.removePauseAnimeAdd.bind(this), 1000); // ...
+        if(mobcheck){
+            this.playanime.style.visibility = "visible";
+            this.playanime.style.opacity = "1";
+            this.pauseanime.style.visibility = "hidden";
+            this.pauseanime.style.opacity = "0";
+        }else{
+            this.pauseanime.classList.add("pauseanimeadd");
+            setTimeout(this.removePauseAnimeAdd.bind(this), 1000); // ...
+        }
     }
 };
+//this is a test
+
+var BarsDir = true;
+var VidStatus = true;
+
+Video.prototype.HitStartVideo = function(){
+    if(this.video.paused){
+        console.log(1);
+        // if(mobcheck){
+        //     this.btn.classList.add("pause");
+        //     this.btn.classList.remove("play");
+        //     this.video.play();
+        //     this.playanime.style.visibility = "visible";
+        //     this.playanime.style.opacity = "1";
+        //     this.pauseanime.style.visibility = "visible";
+        //     this.pauseanime.style.opacity = "1";
+        // }
+    }
+}
+
+Video.prototype.togglePlayMbl = function() {
+    if (this.video.paused) {
+        if(mobcheck){
+            if(BarsDir){
+                this.manageBars();
+                BarsDir = false;
+            }else{
+                this.hideBars();
+                BarsDir = true;
+            }
+        }else{
+            this.btn.classList.add("pause");
+            this.btn.classList.remove("play");
+            this.video.play();
+            this.playanime.classList.add("playanimeadd");
+            setTimeout(this.removePlayAnimeAdd.bind(this), 1000); // ...
+        }
+    } else {
+        if(!mobcheck){
+            this.btn.classList.add("play");
+            this.btn.classList.remove("pause");
+            this.video.pause();
+            this.pauseanime.classList.add("pauseanimeadd");
+            setTimeout(this.removePauseAnimeAdd.bind(this), 1000); // ...
+        }else{
+            if(BarsDir){
+                this.manageBars();
+                BarsDir = false;
+            }else{
+                this.hideBars();
+                BarsDir = true;
+            }
+        }
+    }
+};
+
+//this is a test
 Video.prototype.removePauseAnimeAdd = function() {
     this.pauseanime.classList.remove("pauseanimeadd");
 };
@@ -488,11 +589,30 @@ Video.prototype.manageBars = function() {
     clearTimeout(this.closeBars);
     this.bottomBar.style.bottom = "0px";
     this.topBar.style.top = "0px";
+    if(mobcheck){
+        if(this.video.paused){
+            this.playanime.style.visibility = "visible";
+            this.playanime.style.opacity = "1";
+        }else{
+            this.pauseanime.style.visibility = "visible";
+            this.pauseanime.style.opacity = "1";
+        }
+    }
     this.closeBars = setTimeout(this.hideBars.bind(this), 2000);
 };
 Video.prototype.hideBars = function() {
     this.bottomBar.style.bottom = "-50px";
     this.topBar.style.top = "-50px";
+    BarsDir = true;
+    if(mobcheck){
+        if(this.video.paused){
+            this.playanime.style.visibility = "hidden";
+            this.playanime.style.opacity = "0";
+        }else{
+            this.pauseanime.style.visibility = "hidden";
+            this.pauseanime.style.opacity = "0";
+        }
+    }
 }
 Video.prototype.forward = function() {
     this.video.currentTime += 5;
