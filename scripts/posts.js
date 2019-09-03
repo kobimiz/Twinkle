@@ -90,12 +90,13 @@ Post.prototype.rate = function(e) { // todo: fix stars moving aside when total s
             siblings = e.target.parentElement.children,
             xmlhttp = new XMLHttpRequest(),
             formData = new FormData(),
-            userNum = this.postCon.querySelector(".usernum");
+            userNum = this.postCon.querySelector(".usernum"),
+            index = this.index;
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 var stats = this.responseText.split("\n");
-                document.getElementsByClassName("avgstardata")[this.index].textContent = stats[0];
-                document.getElementsByClassName("stars")[this.index].textContent = stats[1];
+                document.getElementsByClassName("avgstardata")[index].textContent = stats[0];
+                document.getElementsByClassName("stars")[index].textContent = stats[1];
             }
         }
         formData.append("postIndex", Post.posts.length - this.index - 1);

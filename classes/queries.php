@@ -45,8 +45,11 @@ class DB {
                 $userid = $res->fetch_array()[0];
                 if(!isset($_COOKIE['SNID_'])) { // it has been 3 to 7 days since user logged in
                     $token = bin2hex(openssl_random_pseudo_bytes(64, $cstrong));
-                    setcookie("SNID", $token, time() + 60 * 60 * 24 * 7, '/', NULL, NULL,  TRUE);
-                    setcookie("SNID_", '1', time() + 60 * 60 * 24 * 3, '/', NULL, NULL,  TRUE);
+                    $_COOKIE['SNID'] = $token;
+                    setcookie("SNID" , $token, time() + 60 * 60 * 24 * 7, '/', NULL, NULL,  TRUE);
+                    setcookie("SNID_", '1'   , time() + 60 * 60 * 24 * 3, '/', NULL, NULL,  TRUE);
+                    var_dump($token);
+                    var_dump($_COOKIE['SNID']);
                     DB::query("insert into loginTokens (token, userid) values ('".sha1($token)."', ".$userid.")");
                     DB::query("delete from loginTokens where token='".sha1($_COOKIE['SNID'])."'");
                 }
@@ -60,7 +63,9 @@ class DB {
 
     /* Selects fields of current logged in user as mysqli_result. fields variable example: "id, username" */
     public static function getLoggedUserInfo($fields) {
+        var_dump(sha1($_COOKIE['SNID']));
         $userid = self::queryScalar("select userid from loginTokens where token='".sha1($_COOKIE['SNID'])."'");
+        var_dump($userid);
         return self::query("select $fields from users where id=$userid")->fetch_assoc();
     }
 
