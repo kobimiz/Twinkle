@@ -452,7 +452,7 @@ function Video(vConElement) {
     this.video.addEventListener("click", this.togglePlayMbl.bind(this));
     this.video.addEventListener("timeupdate", this.timeUpdate.bind(this));
     this.video.addEventListener("mousemove", this.manageBars.bind(this));
-    this.video.addEventListener("mouseleave", this.hideBars.bind(this));
+    // this.video.addEventListener("mouseleave", this.hideBars.bind(this));
     this.video.addEventListener("ended", this.videoEnd.bind(this));
     this.bottomBar.addEventListener("mousemove", this.manageBars.bind(this));
     this.bottomBar.addEventListener("mouseleave", this.hideBars.bind(this));
@@ -485,10 +485,10 @@ Video.prototype.togglePlayBtn = function() {
         this.btn.classList.remove("play");
         this.video.play();
         if(mobcheck){
-            this.playanime.style.visibility = "hidden";
             this.playanime.style.opacity = "0";
-            this.pauseanime.style.visibility = "visible";
-            this.pauseanime.style.opacity = "1";
+            this.playanime.style.pointerEvents = "none";
+            this.pauseanime.style.opacity = "0.7";
+            this.pauseanime.style.pointerEvents = "auto";
         }else{
             this.playanime.classList.add("playanimeadd");
             setTimeout(this.removePlayAnimeAdd.bind(this), 1000); // ...
@@ -498,10 +498,10 @@ Video.prototype.togglePlayBtn = function() {
         this.btn.classList.remove("pause");
         this.video.pause();
         if(mobcheck){
-            this.playanime.style.visibility = "visible";
-            this.playanime.style.opacity = "1";
-            this.pauseanime.style.visibility = "hidden";
+            this.playanime.style.opacity = "0.7";
+            this.playanime.style.pointerEvents = "auto";
             this.pauseanime.style.opacity = "0";
+            this.pauseanime.style.pointerEvents = "none";
         }else{
             this.pauseanime.classList.add("pauseanimeadd");
             setTimeout(this.removePauseAnimeAdd.bind(this), 1000); // ...
@@ -510,6 +510,10 @@ Video.prototype.togglePlayBtn = function() {
 };
 //this is a test
 
+document.body.addEventListener("click", function(e){
+    console.log(e.target);
+});
+
 var BarsDir = true;
 var VidStatus = true;
 
@@ -517,15 +521,25 @@ Video.prototype.HitStartVideo = function(){
     console.log(1);
     alert(1);
     if(this.video.paused){
-        // if(mobcheck){
-        //     this.btn.classList.add("pause");
-        //     this.btn.classList.remove("play");
-        //     this.video.play();
-        //     this.playanime.style.visibility = "visible";
-        //     this.playanime.style.opacity = "1";
-        //     this.pauseanime.style.visibility = "visible";
-        //     this.pauseanime.style.opacity = "1";
-        // }
+        if(mobcheck){
+            this.btn.classList.add("pause");
+            this.btn.classList.remove("play");
+            this.video.play();
+            this.playanime.style.pointerEvents = "fill";
+            this.playanime.style.opacity = "0";
+            this.pauseanime.style.pointerEvents = "auto";
+            this.pauseanime.style.opacity = "0.7";
+            this.manageBars();
+        }
+    }else{
+        this.btn.classList.add("play");
+        this.btn.classList.remove("pause");
+        this.video.pause();
+        this.playanime.style.pointerEvents = "auto";
+        this.playanime.style.opacity = "0.7";
+        this.pauseanime.style.pointerEvents = "none";
+        this.pauseanime.style.opacity = "0";
+        this.manageBars();
     }
 }
 
@@ -592,27 +606,29 @@ Video.prototype.manageBars = function() {
     this.topBar.style.top = "0px";
     if(mobcheck){
         if(this.video.paused){
-            this.playanime.style.visibility = "visible";
-            this.playanime.style.opacity = "1";
+            this.playanime.style.pointerEvents = "auto";
+            this.playanime.style.opacity = "0.7";
         }else{
-            this.pauseanime.style.visibility = "visible";
-            this.pauseanime.style.opacity = "1";
+            this.pauseanime.style.pointerEvents = "auto";
+            this.pauseanime.style.opacity = "0.7";
         }
     }
     this.closeBars = setTimeout(this.hideBars.bind(this), 2000);
 };
 Video.prototype.hideBars = function() {
-    console.log("hidden");
+    clearTimeout(this.setToNone);
     this.bottomBar.style.bottom = "-50px";
     this.topBar.style.top = "-50px";
     BarsDir = true;
     if(mobcheck){
         if(this.video.paused){
-            this.playanime.style.visibility = "hidden";
+            this.playanime.style.pointerEvents = "none";
             this.playanime.style.opacity = "0";
+            // this.setToNone = setTimeout(function(){this.playanime.style.pointerEvents = "none";}.bind(this), 600);
         }else{
-            this.pauseanime.style.visibility = "hidden";
+            this.pauseanime.style.pointerEvents = "none";
             this.pauseanime.style.opacity = "0";
+            // this.setToNone = setTimeout(function(){this.pauseanime.style.pointerEvents = "none";}.bind(this), 600);
         }
     }
 }

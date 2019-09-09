@@ -76,8 +76,8 @@
     background-position: 25px;
     background-size: 40px;
     opacity: 0;
-    visibility: hidden;
-    /* pointer-events: none; */
+    /* visibility: hidden; */
+    pointer-events: none;
 }
 .playanimeadd{
     -webkit-animation-name: playanime;
@@ -86,14 +86,14 @@
     animation-duration: 1s;
 }
 @-webkit-keyframes playanime{
-    0%{opacity: 0; visibility: hidden;}
-    50%{opacity: .7; visibility: visible;}
-    100%{opacity: 0; visibility: hidden;}
+    0%{opacity: 0;}
+    50%{opacity: .7;}
+    100%{opacity: 0;}
 }
 @keyframes playanime{
-    0%{opacity: 0; visibility: hidden;}
-    50%{opacity: .7; visibility: visible;}
-    100%{opacity: 0; visibility: hidden;}
+    0%{opacity: 0; }
+    50%{opacity: .7;}
+    100%{opacity: 0; }
 }
 
 .pauseanime{
@@ -110,8 +110,8 @@
     background-repeat: no-repeat;
     background-position: 20px;
     background-size: 40px;
-    visibility: hidden;
-    /* pointer-events: none; */
+    /* visibility: hidden; */
+    pointer-events: none;
 }
 .pauseanimeadd{
     -webkit-animation-name: pauseanime;
@@ -120,14 +120,14 @@
     animation-duration: 1s;
 }
 @-webkit-keyframes pauseanime{
-    0%{opacity: 0; visibility: hidden;}
-    50%{opacity: .7; visibility: visible;}
-    100%{opacity: 0; visibility: hidden;}
+    0%{opacity: 0;}
+    50%{opacity: .7;}
+    100%{opacity: 0;}
 }
 @keyframes pauseanime{
-    0%{opacity: 0; visibility: hidden;}
-    50%{opacity: .7; visibility: visible;}
-    100%{opacity: 0; visibility: hidden;}
+    0%{opacity: 0;}
+    50%{opacity: .7;}
+    100%{opacity: 0;}
 }
 
 /*bottom bar from here ======================================*/
