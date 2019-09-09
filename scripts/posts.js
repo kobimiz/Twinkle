@@ -514,8 +514,9 @@ var BarsDir = true;
 var VidStatus = true;
 
 Video.prototype.HitStartVideo = function(){
+    console.log(1);
+    alert(1);
     if(this.video.paused){
-        console.log(1);
         // if(mobcheck){
         //     this.btn.classList.add("pause");
         //     this.btn.classList.remove("play");
@@ -601,6 +602,7 @@ Video.prototype.manageBars = function() {
     this.closeBars = setTimeout(this.hideBars.bind(this), 2000);
 };
 Video.prototype.hideBars = function() {
+    console.log("hidden");
     this.bottomBar.style.bottom = "-50px";
     this.topBar.style.top = "-50px";
     BarsDir = true;

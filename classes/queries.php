@@ -63,7 +63,7 @@ class DB {
 
     /* Selects fields of current logged in user as mysqli_result. fields variable example: "id, username" */
     public static function getLoggedUserInfo($fields) {
-        var_dump(sha1($_COOKIE['SNID']));
+        //var_dump(sha1($_COOKIE['SNID']));
         $userid = self::queryScalar("select userid from loginTokens where token='".sha1($_COOKIE['SNID'])."'");
         var_dump($userid);
         return self::query("select $fields from users where id=$userid")->fetch_assoc();
