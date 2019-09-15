@@ -3,6 +3,7 @@
 // todo: move post upload to here
 // Function.prototype.bind function polyfil. todo: test on old browsers
 // todo: add option to post a post via enter. consider making a global event listener for enter click
+// todo: make a thumbnail for the videos using an attribute for the video element
 
 //this is a test
 var mobcheck;
@@ -450,7 +451,9 @@ function Video(vConElement) {
     // consider making a variable for bound functions for efficiency
     this.video.addEventListener("click", this.togglePlayMbl.bind(this));
     this.video.addEventListener("timeupdate", this.timeUpdate.bind(this));
-    this.video.addEventListener("mousemove", this.manageBars.bind(this));
+    if(!mobcheck) {
+        this.video.addEventListener("mousemove", this.manageBars.bind(this));
+    }
     // this.video.addEventListener("mouseleave", this.hideBars.bind(this));
     this.video.addEventListener("ended", this.videoEnd.bind(this));
     this.bottomBar.addEventListener("mousemove", this.manageBars.bind(this));
@@ -472,14 +475,16 @@ function Video(vConElement) {
     this.fullscreenicon = vConElement.querySelector(".fullscreen");
     this.fullscreenicon.addEventListener("click", this.toggleFullScreen.bind(this));
     this.Vcon = vConElement;
-    this.video.addEventListener("dblclick", this.clickFullScreen.bind(this));
+    if(!mobcheck){
+        this.video.addEventListener("dblclick", this.clickFullScreen.bind(this));
+    }
     this.playanime.addEventListener("click", this.HitStartVideo.bind(this));
     this.pauseanime.addEventListener("click", this.HitStartVideo.bind(this));
     //this is a test
 }
 Video.videos = [];
 Video.prototype.togglePlayBtn = function() {
-    if (this.video.paused) {
+    if (this.video.paused){
         this.btn.classList.add("pause");
         this.btn.classList.remove("play");
         this.video.play();
@@ -509,10 +514,6 @@ Video.prototype.togglePlayBtn = function() {
 };
 //this is a test
 
-document.body.addEventListener("click", function(e){
-    console.log(e.target);
-});
-
 var BarsDir = true;
 var VidStatus = true;
 
@@ -522,7 +523,7 @@ Video.prototype.HitStartVideo = function(){
             this.btn.classList.add("pause");
             this.btn.classList.remove("play");
             this.video.play();
-            this.playanime.style.pointerEvents = "fill";
+            this.playanime.style.pointerEvents = "none";
             this.playanime.style.opacity = "0";
             this.pauseanime.style.pointerEvents = "auto";
             this.pauseanime.style.opacity = "0.7";
@@ -613,10 +614,11 @@ Video.prototype.manageBars = function() {
     this.closeBars = setTimeout(this.hideBars.bind(this), 2000);
 };
 Video.prototype.hideBars = function() {
-    clearTimeout(this.setToNone);
+    // clearTimeout(this.setToNone);
+    clearTimeout(this.closeBars);
+    BarsDir = true;
     this.bottomBar.style.bottom = "-50px";
     this.topBar.style.top = "-50px";
-    BarsDir = true;
     if(mobcheck){
         if(this.video.paused){
             this.playanime.style.pointerEvents = "none";
@@ -689,6 +691,7 @@ Video.prototype.videoEnd = function() {
     this.btn.classList.remove("pause");
 }
 //this is a test
+
 var activeVideo = null;
 Video.prototype.clickFullScreen = function(){
     if (activeVideo === null){
@@ -742,13 +745,15 @@ Video.prototype.toggleFullScreen = function(){
         this.video.style.maxHeight = "unset";
         this.video.style.height = "100%";
         document.body.classList.add("bodyF");
-    }else {
+        screen.orientation.lock('landscape');
+    }else{
         activeVideo = null;
         //change the css of the Vcon when canceling full size
         this.Vcon.classList.remove("VconF");
         this.video.style.height = "unset";
         this.video.style.maxHeight = "500px";
         document.body.classList.remove("bodyF");
+        screen.orientation.lock('portrait');
         if (document.cancelFullScreen){
             document.cancelFullScreen();
         }else if(document.mozCancelFullScreen){
@@ -760,18 +765,19 @@ Video.prototype.toggleFullScreen = function(){
         }
     }
 }
+
 function Escancel(e){
     if(e.keyCode === 27)
         if (activeVideo !== null)
             activeVideo.toggleFullScreen();
 }
 function cancelFullscreen() {
-    if(!document.fullscreen)
+    if(!document.fullscreen && activeVideo !== null)
         activeVideo.toggleFullScreen();
 }
 document.onwebkitfullscreenchange = cancelFullscreen;
-document.onfullscreenchange = cancelFullscreen;
 document.onmozfullscreenchange = cancelFullscreen;
+document.onfullscreenchange = cancelFullscreen;
 document.addEventListener("keydown", Escancel, true);
 //this is a test
 
@@ -802,6 +808,17 @@ document.body.addEventListener('click', function(){
         PostComment.activeDeleteButton.innerHTML = "delete";
         PostComment.activeDeleteButton = null;
     }
+});
+window.addEventListener("orientationchange", function(){
+    if(mobcheck){
+        switch(window.orientation){
+            case -90: case 90:
+                activeVideo.video.style.height = "unset";
+            break;
+            default:
+                activeVideo.video.style.height = "100%";
+        }
+}
 });
 window.addEventListener("scroll", function() {
     if ((window.innerHeight + window.pageYOffset) + 300 >= document.body.offsetHeight) {
