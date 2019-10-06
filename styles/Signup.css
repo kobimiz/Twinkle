@@ -99,9 +99,6 @@ body{
 .contain>form input:not([type="submit"]):valid{
     background-color:white;
 }
-.firstncon{
-    margin-right: 10px;
-}
 #fname{
     width: 100%;
     padding: 10px 4px 10px 10px;

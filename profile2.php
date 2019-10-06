@@ -214,7 +214,7 @@ include_once("templates/sidenav.php");
 
 <div id="postsCon">
 <?php
-$userid = 2;
+$userid = 39;
 $posts = DB::query("select id from posts where userid=$userid");
 foreach ($posts as $post) {
     $postObject = new Post($post["id"]);
@@ -228,9 +228,9 @@ function profilePic($picName) {
 <div class="DisplayFilt">
     <div class="square">
         <ul>
-            <li><img src="iconList/mixed.png" alt="mixed" style="width: 60px; height:60px;"></li>
-            <li><img src="iconList/posts.png" alt="posts"style="width: 50px; height:50px;"></li>
-            <li><img src="iconList/noteS.png" alt="notes"style="width: 50px; height:50px;"></li>
+            <li><img src="iconList/mixedIcon.png" alt="mixed" style="width: 60px; height:60px;"></li>
+            <li><img src="iconList/postsIcon.png" alt="posts"style="width: 45px; height:50px;"></li>
+            <li><img src="iconList/noteIcon.png" alt="notes"style="width: 45px; height:50px;"></li>
         </ul>
     </div>
 </div>
