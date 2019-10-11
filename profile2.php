@@ -110,8 +110,8 @@ include_once("templates/sidenav.php");
 
 <div class="leftSecCon">
     <div class="postPrese">
+        <!--the square of the post presentation-->
         <ul>
-<!--the square of the post presentation-->
             <li>
                 <div class="postPreview">
                     <div class="PreviewimgCon">
@@ -207,22 +207,15 @@ include_once("templates/sidenav.php");
                     </div>
                 </div>
             </li>
-
         </ul>
     </div>
 </div>
 
 <div id="postsCon">
 <?php
-$userid = 2;
-$posts = DB::query("select id from posts where userid=$userid");
-foreach ($posts as $post) {
-    $postObject = new Post($post["id"]);
-    $postObject->displayPost($userid);
-}
-function profilePic($picName) {
-    return ($picName === "") ? "/iconList/"."user.png":"/uploads/".$picName;
-}
+   $user = new User(DB::getLoggedUserInfo("id")["id"]);
+   $_SESSION['posts'] = array();
+   $user->loadNextPosts(5);
 ?>
 </div>
 <div class="DisplayFilt">
@@ -235,9 +228,8 @@ function profilePic($picName) {
     </div>
 </div>
 </main>
-
-
-    <script src="scripts/sidenav.js"></script>
-    <script src="scripts/header.js"></script>
+<script src="scripts/sidenav.js"></script>
+<script src="scripts/header.js"></script>
+<script src="scripts/posts.js"></script>
 </body>
 </html>

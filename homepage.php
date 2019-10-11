@@ -7,8 +7,10 @@
     session_start();
     DB::connect();
 
-    if(!DB::isLoggedIn())
+    if(!DB::isLoggedIn()) {
         header("Location: signin.php");
+        exit("Not logged in.");
+    }
     $user = new User(DB::getLoggedUserInfo("id")["id"]);
 ?>
 <!DOCTYPE html>
@@ -28,6 +30,42 @@
     <link rel="icon" href="/iconList/TwinkleCon.png" type="image/png">
     <link rel="stylesheet" href="styles/Postsview.css" type="text/css"/>
     <title>Home page Twinkle</title>
+
+    <style>
+        #friendsListContainer {
+            position: fixed;
+            width: 225px;
+            bottom: 0;
+            right: 0;
+            background: lightblue;
+        }
+        #friendsListContainer > h3 {
+            padding-bottom: 15px;
+            padding-top: 15px;
+            margin-bottom: 0px;
+            margin-top: 0px;
+            text-align: center;
+            cursor: pointer;
+            background: #a9ceda;
+        }
+        #friendsList {
+            display: none;
+            list-style-type: none;
+            padding-left:0px;
+            margin-bottom: 0px;
+        }
+        .friend {
+            padding-top: 10px;
+            height: 25px;
+            color: indigo;
+            cursor: pointer;
+            text-align:center;
+            background: cornflowerblue;
+        }
+        .friend:hover {
+            opacity: 0.7;
+        }
+    </style>
 </head>
 
 <body>
@@ -151,9 +189,6 @@
     </div>
     <div id="posts">
         <?php
-            // video
-            // red line orange juice
-
             // https://stackoverflow.com/questions/1370951/what-is-phpsessid
             // after looking at that ^^^ change all session occurances to match new cookie setup
             // todo: add error checking (i.e. exceptions)
@@ -177,6 +212,36 @@
     </div>
 </main>
 
+<div id="friendsListContainer">
+    <h3>Friends</h3>
+    <ul id="friendsList">
+        <?php
+            $friends = DB::query("select users.firstname from users
+                                inner join friends on
+                                (users.id = friends.user1 and friends.user2 = ".$user->id.") or (users.id = friends.user2 and friends.user1 = ".$user->id.")");
+            if($friends != null) {
+                foreach ($friends as $friend) {
+                    echo "<li class='friend'>".$friend["firstname"]."</li>";
+                }
+            }
+        ?>
+    </ul>
+</div>
+<script>
+    "use strict"
+    document.querySelector("#friendsListContainer > h3").addEventListener("click", (function() {
+        var clicked = false;
+        return function() {
+            if(clicked) {
+                clicked = false;
+                this.nextElementSibling.style.display = "none";
+            } else {
+                this.nextElementSibling.style.display = "block";
+                clicked = true;
+            }
+        };
+    })());
+</script>
 <div id="progress">
     <div id="bar">0%</div>
 </div>

@@ -81,7 +81,7 @@ function Post(postElement, index) {
     for(var i = 0; i < commentElements.length; i++) 
         this.comments.push(new PostComment(commentElements[i], i, this));
 
-    var video = postElement.querySelector("video");
+    var video = postElement.querySelector("video"); // change here for pickpost double video
     if(video !== null)
         Video.videos.push(new Video(video.parentElement));
 }
@@ -327,7 +327,10 @@ PostComment.prototype.submitReply = function(e) {
         formData.append("content", val);
         
         formData.append("commentIndex", this.index);
-        formData.append("postIndex", Post.posts.length - this.owningPost.index);
+        console.log(this.owningPost.index);
+        console.log(this.index);
+        
+        formData.append("postIndex", this.owningPost.index);
         xmlhttp.open("POST", "templates/reply.php", true);
         xmlhttp.send(formData);
     }
@@ -451,7 +454,9 @@ function Video(vConElement) {
     // consider making a variable for bound functions for efficiency
     this.video.addEventListener("click", this.togglePlayMbl.bind(this));
     this.video.addEventListener("timeupdate", this.timeUpdate.bind(this));
-    this.video.addEventListener("mousemove", this.manageBars.bind(this));
+    // todo: remove all mousemove listeners in mobile mode (and possibly more redundant listeners)
+    if(!mobcheck)
+        this.video.addEventListener("mousemove", this.manageBars.bind(this));
     // this.video.addEventListener("mouseleave", this.hideBars.bind(this));
     this.video.addEventListener("ended", this.videoEnd.bind(this));
     this.bottomBar.addEventListener("mousemove", this.manageBars.bind(this));
@@ -479,7 +484,7 @@ function Video(vConElement) {
     //this is a test
 }
 Video.videos = [];
-Video.prototype.togglePlayBtn = function() {
+Video.prototype.togglePlayBtn = function(e) {
     if (this.video.paused) {
         this.btn.classList.add("pause");
         this.btn.classList.remove("play");
@@ -510,16 +515,10 @@ Video.prototype.togglePlayBtn = function() {
 };
 //this is a test
 
-document.body.addEventListener("click", function(e){
-    console.log(e.target);
-});
-
 var BarsDir = true;
 var VidStatus = true;
 
-Video.prototype.HitStartVideo = function(){
-    console.log(1);
-    alert(1);
+Video.prototype.HitStartVideo = function(e) {
     if(this.video.paused){
         if(mobcheck){
             this.btn.classList.add("pause");
@@ -543,7 +542,7 @@ Video.prototype.HitStartVideo = function(){
     }
 }
 
-Video.prototype.togglePlayMbl = function() {
+Video.prototype.togglePlayMbl = function(e) {
     if (this.video.paused) {
         if(mobcheck){
             if(BarsDir){
@@ -580,13 +579,13 @@ Video.prototype.togglePlayMbl = function() {
 };
 
 //this is a test
-Video.prototype.removePauseAnimeAdd = function() {
+Video.prototype.removePauseAnimeAdd = function(e) {
     this.pauseanime.classList.remove("pauseanimeadd");
 };
-Video.prototype.removePlayAnimeAdd = function() {
+Video.prototype.removePlayAnimeAdd = function(e) {
     this.playanime.classList.remove("playanimeadd");
 };
-Video.prototype.timeUpdate = function () {
+Video.prototype.timeUpdate = function (e) {
     this.juiceBar.style.width = this.video.currentTime / this.video.duration * 100 + "%";
     // display time
     var curmins = Math.floor(this.video.currentTime / 60),
@@ -600,7 +599,7 @@ Video.prototype.timeUpdate = function () {
     this.curTIme.innerHTML = curmins + ":" + cursecs;
     this.durTIme.innerHTML = durmins + ":" + dursecs;
 };
-Video.prototype.manageBars = function() {
+Video.prototype.manageBars = function(e) {
     clearTimeout(this.closeBars);
     this.bottomBar.style.bottom = "0px";
     this.topBar.style.top = "0px";
@@ -615,7 +614,7 @@ Video.prototype.manageBars = function() {
     }
     this.closeBars = setTimeout(this.hideBars.bind(this), 2000);
 };
-Video.prototype.hideBars = function() {
+Video.prototype.hideBars = function(e) {
     clearTimeout(this.setToNone);
     this.bottomBar.style.bottom = "-50px";
     this.topBar.style.top = "-50px";
@@ -632,19 +631,19 @@ Video.prototype.hideBars = function() {
         }
     }
 }
-Video.prototype.forward = function() {
+Video.prototype.forward = function(e) {
     this.video.currentTime += 5;
 };
-Video.prototype.backward = function() {
+Video.prototype.backward = function(e) {
     this.video.currentTime -= 5;
 };
-Video.prototype.jumpTime = function(e) {
+Video.prototype.jumpTime = function(e)       {
     this.video.currentTime = (e.offsetX / this.videoJump.offsetWidth) * this.video.duration;
 };
-Video.prototype.raiseMouse = function() {
+Video.prototype.raiseMouse = function(e) {
     this.mousedown = false;
 };
-Video.prototype.mouseDown = function(e) { // consider renaming (confusion w this.mousedown)
+Video.prototype.mouseDown = function(e)       { // consider renaming (confusion w this.mousedown)
     this.isDown = true;
     this.startX = e.pageX - this.videoJump.offsetLeft;
     this.scrolLeft = this.videoJump.scrollLeft;
@@ -657,7 +656,7 @@ Video.prototype.mouseDown = function(e) { // consider renaming (confusion w this
     this.btn.classList.add("play");
     this.btn.classList.remove("pause");
 };
-Video.prototype.mouseUp = function () {
+Video.prototype.mouseUp = function (e) {
     this.isDown = false;
     if (this.video.paused && !this.pausedBeforeJump) {
         this.btn.classList.add("pause");
@@ -668,14 +667,14 @@ Video.prototype.mouseUp = function () {
         this.btn.classList.remove("pause");
     }
 };
-Video.prototype.mouseMove = function (e) {
+Video.prototype.mouseMove = function (e)       {
     if (!this.isDown) return;
     e.preventDefault();
     var pos = e.pageX - this.videoJump.offsetLeft; // mouse position on X axis
     this.juiceBar.style.width = e.offsetX + "px";
     this.video.currentTime = (e.offsetX / this.videoJump.offsetWidth) * this.video.duration;
 };
-Video.prototype.toggleVolume = function(){
+Video.prototype.toggleVolume = function(e) {
     if(!this.volumecheck) {
         this.volumeoff.style.width = "30px";
         this.video.muted = true;
@@ -687,13 +686,13 @@ Video.prototype.toggleVolume = function(){
         this.volumecheck = false;
     }
 }
-Video.prototype.videoEnd = function() {
+Video.prototype.videoEnd = function(e) {
     this.btn.classList.add("play");
     this.btn.classList.remove("pause");
 }
 //this is a test
 var activeVideo = null;
-Video.prototype.clickFullScreen = function(){
+Video.prototype.clickFullScreen = function(e) {
     if (activeVideo === null){
         if (document.documentElement.requestFullScreen){
             document.documentElement.requestFullScreen();
@@ -728,7 +727,7 @@ Video.prototype.clickFullScreen = function(){
         }
     }
 }
-Video.prototype.toggleFullScreen = function(){
+Video.prototype.toggleFullScreen = function(e) {
     if (activeVideo === null){
         if (document.documentElement.requestFullScreen){
             document.documentElement.requestFullScreen();
@@ -769,7 +768,7 @@ function Escancel(e){
             activeVideo.toggleFullScreen();
 }
 function cancelFullscreen() {
-    if(!document.fullscreen)
+    if(!document.fullscreen && activeVideo !== null)
         activeVideo.toggleFullScreen();
 }
 document.onwebkitfullscreenchange = cancelFullscreen;

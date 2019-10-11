@@ -5,10 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <style>
+        #box {
+            height:100px;
+            width: 100px;
+            background: #000000;
+            opacity: 0;
+        }
+    </style>
 </head>
 <body>
+    <div id="box">hey</div>
     <script>
         "use strict"
+
+
+        document.getElementById("box").addEventListener("click", function() {
+            console.log(1);
+        });
 
         function toBinary(number) {
             let negative = false;
@@ -151,7 +165,10 @@
 		 0.5f, -0.5f,  0.0f,  1.0f, 0.0f,
 		 0.5f, -0.5f,  0.0f,  1.0f, 0.0f,
 		-0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.0f,  0.0f, 0.0f `, true, true, false);
+        -0.5f, -0.5f,  0.0f,  0.0f, 0.0f `, true, true, false);
+        
+
+
 
     </script>
 </body>

@@ -2,3 +2,8 @@ uploads/
 phpMailer/
 mail.php
 twinkle.sql
+.gitignore
+.vscode
+server.php
+client.php
+client.html

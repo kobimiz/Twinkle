@@ -1,6 +1,6 @@
 <?php
 class User {
-    private $id;
+    public $id;
 
     function __construct($id) {
         $this->id = $id;
