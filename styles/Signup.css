@@ -68,6 +68,7 @@ body{
     font-weight: 600;
     margin:0;
     padding: 10px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 .TwinkleL{
     float:right;
@@ -192,7 +193,7 @@ body{
 }
 #message>ul{
     padding: 0;
-    margin:50% 0;
+    margin:0;
 }
 #message>ul>li{
     list-style-type: none;
@@ -252,6 +253,12 @@ body{
     }
     #message{
         height: 100vh;
+    }
+    .contain{
+        border-radius:0;
+    }
+    #message>ul{
+        margin: 50% 0;
     }
 }
 @media only screen and (max-width: 400px){

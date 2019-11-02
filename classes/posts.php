@@ -19,8 +19,10 @@ class Post {
         "<div class='postcon'>
             <div class='contentcon'>  
                 <div class='topdata'>
-                    <span class='avgstar'><img src='iconList/FilledStar.png' alt='Star' style='width:30px; height:30px;'></span>
-                    <span class='avgstardata'>".round(DB::queryScalar("select avg(stars) from postsstars where postID = ".$this->id), 1)."</span>
+                    <div class='avgstar'>
+                    <img src='iconList/FilledStar.png' alt='Star' style='width:30px; height:30px; margin:2px 2px 0 15px;'>
+                    <h2 class='avgstardata'>".round(DB::queryScalar("select avg(stars) from postsstars where postID = ".$this->id), 1)."</h2>
+                    </div>
                     <span class='optionicon'><img alt='options' src='/iconList/ArrowDown.png' style='width:22px; height:15px;' class='more'></span>
                     <div class='topoptions'>
                         <div class='optionscon'>

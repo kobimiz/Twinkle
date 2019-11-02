@@ -45,7 +45,7 @@
 .postcon{
     /* padding-botftom: 10px; */
     margin-bottom: 10px;
-    height: 100%;
+    /* height: 100%; */
     max-width: 600px;
     width:100%;
     background:#ffffff;
@@ -319,13 +319,12 @@
 }
 .topdata>.avgstar{
     -webkit-user-drag:none;
-    margin: 5px 0 0 15px;
-    display: inline-block;
+    display: inline-flex;
 }
-.topdata>.avgstardata{
-    font-size:25px;
-    font-weight: 540;
-    padding:2px;
+.avgstar>.avgstardata{
+    font-weight: 500;
+    margin:0;
+    font-family:sans-serif;
 }
 .topdata>.topoptions{
     float:right;
@@ -631,7 +630,7 @@ input[name="typerep"]:focus{
     }
     .postcon{
         border: none;
-        border-top: 1px solid rgb(207, 207, 207);
+        /* border-top: 1px solid rgb(207, 207, 207); */
         border-radius: unset;
         margin-bottom: unset;
         

@@ -184,7 +184,7 @@
 <script src="scripts/sidenav.js"></script>
 <script src="scripts/posts.js"></script>
 <script src="scripts/UploadPost.js"></script>
-<script type="text/javascript" src="scripts/Postsview.js" ></script>
+<script src="scripts/Postsview.js" ></script>
 </body>
 
 </html>

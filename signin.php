@@ -46,7 +46,7 @@
 
     <section id="loginsec">
         <div class="topcolor">
-            <h1 id="intro">Sign in</h1>
+            <h1 id="intro">Login</h1>
             <img src="/iconList/TwinkleR.png" style="width: 65px; height: 65px;" alt="Twinkle logo" class="TwinkleL">
         </div>
         <form method='post' name='login'>
