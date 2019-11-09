@@ -128,7 +128,7 @@ Post.prototype.rate = function(e) { // todo: fix stars moving aside when total s
             }
         }
         formData.append("postIndex", Post.posts.length - this.index - 1);
-        if (siblings[starRate].src.indexOf("FilledStar.png") !== -1 && (!siblings[starRate + 1] || siblings[starRate + 1].src.indexOf("Star.png") !== -1)) { // pressed again on same star - cancel
+        if (siblings[starRate].src.indexOf("FilledStar.png") !== -1 && (!siblings[starRate + 1] || siblings[starRate + 1].src.indexOf("/Star.png") !== -1)) { // pressed again on same star - cancel
             formData.append("starRating", 0);
             for (var i = 1; i < 6; i++)
                 siblings[i].src = "/iconList/Star.png";

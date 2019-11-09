@@ -221,7 +221,8 @@
                                 (users.id = friends.user1 and friends.user2 = ".$user->id.") or (users.id = friends.user2 and friends.user1 = ".$user->id.")");
             if($friends != null) {
                 foreach ($friends as $friend) {
-                    echo "<li class='friend'>".$friend["firstname"]."</li>";
+                    $nameString = htmlspecialchars($friend['firstname']);
+                    echo "<li class='friend'><a href='profile.php?user=$nameString'>$nameString</a></li>";
                 }
             }
         ?>
