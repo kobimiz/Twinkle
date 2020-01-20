@@ -57,7 +57,7 @@ body{
     align-items: center;
     border-bottom: 3px solid #0d6cca;
 }
-.inputContainer #choosename, .inputContainer #choosepass {
+.inputContainer #choosepass {
     border:none;
 }
 #signintro{
@@ -92,7 +92,9 @@ body{
 .contain>form input:not([type="submit"]){
     padding: 10px 4px 10px 50px;
     box-sizing: border-box;
-    border-bottom: 2px solid #0d6cca;
+}
+.contain>form input:not([type="submit"]):not([name="username"]){
+    border-bottom: 3px solid #0d6cca;
 }
 .contain>form input:not([type="submit"]):focus{
     background-color:white;
