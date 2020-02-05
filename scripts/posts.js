@@ -58,6 +58,12 @@ function getChildIndex(element) {
     return -1;
 }
 
+function displayAvg(){
+    var modalstar = document.querySelector(".Viewer");
+    modalstar.style.display = "block";
+    document.getElementsByTagName("main")[0].classList.add("set-blur");
+};
+
 // todo: improve event listeners system
 // todo: benchmark using event listeners w\ prototype or with event argument
 // todo: ask if one can rate oneself
@@ -66,6 +72,7 @@ function Post(postElement, index) {
     this.index    = index;
     this.comments = [];
 
+    postElement.querySelector(".Avgdata"   ).addEventListener("click", displayAvg                   );
     postElement.querySelector(".comform"   ).addEventListener("click", stopPropagation              );
     postElement.querySelector(".optionscon").addEventListener("click", stopPropagation              ); // consider making one event listener
     postElement.querySelector(".submit"    ).addEventListener("click", this.submitComment.bind(this));
