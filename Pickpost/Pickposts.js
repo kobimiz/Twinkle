@@ -600,6 +600,7 @@ Video.prototype.timeUpdate = function () {
 };
 Video.prototype.manageBars = function() {
     clearTimeout(this.closeBars);
+    console.log(this.sizerLeft);
     this.bottomBar.style.bottom = "0px";
     this.topBar.style.top = "0px";
     if(mobcheck){
