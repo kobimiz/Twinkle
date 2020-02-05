@@ -202,8 +202,6 @@ volume.addEventListener("click",function(){
     }
 });
 
-//<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>
-//<<<<<<<>>>>>>>>
 video.addEventListener("click", function () {
     if (video.paused) {
         pauseanime.classList.add("pauseanimeadd");
@@ -219,7 +217,6 @@ function RemoveClass() {
 function RemoveClass_() {
     pauseanime.classList.remove("pauseanimeadd");
 }
-//<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 // show and hide of the options nav bar
 optionsarrow.addEventListener("click",function(e){

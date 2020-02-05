@@ -123,7 +123,7 @@ Post.prototype.rate = function(e) { // todo: fix stars moving aside when total s
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 var stats = this.responseText.split("\n");
-                document.getElementsByClassName("avgstardata")[index].textContent = stats[0];
+                document.getElementsByClassName("avgstardata")[index].textContent = parseFloat(stats[0]).toPrecision(2);
                 document.getElementsByClassName("stars")[index].textContent = stats[1];
             }
         }

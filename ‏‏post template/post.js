@@ -151,8 +151,6 @@ function displaytime() {
 
 }
 
-/*<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-//<<<<<<<>>>>>>>>
 video.addEventListener("click", function () {
     if (video.paused) {
         pauseanime.classList.add("pauseanimeadd");
@@ -168,4 +166,3 @@ function RemoveClass() {
 function RemoveClass_() {
     pauseanime.classList.remove("pauseanimeadd");
 }
-/*<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>*/

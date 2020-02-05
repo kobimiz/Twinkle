@@ -113,9 +113,9 @@ PostDOM.viewerRatingDOMString = function(viewerRating) {
     var DOMString = "";
     for (var i = 0; i < 5; ++i) {
         if(i < viewerRating)
-            DOMString = "<img alt='star' src='/iconList/FilledStar.png' class='star'></img>";
+            DOMString += "<img alt='star' src='/iconList/FilledStar.png' class='star'></img>";
         else
-            DOMString = "<img alt='star' src='/iconList/Star.png' class='star'></img>";
+            DOMString += "<img alt='star' src='/iconList/Star.png' class='star'></img>";
     }
     return DOMString;
 };
