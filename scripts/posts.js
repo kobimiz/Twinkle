@@ -51,7 +51,7 @@ function stopPropagation(e) {
 }
 function getChildIndex(element) {
     var siblings = element.parentElement.children;
-    for (var i = 0; i < siblings.length; i++)
+    for (var i = 0; i < siblings.length; ++i)
         if (siblings[i] === element)
             return i;
     return -1;
@@ -78,10 +78,11 @@ function Post(postElement, index) {
 
     // init comments
     var commentElements = postElement.querySelectorAll(".newarea");
-    for(var i = 0; i < commentElements.length; i++) 
+    for(var i = 0; i < commentElements.length; ++i) 
         this.comments.push(new PostComment(commentElements[i], i, this));
 
     var video = postElement.querySelector("video"); // change here for pickpost double video
+    
     if(video !== null)
         Video.videos.push(new Video(video.parentElement));
 }
@@ -90,26 +91,24 @@ Post.activatedOptions      = null;
 Post.activatedCommentForm  = null;
 Post.posts                 = [];
 
-Post.init = function() {
-    var postElements = document.querySelectorAll(".postcon");
-    for(var i = 0; i < postElements.length; i++)
-        Post.posts.push(new Post(postElements[i], i));
-};
 Post.insertComment = function(post) { // an ajax callback function
     if(this.readyState === 4 && this.status === 200) {        
         var commentSection = post.postCon.querySelector(".comments");
 
         if(commentSection.childElementCount === 0)
             commentSection.insertAdjacentHTML("afterbegin", "<h2>Comments</h2>");
-        commentSection.firstElementChild.insertAdjacentHTML("afterend", this.responseText);
 
         Post.activatedCommentForm.firstElementChild.value = ""; // reset input
         Post.activatedCommentForm.style.display = "none";
         Post.activatedCommentForm = null;
 
-        for (var i = 0; i < post.comments.length; i++)
+        for (var i = 0; i < post.comments.length; ++i) // shift other comments' indices
             post.comments[i].index += 1;
-        post.comments.push(new PostComment(commentSection.querySelector(".newarea"), 0, post)); // new comment is first
+
+        var comment = JSON.parse(this.responseText);
+        var commentDOM = new CommentDOM(comment.properties, comment.replies);
+        commentSection.firstElementChild.insertAdjacentElement("afterend", commentDOM.commentCon); // insert after h2 comment element
+        post.comments.unshift(new PostComment(commentDOM.commentCon, 0, post)); // new comment is first
     }
 };
 Post.prototype.rate = function(e) { // todo: fix stars moving aside when total star rating number gains more digits
@@ -127,18 +126,18 @@ Post.prototype.rate = function(e) { // todo: fix stars moving aside when total s
                 document.getElementsByClassName("stars")[index].textContent = stats[1];
             }
         }
-        formData.append("postIndex", Post.posts.length - this.index - 1);
+        formData.append("postIndex", this.index);
         if (siblings[starRate].src.indexOf("FilledStar.png") !== -1 && (!siblings[starRate + 1] || siblings[starRate + 1].src.indexOf("/Star.png") !== -1)) { // pressed again on same star - cancel
             formData.append("starRating", 0);
-            for (var i = 1; i < 6; i++)
+            for (var i = 1; i < 6; ++i)
                 siblings[i].src = "/iconList/Star.png";
             userNum.innerHTML = parseInt(userNum.innerHTML) - 1;
         } else {
             if(siblings[1].src.indexOf("FilledStar.png") === -1) // not clicked on before
                 userNum.innerHTML = parseInt(userNum.innerHTML) + 1;
-            for (var i = 1; i <= starRate; i++)
+            for (var i = 1; i <= starRate; ++i)
                 siblings[i].src = "/iconList/FilledStar.png";
-            for (var i = starRate + 1; i < 6; i++)
+            for (var i = starRate + 1; i < 6; ++i)
                 siblings[i].src = "/iconList/Star.png";
             formData.append("starRating", starRate);
         }
@@ -153,7 +152,7 @@ Post.prototype.submitComment = function(e) { // todo: fix comment & reply order 
             formData = new FormData();
         xmlhttp.onreadystatechange = Post.insertComment.bind(xmlhttp, this);
         formData.append("content", val);
-        formData.append("postIndex", Post.posts.length - this.index - 1);
+        formData.append("postIndex", this.index);
         
         xmlhttp.open("POST", "templates/comment.php", true);
         xmlhttp.send(formData);
@@ -196,22 +195,17 @@ Post.prototype.delete        = function( ) {
     else {
         var xmlhttp = new XMLHttpRequest(),
             formData = new FormData();
-        xmlhttp.onreadystatechange = function(){
-            if(this.readyState === 4 && this.status === 200) 
-                document.write(this.responseText);
-        };
-        formData.append("postIndex", Post.posts.length - this.index - 1);
+        formData.append("postIndex", this.index);
         
         xmlhttp.open("POST", "templates/delete.php", true);
         xmlhttp.send(formData);
 
         this.postCon.remove();
-        for (var i = 0; i < Post.posts.length; i++) {
-            if(Post.posts[i].index === this.index)
-                Post.posts.splice(i--, 1);
-            else if(Post.posts[i].index > this.index)
-                Post.posts[i].index -= 1;
+        for (var i = this.index; i < Post.posts.length - 1; ++i) {
+            Post.posts[i] = Post.posts[i + 1];
+            --Post.posts[i].index;
         }
+        Post.posts.pop();
         Post.activeDeleteButton = null;
     }
 };
@@ -235,7 +229,7 @@ function PostComment(commentElement, index, owningPost) {
 
     // init replies
     var replyElements = commentElement.querySelectorAll(".replydiv");
-    for(var i = 0; i < replyElements.length; i++)
+    for(var i = 0; i < replyElements.length; ++i)
         this.replies.push(new Reply(replyElements[i], i, this));
 }
 PostComment.activeDeleteButton = null;
@@ -269,8 +263,6 @@ PostComment.insertReply = function(comment) { // an ajax callback function
             PostComment.activatedReplyForm.nextElementSibling.addEventListener("click", PostComment.toggleReplies);
         }
 
-        comment.commentElement.querySelector(".replies").insertAdjacentHTML("afterbegin", this.responseText);
-
         if(PostComment.activatedReplyForm.nextElementSibling.nextElementSibling.style.display !== "block")
             PostComment.toggleReplies.call(PostComment.activatedReplyForm.nextElementSibling);
 
@@ -278,9 +270,12 @@ PostComment.insertReply = function(comment) { // an ajax callback function
         PostComment.activatedReplyForm.style.display = "none";
         PostComment.activatedReplyForm = null;
 
-        for (var i = 0; i < comment.replies.length; i++)
+        for (var i = 0; i < comment.replies.length; ++i) // shift reply indices by 1
             comment.replies[i].index += 1;
-        comment.replies.push(new Reply(comment.commentElement.querySelector(".replydiv"), 0, comment));
+
+        var reply = new ReplyDOM(JSON.parse(this.responseText));
+        comment.commentElement.querySelector(".replies").insertAdjacentElement("afterbegin", reply.replyDOM);
+        comment.replies.unshift(new Reply(comment.commentElement.querySelector(".replydiv"), 0, comment));
    }
 };
 
@@ -298,18 +293,18 @@ PostComment.prototype.delete = function(e) {
     else {
         var xmlhttp = new XMLHttpRequest(),
             formData = new FormData();
-        formData.append("postIndex", Post.posts.length - this.owningPost.index);
+        formData.append("postIndex", this.owningPost.index);
         formData.append("commentIndex", this.index);
         
         xmlhttp.open("POST", "templates/delete.php", true);
         xmlhttp.send(formData);
 
-        for (var i = 0; i < this.owningPost.comments.length; i++) {
-            if(this.owningPost.comments[i].index === this.index)
-                this.owningPost.comments.splice(i--, 1);
-            else if(this.owningPost.comments[i].index > this.index)
-                this.owningPost.comments[i].index -= 1;
+        for (var i = this.index; i < this.owningPost.comments.length - 1; ++i) {
+            this.owningPost.comments[i] = this.owningPost.comments[i + 1];
+            --this.owningPost.comments[i].index;
         }
+        this.owningPost.comments.pop();
+        
         this.commentElement.remove();
         var commentsHeader = this.owningPost.postCon.getElementsByTagName("h2")[0];
         if(commentsHeader.nextElementSibling === null)
@@ -327,8 +322,6 @@ PostComment.prototype.submitReply = function(e) {
         formData.append("content", val);
         
         formData.append("commentIndex", this.index);
-        console.log(this.owningPost.index);
-        console.log(this.index);
         
         formData.append("postIndex", this.owningPost.index);
         xmlhttp.open("POST", "templates/reply.php", true);
@@ -358,18 +351,17 @@ Reply.prototype.delete = function(e) {
     else {
         var xmlhttp = new XMLHttpRequest(),
             formData = new FormData();
-        formData.append("postIndex", Post.posts.length - this.owningComment.owningPost.index);
+        formData.append("postIndex", this.owningComment.owningPost.index);
         formData.append("commentIndex", this.owningComment.index);
         formData.append("replyIndex", this.index);
         xmlhttp.open("POST", "templates/delete.php", true);
         xmlhttp.send(formData);
 
-        for (var i = 0; i < this.owningComment.replies.length; i++) {
-            if(this.owningComment.replies[i].index === this.index)
-                this.owningComment.replies.splice(i--, 1);
-            else if(this.owningComment.replies[i].index > this.index)
-                this.owningComment.replies[i].index -= 1;
+        for (var i = this.index; i < this.owningComment.replies.length - 1; ++i) {
+            this.owningComment.replies[i] = this.owningComment.replies[i + 1];
+            --this.owningComment.replies[i].index;
         }
+        this.owningComment.replies.pop();
         this.replyElement.remove();
         var replies = this.owningComment.commentElement.querySelector(".replies");
         if(!replies.hasChildNodes()) {
@@ -386,7 +378,7 @@ document.getElementById("posts").addEventListener("keydown", function(e) {
     if(e.key === "Enter") {
         var postObject = getPostByIndex(getChildIndex(getOwningPost(document.activeElement)));
         if(ownedByComment(document.activeElement)) {
-            var commentObject = getPostCommentByIndex(postObject.index, getChildIndex(getOwningComment(document.activeElement)) - 1);
+            var commentObject = getPostCommentByIndex(postObject.index, getChildIndex(getOwningComment(document.activeElement)));
             commentObject.submitReply({target:document.activeElement});
         } else
             postObject.submitComment({target:document.activeElement});
@@ -416,351 +408,17 @@ function ownedByComment(element) { // assumes element is at least in postElemene
     return false;
 }
 function getPostCommentByIndex(postIndex, commentIndex) {
-    var length = Post.posts[postIndex].comments.length;
-    for (var i = 0; i < length; i++)
-        if(Post.posts[postIndex].comments[i].index === commentIndex)
-            return Post.posts[postIndex].comments[i];
+    var post = getPostByIndex(postIndex);
+    var length = post.comments.length;
+    for (var i = 0; i < length; ++i)
+        if(post.comments[i].index === commentIndex)
+            return post.comments[i];
 }
 function getPostByIndex(postIndex) {
     var length = Post.posts.length;
-    for (var i = 0; i < length; i++)
+    for (var i = 0; i < length; ++i)
         if(Post.posts[i].index === postIndex)
             return Post.posts[i];
-}
-// consider making my own event system- one that takes advantage of multiple elements that have the same function for events (same events or consider even other)
-// todo: add video pause on leaving the screen on scroll\playing another video
-// consider rethiking bind function idea (efficiancy wise)
-// todo: add keyboard arrow navigation in video (forward, backward etc)
-function Video(vConElement) {
-    this.video = vConElement.querySelector(".video");
-    this.btn = vConElement.querySelector(".play-pause");
-    this.videoJump = vConElement.querySelector(".videojump");
-    this.bottomBar = vConElement.querySelector(".bottombar");
-    this.topBar = vConElement.querySelector(".topbar");
-    this.juiceBar = vConElement.querySelector(".juicebar");
-    this.durTIme = vConElement.querySelector(".durtime");
-    this.curTIme = vConElement.querySelector(".curtime");
-    // todo: ask yehuda about two buttons instead of one
-    this.playanime = vConElement.querySelector(".playanime");
-    this.pauseanime = vConElement.querySelector(".pauseanime");
-    this.volume = vConElement.querySelector(".volumeicon");
-    this.volumecheck = false;
-    this.closeBars; // is an intervalId
-    this.mousedown = false; // duplicate!! todo: fix VVV
-    this.isDown = false;
-    this.startX;
-    this.scrolLeft;
-    this.pausedBeforeJump = true;
-    // consider making a variable for bound functions for efficiency
-    this.video.addEventListener("click", this.togglePlayMbl.bind(this));
-    this.video.addEventListener("timeupdate", this.timeUpdate.bind(this));
-    // todo: remove all mousemove listeners in mobile mode (and possibly more redundant listeners)
-    if(!mobcheck)
-        this.video.addEventListener("mousemove", this.manageBars.bind(this));
-    // this.video.addEventListener("mouseleave", this.hideBars.bind(this));
-    this.video.addEventListener("ended", this.videoEnd.bind(this));
-    this.bottomBar.addEventListener("mousemove", this.manageBars.bind(this));
-    this.bottomBar.addEventListener("mouseleave", this.hideBars.bind(this));
-    this.topBar.addEventListener("mousemove", this.manageBars.bind(this));
-    this.topBar.addEventListener("mouseleave", this.hideBars.bind(this));
-    this.videoJump.addEventListener("click", this.jumpTime.bind(this));
-    this.videoJump.addEventListener("mousemove", this.raiseMouse.bind(this)); // duplicate!!
-    this.videoJump.addEventListener("mousemove", this.mouseMove.bind(this));
-    this.videoJump.addEventListener("mouseleave", this.raiseMouse.bind(this));
-    this.videoJump.addEventListener("mousedown", this.mouseDown.bind(this));
-    this.videoJump.addEventListener("mouseup", this.mouseUp.bind(this));
-    this.btn.addEventListener("click", this.togglePlayBtn.bind(this));
-    this.volume.addEventListener("click", this.toggleVolume.bind(this));
-    vConElement.querySelector(".right").addEventListener("click", this.forward.bind(this));
-    vConElement.querySelector(".left").addEventListener("click", this.backward.bind(this));
-    //this is a test
-    this.volumeoff = vConElement.querySelector(".volumeoff");
-    this.fullscreenicon = vConElement.querySelector(".fullscreen");
-    this.fullscreenicon.addEventListener("click", this.toggleFullScreen.bind(this));
-    this.Vcon = vConElement;
-    this.video.addEventListener("dblclick", this.clickFullScreen.bind(this));
-    this.playanime.addEventListener("click", this.HitStartVideo.bind(this));
-    this.pauseanime.addEventListener("click", this.HitStartVideo.bind(this));
-    //this is a test
-}
-Video.videos = [];
-Video.prototype.togglePlayBtn = function(e) {
-    if (this.video.paused) {
-        this.btn.classList.add("pause");
-        this.btn.classList.remove("play");
-        this.video.play();
-        if(mobcheck){
-            this.playanime.style.opacity = "0";
-            this.playanime.style.pointerEvents = "none";
-            this.pauseanime.style.opacity = "0.7";
-            this.pauseanime.style.pointerEvents = "auto";
-        }else{
-            this.playanime.classList.add("playanimeadd");
-            setTimeout(this.removePlayAnimeAdd.bind(this), 1000); // ...
-        }
-    } else {
-        this.btn.classList.add("play");
-        this.btn.classList.remove("pause");
-        this.video.pause();
-        if(mobcheck){
-            this.playanime.style.opacity = "0.7";
-            this.playanime.style.pointerEvents = "auto";
-            this.pauseanime.style.opacity = "0";
-            this.pauseanime.style.pointerEvents = "none";
-        }else{
-            this.pauseanime.classList.add("pauseanimeadd");
-            setTimeout(this.removePauseAnimeAdd.bind(this), 1000); // ...
-        }
-    }
-};
-//this is a test
-
-var BarsDir = true;
-var VidStatus = true;
-
-Video.prototype.HitStartVideo = function(e) {
-    if(this.video.paused){
-        if(mobcheck){
-            this.btn.classList.add("pause");
-            this.btn.classList.remove("play");
-            this.video.play();
-            this.playanime.style.pointerEvents = "fill";
-            this.playanime.style.opacity = "0";
-            this.pauseanime.style.pointerEvents = "auto";
-            this.pauseanime.style.opacity = "0.7";
-            this.manageBars();
-        }
-    }else{
-        this.btn.classList.add("play");
-        this.btn.classList.remove("pause");
-        this.video.pause();
-        this.playanime.style.pointerEvents = "auto";
-        this.playanime.style.opacity = "0.7";
-        this.pauseanime.style.pointerEvents = "none";
-        this.pauseanime.style.opacity = "0";
-        this.manageBars();
-    }
-}
-
-Video.prototype.togglePlayMbl = function(e) {
-    if (this.video.paused) {
-        if(mobcheck){
-            if(BarsDir){
-                this.manageBars();
-                BarsDir = false;
-            }else{
-                this.hideBars();
-                BarsDir = true;
-            }
-        }else{
-            this.btn.classList.add("pause");
-            this.btn.classList.remove("play");
-            this.video.play();
-            this.playanime.classList.add("playanimeadd");
-            setTimeout(this.removePlayAnimeAdd.bind(this), 1000); // ...
-        }
-    } else {
-        if(!mobcheck){
-            this.btn.classList.add("play");
-            this.btn.classList.remove("pause");
-            this.video.pause();
-            this.pauseanime.classList.add("pauseanimeadd");
-            setTimeout(this.removePauseAnimeAdd.bind(this), 1000); // ...
-        }else{
-            if(BarsDir){
-                this.manageBars();
-                BarsDir = false;
-            }else{
-                this.hideBars();
-                BarsDir = true;
-            }
-        }
-    }
-};
-
-//this is a test
-Video.prototype.removePauseAnimeAdd = function(e) {
-    this.pauseanime.classList.remove("pauseanimeadd");
-};
-Video.prototype.removePlayAnimeAdd = function(e) {
-    this.playanime.classList.remove("playanimeadd");
-};
-Video.prototype.timeUpdate = function (e) {
-    this.juiceBar.style.width = this.video.currentTime / this.video.duration * 100 + "%";
-    // display time
-    var curmins = Math.floor(this.video.currentTime / 60),
-        cursecs = Math.round(this.video.currentTime - curmins * 60),
-        durmins = Math.floor(this.video.duration / 60),
-        dursecs = Math.round(this.video.duration - durmins * 60);
-    if (cursecs < 10) // consider rethinking
-        cursecs = "0" + cursecs;
-    if (dursecs < 10)
-        dursecs = "0" + dursecs;
-    this.curTIme.innerHTML = curmins + ":" + cursecs;
-    this.durTIme.innerHTML = durmins + ":" + dursecs;
-};
-Video.prototype.manageBars = function(e) {
-    clearTimeout(this.closeBars);
-    this.bottomBar.style.bottom = "0px";
-    this.topBar.style.top = "0px";
-    if(mobcheck){
-        if(this.video.paused){
-            this.playanime.style.pointerEvents = "auto";
-            this.playanime.style.opacity = "0.7";
-        }else{
-            this.pauseanime.style.pointerEvents = "auto";
-            this.pauseanime.style.opacity = "0.7";
-        }
-    }
-    this.closeBars = setTimeout(this.hideBars.bind(this), 2000);
-};
-Video.prototype.hideBars = function(e) {
-    clearTimeout(this.setToNone);
-    this.bottomBar.style.bottom = "-50px";
-    this.topBar.style.top = "-50px";
-    BarsDir = true;
-    if(mobcheck){
-        if(this.video.paused){
-            this.playanime.style.pointerEvents = "none";
-            this.playanime.style.opacity = "0";
-            // this.setToNone = setTimeout(function(){this.playanime.style.pointerEvents = "none";}.bind(this), 600);
-        }else{
-            this.pauseanime.style.pointerEvents = "none";
-            this.pauseanime.style.opacity = "0";
-            // this.setToNone = setTimeout(function(){this.pauseanime.style.pointerEvents = "none";}.bind(this), 600);
-        }
-    }
-}
-Video.prototype.forward = function(e) {
-    this.video.currentTime += 5;
-};
-Video.prototype.backward = function(e) {
-    this.video.currentTime -= 5;
-};
-Video.prototype.jumpTime = function(e)       {
-    this.video.currentTime = (e.offsetX / this.videoJump.offsetWidth) * this.video.duration;
-};
-Video.prototype.raiseMouse = function(e) {
-    this.mousedown = false;
-};
-Video.prototype.mouseDown = function(e)       { // consider renaming (confusion w this.mousedown)
-    this.isDown = true;
-    this.startX = e.pageX - this.videoJump.offsetLeft;
-    this.scrolLeft = this.videoJump.scrollLeft;
-    if (this.video.paused)
-        this.pausedBeforeJump = true;
-    else {
-        this.pausedBeforeJump = false;
-        this.video.pause();
-    }
-    this.btn.classList.add("play");
-    this.btn.classList.remove("pause");
-};
-Video.prototype.mouseUp = function (e) {
-    this.isDown = false;
-    if (this.video.paused && !this.pausedBeforeJump) {
-        this.btn.classList.add("pause");
-        this.btn.classList.remove("play");
-        this.video.play();
-    } else{
-        this.btn.classList.add("play");
-        this.btn.classList.remove("pause");
-    }
-};
-Video.prototype.mouseMove = function (e)       {
-    if (!this.isDown) return;
-    e.preventDefault();
-    var pos = e.pageX - this.videoJump.offsetLeft; // mouse position on X axis
-    this.juiceBar.style.width = e.offsetX + "px";
-    this.video.currentTime = (e.offsetX / this.videoJump.offsetWidth) * this.video.duration;
-};
-Video.prototype.toggleVolume = function(e) {
-    if(!this.volumecheck) {
-        this.volumeoff.style.width = "30px";
-        this.video.muted = true;
-        this.volumecheck = true;
-
-    } else {
-        this.volumeoff.style.width = "0px";
-        this.video.muted = false;
-        this.volumecheck = false;
-    }
-}
-Video.prototype.videoEnd = function(e) {
-    this.btn.classList.add("play");
-    this.btn.classList.remove("pause");
-}
-//this is a test
-var activeVideo = null;
-Video.prototype.clickFullScreen = function(e) {
-    if (activeVideo === null){
-        if (document.documentElement.requestFullScreen){
-            document.documentElement.requestFullScreen();
-        } else if (document.documentElement.mozRequestFullScreen){
-            document.documentElement.mozRequestFullScreen();
-        } else if (document.documentElement.webkitRequestFullScreen){
-            document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
-        } else if (document.documentElement.msRequestFullScreen){
-            document.documentElement.msRequestFullScreen();
-        }
-        activeVideo = this;
-        //change the css of the Vcon to full window size
-        this.Vcon.classList.add("VconF");
-        this.video.style.maxHeight = "unset";
-        this.video.style.height = "100%";
-        document.body.classList.add("bodyF");
-    }else {
-        activeVideo = null;
-        //change the css of the Vcon when canceling full size
-        this.Vcon.classList.remove("VconF");
-        this.video.style.height = "unset";
-        this.video.style.maxHeight = "500px";
-        document.body.classList.remove("bodyF");
-        if (document.cancelFullScreen){
-            document.cancelFullScreen();
-        }else if(document.mozCancelFullScreen){
-            document.mozCancelFullScreen();
-        }else if(document.webkitCancelFullScreen){
-            document.webkitCancelFullScreen();
-        }else if(document.msCancelFullScreen){
-            document.msCancelFullScreen();
-        }
-    }
-}
-Video.prototype.toggleFullScreen = function(e) {
-    if (activeVideo === null){
-        if (document.documentElement.requestFullScreen){
-            document.documentElement.requestFullScreen();
-        } else if (document.documentElement.mozRequestFullScreen){
-            document.documentElement.mozRequestFullScreen();
-        } else if (document.documentElement.webkitRequestFullScreen){
-            document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
-        } else if (document.documentElement.msRequestFullScreen){
-            document.documentElement.msRequestFullScreen();
-        }
-        activeVideo = this;
-        //change the css of the Vcon to full window size
-        this.Vcon.classList.add("VconF");
-        this.video.style.maxHeight = "unset";
-        this.video.style.height = "100%";
-        document.body.classList.add("bodyF");
-    }else {
-        activeVideo = null;
-        //change the css of the Vcon when canceling full size
-        this.Vcon.classList.remove("VconF");
-        this.video.style.height = "unset";
-        this.video.style.maxHeight = "500px";
-        document.body.classList.remove("bodyF");
-        if (document.cancelFullScreen){
-            document.cancelFullScreen();
-        }else if(document.mozCancelFullScreen){
-            document.mozCancelFullScreen();
-        }else if(document.webkitCancelFullScreen){
-            document.webkitCancelFullScreen();
-        }else if(document.msCancelFullScreen){
-            document.msCancelFullScreen();
-        }
-    }
 }
 function Escancel(e){
     if(e.keyCode === 27)
@@ -776,12 +434,6 @@ document.onfullscreenchange = cancelFullscreen;
 document.onmozfullscreenchange = cancelFullscreen;
 document.addEventListener("keydown", Escancel, true);
 //this is a test
-
-Video.init = function() {
-    var videoElements = document.querySelectorAll(".video");
-    for(var i = 0; i < videoElements.length; i++)
-        Video.videos.push(new Video(videoElements[i].parentElement));
-};
 
 document.body.addEventListener('click', function(){
     if(Post.activatedCommentForm !== null){
@@ -805,22 +457,40 @@ document.body.addEventListener('click', function(){
         PostComment.activeDeleteButton = null;
     }
 });
-window.addEventListener("scroll", function() {
-    if ((window.innerHeight + window.pageYOffset) + 300 >= document.body.offsetHeight) {
-        var loadMorePosts = new XMLHttpRequest();
-        loadMorePosts.onreadystatechange = function() { // todo: add restraint
-            if (this.readyState == 4 && this.status == 200) {
-                var posts = document.getElementById("posts");
-                posts.insertAdjacentHTML("beforeend", this.responseText);
-                Post.posts.push(new Post(posts.querySelector(".postcon:last-of-type"),Post.posts.length));
-            }
-        };
-        var formData = new FormData();
-        formData.append("lastPostIndex", document.getElementById("posts").childElementCount - 1);
-        loadMorePosts.open("POST", "templates/load.php", true);
-        loadMorePosts.send(formData);
-    }
-});
-// todo: add loadning posts when cant scroll
 
-Post.init();
+var noMoreScroll = false;
+// todo: deal with situation when call fails IMPORTANT
+window.addEventListener("scroll", function() {
+    // todo: change "300" to also support mobile 
+    if ((window.innerHeight + window.pageYOffset) + 300 >= document.body.offsetHeight && !noMoreScroll)
+        Post.loadPosts(3, function(response) { if(response === "") noMoreScroll = true; });
+});
+
+// IMPORTANT TODO (!!!): add protection
+var finishedCall = true; // prevent multiple calls on same "reach end of document on scroll" event. consider abstracting to class
+Post.loadPosts = function(numOfPosts, callback) {
+    if(!finishedCall) return;
+    var loadMorePosts = new XMLHttpRequest();
+    finishedCall = false;
+    loadMorePosts.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            finishedCall = true;
+            if(this.responseText !== "") {
+                var posts = JSON.parse(this.responseText);
+                for (var i = 0; i < posts.length; ++i) {
+                    var post = new PostDOM(posts[i].properties, posts[i].comments);
+                    post.append();
+                    Post.posts.push(new Post(post.postCon, Post.posts.length));
+                }
+            } else if(callback !== undefined)
+                callback(this.responseText);
+        }
+    };
+    var formData = new FormData();
+    formData.append("numOfPosts", numOfPosts);
+    loadMorePosts.open("POST", "templates/load.php", true);
+    loadMorePosts.send(formData);
+};
+// todo: add loadning posts when cant scroll
+//document.body.addEventListener("load", function() { Post.loadPosts(5); });
+Post.loadPosts(5);

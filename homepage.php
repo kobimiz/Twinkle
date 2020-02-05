@@ -71,8 +71,9 @@
 <body>
 <?php
     /* NOTE: $_SESSION['post'] is ordered from earliest to latest      */
-    /* NOTE: Post.posts[item].index is ordered from latest to earliest */
-    /* consider making both ordered the same                           */
+    /* NOTE: Post.posts[item].index is ordered from earliest to latest */
+    // todo: delete posts and files of posts when deleting users (delete files before posts)
+    // todo: make post failed errors not in the posts box (because it disappears and you need to reopen it to see the error)
     include_once("templates/Postsview.php");
 ?>
 <header>
@@ -204,7 +205,6 @@
             // consider making a load function that makes an ajax call for a more modular approch. note: it will be in js, using ajax and load.php
             // consider not storing totalStars for posts (benchmark?)
             $_SESSION['posts'] = array();
-            $user->loadNextPosts(5);
             function profilePic($picName) {
                 return ($picName === "") ? "/iconList/"."user.png":"/uploads/".$picName;
             }
@@ -221,7 +221,7 @@
                                 (users.id = friends.user1 and friends.user2 = ".$user->id.") or (users.id = friends.user2 and friends.user1 = ".$user->id.")");
             if($friends != null) {
                 foreach ($friends as $friend) {
-                    $nameString = htmlspecialchars($friend['firstname']);
+                    $nameString = htmlspecialchars($friend['firstname'], ENT_QUOTES);
                     echo "<li class='friend'><a href='profile.php?user=$nameString'>$nameString</a></li>";
                 }
             }
@@ -248,7 +248,11 @@
 </div>
 <script src="scripts/homepage.js"></script>
 <script src="scripts/sidenav.js"></script>
+<script src="scripts/postDOM.js"></script>
+<script src="scripts/commentDOM.js"></script>
+<script src="scripts/replyDOM.js"></script>
 <script src="scripts/posts.js"></script>
+<script src="scripts/video.js"></script>
 <script src="scripts/UploadPost.js"></script>
 <script type="text/javascript" src="scripts/Postsview.js" ></script>
 </body>

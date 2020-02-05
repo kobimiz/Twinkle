@@ -7,10 +7,8 @@
     session_start();
     DB::connect();
 
-    function profilePic($picName) {
-        return ($picName === "") ? "/iconList/"."user.png":"/uploads/".$picName;
+    if(isset($_POST['numOfPosts'])) {
+        $user = new User(DB::getLoggedUserInfo("id")["id"]);
+        $user->loadNextPosts($_POST['numOfPosts']);
     }
-
-    $user = new User(DB::getLoggedUserInfo("id")["id"]);
-    $user->loadNextPosts(1);
 ?>

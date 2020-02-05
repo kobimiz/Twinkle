@@ -83,7 +83,7 @@ function listSort(){
 	var filter = inputsort.value.toUpperCase(),
 	ul= document.getElementById("myul"), 
 	li = ul.getElementsByTagName("li"), a, i, txtValue;
-		for(i = 0; i < li.length; i++){
+		for(i = 0; i < li.length; ++i){
 		a = li[i].getElementsByTagName("a")[0];
 	   txtValue = a.textContent || a.innerHTML;
 		   if(txtValue.toUpperCase().indexOf(filter)> -1)

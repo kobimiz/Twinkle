@@ -2,7 +2,7 @@ var modalstar = document.querySelector(".Viewer");
 var Avgdata = document.querySelectorAll(".Avgdata");
 
 //Functions
-for(var i = 0; i < Avgdata.length; i++){
+for(var i = 0; i < Avgdata.length; ++i){
     (function(index){
         Avgdata[index].addEventListener("click",function(){
 			modalstar.style.display = "block";

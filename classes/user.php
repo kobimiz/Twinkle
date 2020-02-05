@@ -13,18 +13,20 @@ class User {
             $posts = DB::query("select * from posts order by date desc limit ".$numberOfPosts);
         else
             $posts = DB::query("select * from posts where date < '".$this->getLastPost()."' order by date desc limit ".$numberOfPosts);
-        $loggedUserId = DB::getLoggedUserInfo("id")["id"];
-        $arr = array();
-        foreach($posts as $post) {
-            $postObject = new Post($post['id']);
-            array_push($arr, $postObject); // consider rethinking
-            $postObject->displayPost($loggedUserId); // consider rethinking
+        if($posts->num_rows > 0) { 
+            $loggedUserId = DB::getLoggedUserInfo("id")["id"];
+            $arr = array();
+            foreach($posts as $post) {
+                $postObject = new Post($post['id']);
+                array_push($_SESSION['posts'], $postObject); // consider rethinking
+                array_push($arr, $postObject->getPost($loggedUserId));
+            }
+            echo json_encode($arr);
         }
-        $_SESSION['posts'] = array_merge(array_reverse($arr), $_SESSION['posts']);
     }
 
     function getLastPost() { // todo: change how i determine last post
-        return DB::queryScalar("select date from posts where id=".$_SESSION['posts'][0]->id);
+        return DB::queryScalar("select date from posts where id=".$_SESSION['posts'][count($_SESSION['posts']) - 1]->id);
     }
 }
 ?>

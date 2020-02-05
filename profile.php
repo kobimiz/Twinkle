@@ -27,7 +27,7 @@ else if(($details = DB::query("SELECT * FROM `users` WHERE `username`='".$_GET['
     <link rel="stylesheet" href="styles/sidenav.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
 
-    <?php echo "<title>".htmlspecialchars($_GET["user"])."'s Profile</title>"; ?>
+    <?php echo "<title>".htmlspecialchars($_GET["user"], ENT_QUOTES)."'s Profile</title>"; ?>
 </head>
 
 <body>

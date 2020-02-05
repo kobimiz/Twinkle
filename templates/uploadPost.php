@@ -11,7 +11,7 @@
     session_start();
     DB::connect();
     if(isset($_FILES)) {
-        $username = DB::getLoggedUserInfo("username")["username"];
+        $userid = DB::getLoggedUserInfo("id")["id"];
         $target_dir = __DIR__."/../uploads/";
         $target_file = $target_dir.basename($_FILES["file"]["name"]);
         $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -19,6 +19,8 @@
         $target_file = $target_dir.basename($_FILES["file"]["name"]); // file name has changed!
         $arr = array("jpeg", "jpg", "png", "gif", "avi", "amv", "mp4");
 
+        // IMPORTANT NOTE: when going live, make sure php.ini is configured to support file uploads of 20mb
+        // consider doing it also for $_POST and other variable max sizes
         if(array_search($fileType, $arr) === false)
             echo "invalid type,";
         else if($_FILES["file"]["size"] > 20000000) // file size greater than 20mb
@@ -27,23 +29,23 @@
             echo "error";
         else {
             DB::query("INSERT INTO `posts`(`userID`, `date`, `content`, `fileUploaded`, `totalStars`) VALUES ('".
-                DB::query("SELECT * FROM `users` WHERE `username`='".$username."'")->fetch_assoc()["id"].
+                $userid.
                 "', '".date("Y-m-d H:i:s").
                 "', '".addslashes($_POST['content']).
                 "', '".$_FILES["file"]["name"].
                 "', '0')");
             $post = new Post(DB::insertId());
-            array_push($_SESSION['posts'], $post);
-            $post->displayPost(DB::getLoggedUserInfo("id")["id"]);
+            array_unshift($_SESSION['posts'], $post);
+            echo json_encode($post->getPost(DB::getLoggedUserInfo("id")["id"]));
         }
-    } else if(isset($username)) // todo: handle file serving (so i can get rid of this)
+    } else if(isset($userid)) // todo: handle file serving (so i can get rid of this)
         header('Location: /../homepage.php');
     else
         header('Location: /../signin.php');
 
     function randomizeName() { // 10 lowercase letters/digits characters long
         $name = "";
-        for ($i=0; $i < 10; $i++) {
+        for ($i=0; $i < 10; ++$i) {
             if(rand(0,1) === 0)
                 $name .= chr(rand(97,122));
             else

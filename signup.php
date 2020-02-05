@@ -32,14 +32,14 @@
 			function testInput($input) {
 				$input = trim($input);
 				$input = stripslashes($input);
-				$input  = htmlspecialchars($input);
+				$input  = htmlspecialchars($input, ENT_QUOTES);
 				return $input;
 			}
 			if($_SERVER["REQUEST_METHOD"] == "POST") {
 				if(empty($_POST['username']))
 					$usernameErr = "<span class='error'>Please fill in a username</span>";
 				else {
-					$username = htmlspecialchars($_POST['username']);
+					$username = htmlspecialchars($_POST['username'], ENT_QUOTES);
 					if(!preg_match("/^[a-zA-Z0-9]*$/",$username))
 						$usernameErr = "<span class='error'>Only letters and numbers allowed</span>";
 					elseif(strlen($username) < 4 || strlen($username) >= 25)
@@ -50,7 +50,7 @@
 				if(empty($_POST['password']))
 					$passwordErr = "<span class='error'>Please fill in a password</span>";
 				else {
-					$password = htmlspecialchars($_POST['password']);
+					$password = htmlspecialchars($_POST['password'], ENT_QUOTES);
 					if(!preg_match("/^[a-zA-Z0-9]*$/",$password))
 						$passwordErr = "<span class='error'>Only letters and numbers allowed</span>";
 					elseif(strlen($password) < 6 || strlen($password) >= 25)
@@ -70,7 +70,7 @@
 				if(empty($_POST['fname']))
 					$flnameErr = "<span class='error'>Please fill in your full name</span>";
 				else{
-					$firstname = htmlspecialchars($_POST['fname']);
+					$firstname = htmlspecialchars($_POST['fname'], ENT_QUOTES);
 					if(!preg_match("/(^[a-zA-Z]+$|^[א-ת]+$)/",$firstname))
 						$flnameErr = "<span class='error'>First or last name must contain only letters</span>";
 					elseif(strlen($firstname) >= 25)
@@ -79,7 +79,7 @@
 				if(empty($_POST['lname']))
 					$flnameErr = "<span class='error'>Please fill in your full name</span>";
 				else{
-					$lastname = htmlspecialchars($_POST['lname']);
+					$lastname = htmlspecialchars($_POST['lname'], ENT_QUOTES);
 					if(!preg_match("/(^[a-zA-Z]+$|^[א-ת]+$)/",$lastname))
 					$flnameErr = "<span class='error'>First or last name must contain only letters</span>";
 				elseif(strlen($lastname) >= 25)

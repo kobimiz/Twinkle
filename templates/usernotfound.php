@@ -26,7 +26,7 @@
             include_once("templates/header.php");
             include_once("templates/sidenav.php");
             echo "<h2>Oops, something went wrong!</h2>
-                <p>The user ".htmlspecialchars($_GET['user'])."was not found, or has deleted his account.</p>";
+                <p>The user ".htmlspecialchars($_GET['user'], ENT_QUOTES)."was not found, or has deleted his account.</p>";
         ?>
     </main>
 </body>

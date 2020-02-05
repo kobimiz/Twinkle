@@ -74,7 +74,7 @@ searchIcon.addEventListener("touchstart", function(){
     // var Inplength = window.innerWidth - searchIcon.width - sidenavbutton.clientWidth + "px";
 
     if(displayDis[1].style.display == ""){
-        for(var i=1; i < displayDis.length; i++){
+        for(var i=1; i < displayDis.length; ++i){
             displayDis[i].setAttribute("style", "display: none;");
         }
         // searchInp.setAttribute("style", "display: block; max-width: 350px;");
@@ -83,7 +83,7 @@ searchIcon.addEventListener("touchstart", function(){
         setTimeout(function(){searchInp.style.maxWidth = "350px", 100});
         document.querySelector("#navi>ul").setAttribute("style", "display: inline-flex");
     }else{
-        for(var i=0; i < displayDis.length; i++){
+        for(var i=0; i < displayDis.length; ++i){
             displayDis[i].removeAttribute("style");
         }
         searchInp.setAttribute("style", "display: none;");
@@ -135,15 +135,17 @@ document.querySelector(".declareBtn").addEventListener("click", function() {
                 } else {
                     var posts = document.getElementById("posts");
                     errorMessage.style.visibility = "hidden";
-                    posts.insertAdjacentHTML("afterbegin", this.responseText);
                     
                     if(posts.firstElementChild.getElementsByTagName("video").length === 1) // was post of video
                         Video.videos.unshift(new Video(posts.querySelector(".Vcon"))); // selects the first
 
-                    for (var i = 0; i < Post.posts.length; i++)
+                    for (var i = 0; i < Post.posts.length; ++i) // shift other posts indices by 1
                         Post.posts[i].index += 1;
 
-                    Post.posts.push(new Post(posts.querySelector(".postcon"), 0)); // same
+                    var post = JSON.parse(this.responseText);
+                    var postDOM = new PostDOM(post.properties, post.comments);
+                    posts.insertAdjacentElement("afterbegin", postDOM.postCon);
+                    Post.posts.unshift(new Post(postDOM.postCon, 0));
                 }
             }
         };

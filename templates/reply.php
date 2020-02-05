@@ -15,7 +15,7 @@ if(isset($_POST["content"])) {
         date("Y-m-d H:i:s").
     "')");
 
-    array_splice($_SESSION['posts'][$_POST['postIndex']]->comments[$_POST['commentIndex']]->repliesIds, 0, 0, array(DB::insertId())); // insert a new post in the beggining
-    echo Reply::displayReply(DB::query("select * from replies where id = ".DB::insertId())->fetch_assoc(), DB::getLoggedUserInfo("id")['id']);
+    array_unshift($_SESSION['posts'][$_POST['postIndex']]->comments[$_POST['commentIndex']]->repliesIds, DB::insertId()); // insert a new post in the beggining
+    echo json_encode(Reply::getReply(DB::query("select * from replies where id = ".DB::insertId())->fetch_assoc(), DB::getLoggedUserInfo("id")['id']));
 }
 ?>

@@ -16,8 +16,8 @@ if(isset($_POST["content"])) {
     // todo: update indecies also when uploading posts
     // add comment to the beginning of the array. todo: think of another way because comments are going to be sorted in different way
     $comment = new Comment(DB::insertId());
-    array_splice($_SESSION['posts'][$_POST['postIndex']]->comments, 0, 0, array($comment)); // insert in the begging of the array
-    echo $comment->displayComment(DB::getLoggedUserInfo("id")["id"]);
+    array_unshift($_SESSION['posts'][$_POST['postIndex']]->comments, $comment); // insert in the begging of the array
+    echo json_encode($comment->getComment(DB::getLoggedUserInfo("id")["id"]));
 }
 
 ?>
