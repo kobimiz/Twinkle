@@ -258,6 +258,7 @@ main{
 .leftSecCon{
     width: 230px;
     box-sizing: unset;
+    margin: 0 auto;
 }
 .postPrese{
     position: -webkit-sticky;

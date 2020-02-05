@@ -53,7 +53,8 @@ body{
 #passwordContainer {
     display: flex;
     align-items: center;
-    border-bottom: 2px solid #0d6cca;
+    border-bottom: 3px solid #0d6cca;
+    box-sizing: border-box;
 }
 #passwordContainer #password {
     border:none;
@@ -92,12 +93,14 @@ body{
     font-size: 20px;
     border: none;
 }
+input[name="username"]{
+    border-bottom: 3px solid #0d6cca !important;
+}
 #loginsec>form input:not([type="checkbox"]):focus,#loginsec>form input:not([type="checkbox"]):valid{
     background-color: white;
 }
 #loginsec>form input:not([type="submit"]):not([type="checkbox"]){
     padding: 10px 4px 10px 50px;
-    border-bottom: 2px solid #0d6cca;
 }
 #loginsec>form>input[type="submit"]{
     background-color: transparent;
@@ -105,10 +108,9 @@ body{
     border: 1px solid rgb(230, 230, 230);
 }
 #loginsec>form>input[type="text"]:focus{
-    border-bottom:2px solid #0a68c5;
+    /* border-bottom:2px solid #0a68c5; */
     background-color: white;
 }
-
 /* remember me styling */
 .checkc{
     margin:8px 0 ;

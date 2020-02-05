@@ -72,7 +72,7 @@
 				else{
 					$firstname = htmlspecialchars($_POST['fname'], ENT_QUOTES);
 					if(!preg_match("/(^[a-zA-Z]+$|^[א-ת]+$)/",$firstname))
-						$flnameErr = "<span class='error'>First or last name must contain only letters</span>";
+						$flnameErr = "<span class='error'>First and last name must contain only letters</span>";
 					elseif(strlen($firstname) >= 25)
 						$flnameErr = "<span class='error'>First or last name cannot contain more than 25 characters</span>";
 				}

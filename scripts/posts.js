@@ -3,6 +3,7 @@
 // todo: move post upload to here
 // Function.prototype.bind function polyfil. todo: test on old browsers
 // todo: add option to post a post via enter. consider making a global event listener for enter click
+// todo: make a thumbnail for the videos using an attribute for the video element
 
 //this is a test
 var mobcheck;
@@ -430,8 +431,8 @@ function cancelFullscreen() {
         activeVideo.toggleFullScreen();
 }
 document.onwebkitfullscreenchange = cancelFullscreen;
-document.onfullscreenchange = cancelFullscreen;
 document.onmozfullscreenchange = cancelFullscreen;
+document.onfullscreenchange = cancelFullscreen;
 document.addEventListener("keydown", Escancel, true);
 //this is a test
 

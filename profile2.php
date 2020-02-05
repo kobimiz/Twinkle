@@ -16,10 +16,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="styles/ProfileM.css" media="screen and (max-width:750px)" type="text/css" />
-    <link rel="stylesheet" href="styles/ProfileD.css" media="screen and (min-width:750px)" type="text/css" />
+    <link rel="stylesheet" href="styles/ProfileM.css" media="screen and (max-width:750px)" type="text/css">
+    <link rel="stylesheet" href="styles/ProfileD.css" media="screen and (min-width:750px)" type="text/css">
     <link rel="stylesheet" href="styles/headerD.css" media="screen and (min-width: 650px)" type="text/css">
     <link rel="stylesheet" href="styles/headerM.css" media="screen and (max-width: 650px)" type="text/css">
+    <link rel="stylesheet" href="styles/Postsview.css" type="text/css"/>
     <link rel="stylesheet" href="styles/posts.css" type="text/css" >
     <link rel="stylesheet" href="styles/sidenav.css">
     <link rel="icon" href="/iconList/TwinkleCon.png" type="image/png">
@@ -29,6 +30,7 @@
 <?php
 include_once("templates/header.php");
 include_once("templates/sidenav.php");
+include_once("templates/Postsview.php");
 ?>
 <div class="Top-container">
     <div class="Tc-info">
@@ -63,7 +65,7 @@ include_once("templates/sidenav.php");
                 <div class="firstline-cont"><span>Friends</span></div> <div class="secondline-cont"><span>59</span></div>
             </div>
             <div class="linepos">
-                <div class="firstline-cont"><span>Uploads</span></div> <div class="secondline-cont"><span>349</span></div>
+                <div class="firstline-cont"><span role="button">Uploads</span></div> <div class="secondline-cont"><span>349</span></div>
             </div>
             <div class="linepos phone">
                 <div class="firstline-cont"><span>Total</span></div>
@@ -73,7 +75,7 @@ include_once("templates/sidenav.php");
                 </div>
             </div>
             <div class="linepos">
-                <div class="firstline-cont"><span>Activity</span></div> <div class="set-activetime"><span>2 hours ago</span></div>
+                <div class="firstline-cont"><span role="button">Activity</span></div> <div class="set-activetime"><span>2 hours ago</span></div>
             </div>
         </div>
     </div>
@@ -211,25 +213,28 @@ include_once("templates/sidenav.php");
     </div>
 </div>
 
-<div id="postsCon">
+<div id="posts">
 <?php
-   $user = new User(DB::getLoggedUserInfo("id")["id"]);
-   $_SESSION['posts'] = array();
-   $user->loadNextPosts(5);
+$user = new User(DB::getLoggedUserInfo("id")["id"]);
+$_SESSION['posts'] = array();
+$user->loadNextPosts(5);
 ?>
 </div>
 <div class="DisplayFilt">
     <div class="square">
         <ul>
-            <li><img src="iconList/mixed.png" alt="mixed" style="width: 60px; height:60px;"></li>
-            <li><img src="iconList/posts.png" alt="posts"style="width: 50px; height:50px;"></li>
-            <li><img src="iconList/noteS.png" alt="notes"style="width: 50px; height:50px;"></li>
+            <li><img src="iconList/mixedIcon.png" alt="mixed" style="width: 60px; height:60px;"></li>
+            <li><img src="iconList/postsIcon.png" alt="posts"style="width: 45px; height:50px;"></li>
+            <li><img src="iconList/noteIcon.png" alt="notes"style="width: 45px; height:50px;"></li>
         </ul>
     </div>
 </div>
 </main>
-<script src="scripts/sidenav.js"></script>
-<script src="scripts/header.js"></script>
-<script src="scripts/posts.js"></script>
+
+
+    <script src="scripts/sidenav.js"></script>
+    <script src="scripts/header.js"></script>
+    <script src="scripts/posts.js"></script>
+    <script src="scripts/Postsview.js"></script>
 </body>
 </html>
