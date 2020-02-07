@@ -8,3 +8,5 @@ server.php
 client.php
 client.html
 designnotes.txt
+.gitignore
+test.html

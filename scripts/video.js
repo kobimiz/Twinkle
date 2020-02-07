@@ -4,6 +4,7 @@
 // todo: add keyboard arrow navigation in video (forward, backward etc)
 var BarsDir = true;
 var activeVideo = null;
+var scrolledVideo = null;
 function Video(vConElement) {
     this.video = vConElement.querySelector(".video");
     this.btn = vConElement.querySelector(".play-pause");
@@ -19,7 +20,6 @@ function Video(vConElement) {
     this.volume = vConElement.querySelector(".volumeicon");
     this.volumecheck = false;
     this.closeBars; // is an intervalId
-    this.mousedown = false; // duplicate!! todo: fix VVV
     this.isDown = false;
     this.startX;
     this.scrolLeft;
@@ -33,13 +33,11 @@ function Video(vConElement) {
     // this.video.addEventListener("mouseleave", this.hideBars.bind(this));
     this.video.addEventListener("ended", this.videoEnd.bind(this));
     this.bottomBar.addEventListener("mousemove", this.manageBars.bind(this));
-    this.bottomBar.addEventListener("mouseleave", this.hideBars.bind(this));
+    this.bottomBar.addEventListener("mouseleave", this.mouseLeave.bind(this));
     this.topBar.addEventListener("mousemove", this.manageBars.bind(this));
-    this.topBar.addEventListener("mouseleave", this.hideBars.bind(this));
+    this.topBar.addEventListener("mouseleave", this.mouseLeave.bind(this));
     this.videoJump.addEventListener("click", this.jumpTime.bind(this));
-    this.videoJump.addEventListener("mousemove", this.raiseMouse.bind(this)); // duplicate!!
     this.videoJump.addEventListener("mousemove", this.mouseMove.bind(this));
-    this.videoJump.addEventListener("mouseleave", this.raiseMouse.bind(this));
     this.videoJump.addEventListener("mousedown", this.mouseDown.bind(this));
     this.videoJump.addEventListener("mouseup", this.mouseUp.bind(this));
     this.btn.addEventListener("click", this.togglePlayBtn.bind(this));
@@ -182,6 +180,45 @@ Video.prototype.manageBars = function(e) {
     }
     this.closeBars = setTimeout(this.hideBars.bind(this), 2000);
 };
+Video.prototype.mouseLeave = function() {
+    if(scrolledVideo != null && scrolledVideo != this)
+        this.hideBars();
+};
+// todo: improve this
+window.addEventListener("mousedown", function(e) {
+    if(e.target.className == "videojump") {
+        for(var i = 0; i < Video.videos.length; ++i) {
+            if(Video.videos[i].videoJump == e.target) {
+                scrolledVideo = Video.videos[i];
+                return;
+            }
+        }
+        scrolledVideo.isDown = true;
+    }
+});
+
+window.addEventListener("mouseup", function() {
+    if(scrolledVideo != null)
+        scrolledVideo.isDown = false;
+});
+
+window.addEventListener("mousemove", function(e) {
+    if(scrolledVideo == null) return;
+    if (!scrolledVideo.isDown) {
+        document.body.style.webkitUserSelect = "initial";
+        document.body.style.msUserSelect = "initial";
+        document.body.style.userSelect = "initial";
+        return;
+    }
+    document.body.style.webkitUserSelect = "none";
+    document.body.style.msUserSelect = "none";
+    document.body.style.userSelect = "none";
+    e.preventDefault();
+    scrolledVideo.juiceBar.style.width = scrolledVideo.video.currentTime / scrolledVideo.video.duration * 100 + "%";
+    scrolledVideo.video.currentTime = ((e.offsetX - scrolledVideo.juiceBar.getBoundingClientRect().x + e.target.getBoundingClientRect().x) / scrolledVideo.videoJump.offsetWidth) * scrolledVideo.video.duration;
+    scrolledVideo.manageBars();
+});
+
 Video.prototype.hideBars = function(e) {
     clearTimeout(this.setToNone);
     this.bottomBar.style.bottom = "-50px";
@@ -208,10 +245,7 @@ Video.prototype.backward = function(e) {
 Video.prototype.jumpTime = function(e)       {
     this.video.currentTime = (e.offsetX / this.videoJump.offsetWidth) * this.video.duration;
 };
-Video.prototype.raiseMouse = function(e) {
-    this.mousedown = false;
-};
-Video.prototype.mouseDown = function(e)       { // consider renaming (confusion w this.mousedown)
+Video.prototype.mouseDown = function(e)       {
     this.isDown = true;
     this.startX = e.pageX - this.videoJump.offsetLeft;
     this.scrolLeft = this.videoJump.scrollLeft;

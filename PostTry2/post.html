@@ -165,12 +165,18 @@ var box = document.querySelector(".videojump"),
         });
 
         window.addEventListener("mousemove", function(e) {
-            if (!mouseDown) return;
+            if (!mouseDown) {
+                document.body.style.webkitUserSelect = "initial";
+                document.body.style.msUserSelect = "initial";
+                document.body.style.userSelect = "initial";
+                return;
+            }
+            document.body.style.webkitUserSelect = "none";
+            document.body.style.msUserSelect = "none";
+            document.body.style.userSelect = "none";
             e.preventDefault();
-            const pos = e.pageX - videojump.offsetLeft; // mouse position on X axis
-            const run = pos - startX; // mouse distance from starting point
-            juiceBar.style.width = juiceBar.offsetWidth + (e.offsetX - juiceBar.offsetWidth) + "px";
-            video.currentTime = (e.offsetX / videojump.offsetWidth) * video.duration;
+            juiceBar.style.width = video.currentTime / video.duration * 100 + "%";
+            video.currentTime = ((e.offsetX - juiceBar.getBoundingClientRect().x + e.target.getBoundingClientRect().x) / videojump.offsetWidth) * video.duration;
             manageBars();
         });
 </script>
